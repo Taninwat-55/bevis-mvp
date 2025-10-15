@@ -1,0 +1,34 @@
+# ============================================================
+#  Bevis MVP – Root .gitignore
+#  (Covers both Supabase backend + frontend)
+# ============================================================
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment / Credentials
+.env
+.env.local
+.env.*.local
+
+# Supabase CLI
+.supabase/
+supabase/.temp/
+supabase/.branches/
+supabase/.functions-cache/
+
+# Build artifacts
+dist/
+build/
+tmp/
+*.log
+
+# System / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
