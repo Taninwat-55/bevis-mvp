@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* 🎨  Colors  */
+  --color-candidate: #6c5ce7;
+  --color-candidate-light: #a29bfe;
+  --color-candidate-dark: #4834d4;
+
+  --color-employer: #4a90e2;
+  --color-employer-light: #74b9ff;
+  --color-employer-dark: #2473c8;
+
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-bg: #f8f9fb;
+  --color-border: #e2e8f0;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+
+  /* ✍️  Typography  */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* 📐  Radius & Shadows  */
+  --radius-card: 1rem;
+  --radius-button: 0.5rem;
+
+  --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+@layer utilities {
+  .heading-lg {
+    @apply text-2xl font-semibold text-[var(--color-text)];
+  }
+  .heading-md {
+    @apply text-xl font-semibold text-[var(--color-text)];
+  }
+  .body-base {
+    @apply text-base text-[var(--color-text-muted)];
+  }
+}
+
+/* Base body styling */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
