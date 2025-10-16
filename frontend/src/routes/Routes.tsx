@@ -1,18 +1,22 @@
 // src/routes/Routes.tsx
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import AuthPage from "../pages/AuthPage";
-import JobsTest from "../pages/JobsTest";
-import Dashboard from "../pages/Dashboard";
-import EmployerReview from "../pages/EmployerReview";
+import AuthPage from "../pages/auth/AuthPage";
 import ProtectedRoute from "./ProtectedRoute";
-import AdminDashboard from "../pages/AdminDashboard";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import CandidateDashboard from "../pages/candidate/CandidateDashboard";
+import JobListings from "../pages/candidate/JobListings";
+import CandidateLayout from "../components/Layout/CandidateLayout";
+import JobDetail from "../pages/candidate/JobDetail";
 
 export const router = createBrowserRouter([
+  // --- Public Routes ---
   {
     path: "/auth",
     element: <AuthPage />,
   },
+
+  // --- Protected Routes ---
   {
     path: "/",
     element: <App />,
@@ -20,20 +24,29 @@ export const router = createBrowserRouter([
       {
         element: <ProtectedRoute allowedRole="candidate" />,
         children: [
-          { index: true, element: <JobsTest /> },
-          { path: "dashboard", element: <Dashboard /> },
+          {
+            element: <CandidateLayout />, // 🧱 Layout wrapper
+            children: [
+              { index: true, element: <CandidateDashboard /> },
+              { path: "dashboard", element: <CandidateDashboard /> },
+              { path: "jobs", element: <JobListings /> },
+              { path: "job/:id", element: <JobDetail /> },
+            ],
+          },
         ],
       },
+      // {
+      //   path: "employer",
+      //   element: <ProtectedRoute allowedRole="employer" />,
+      //   children: [
+      //     { index: true, element: <EmployerDashboard /> },
+      //   ],
+      // },
       {
-        path: "employer",
-        element: <ProtectedRoute allowedRole="employer" />,
-        children: [{ index: true, element: <EmployerReview /> }],
+        path: "admin",
+        element: <ProtectedRoute allowedRole="admin" />,
+        children: [{ index: true, element: <AdminDashboard /> }],
       },
     ],
-  },
-  {
-    path: "admin",
-    element: <ProtectedRoute allowedRole="admin" />,
-    children: [{ index: true, element: <AdminDashboard /> }],
   },
 ]);

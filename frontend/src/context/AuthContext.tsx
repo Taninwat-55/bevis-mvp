@@ -4,11 +4,16 @@ import { createContext } from "react";
 export type SessionUser = {
   id: string;
   email: string;
-  role: "candidate" | "employer";
+  role: "candidate" | "employer" | "admin";
 };
 
 // This file now has only one job: create and export the context object.
 export const AuthContext = createContext<{
   user: SessionUser | null;
   loading: boolean;
-}>({ user: null, loading: true });
+  signOut: () => Promise<void>; // ✅ add this line
+}>({
+  user: null,
+  loading: true,
+  signOut: async () => {}, // default no-op
+});
