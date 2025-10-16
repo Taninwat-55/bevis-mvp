@@ -19,30 +19,49 @@ export type Database = {
           ai_summary: string | null
           comments: string | null
           created_at: string | null
+          employer_id: string | null
           id: string
+          improvements: string | null
           rating: number | null
           reviewer_id: string | null
+          stars: number | null
+          strengths: string | null
           submission_id: string | null
         }
         Insert: {
           ai_summary?: string | null
           comments?: string | null
           created_at?: string | null
+          employer_id?: string | null
           id?: string
+          improvements?: string | null
           rating?: number | null
           reviewer_id?: string | null
+          stars?: number | null
+          strengths?: string | null
           submission_id?: string | null
         }
         Update: {
           ai_summary?: string | null
           comments?: string | null
           created_at?: string | null
+          employer_id?: string | null
           id?: string
+          improvements?: string | null
           rating?: number | null
           reviewer_id?: string | null
+          stars?: number | null
+          strengths?: string | null
           submission_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "feedback_employer_id_fkey"
+            columns: ["employer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "feedback_reviewer_id_fkey"
             columns: ["reviewer_id"]
@@ -68,36 +87,42 @@ export type Database = {
       }
       jobs: {
         Row: {
+          company: string | null
           created_at: string | null
+          created_by: string | null
           description: string | null
-          employer_id: string | null
           id: string
-          is_paid: boolean | null
+          location: string | null
+          paid: boolean | null
           required_skills: string[] | null
           title: string
         }
         Insert: {
+          company?: string | null
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
-          employer_id?: string | null
           id?: string
-          is_paid?: boolean | null
+          location?: string | null
+          paid?: boolean | null
           required_skills?: string[] | null
           title: string
         }
         Update: {
+          company?: string | null
           created_at?: string | null
+          created_by?: string | null
           description?: string | null
-          employer_id?: string | null
           id?: string
-          is_paid?: boolean | null
+          location?: string | null
+          paid?: boolean | null
           required_skills?: string[] | null
           title?: string
         }
         Relationships: [
           {
             foreignKeyName: "jobs_employer_id_fkey"
-            columns: ["employer_id"]
+            columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -146,8 +171,11 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
+          job_id: string | null
+          proof_link: string | null
           proof_task_id: string | null
           reflection: string | null
+          score: number | null
           status: string | null
           submission_link: string | null
           user_id: string | null
@@ -155,8 +183,11 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id?: string
+          job_id?: string | null
+          proof_link?: string | null
           proof_task_id?: string | null
           reflection?: string | null
+          score?: number | null
           status?: string | null
           submission_link?: string | null
           user_id?: string | null
@@ -164,13 +195,23 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: string
+          job_id?: string | null
+          proof_link?: string | null
           proof_task_id?: string | null
           reflection?: string | null
+          score?: number | null
           status?: string | null
           submission_link?: string | null
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "submissions_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "submissions_proof_task_id_fkey"
             columns: ["proof_task_id"]

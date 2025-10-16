@@ -1,5 +1,5 @@
 // src/pages/AdminDashboard.tsx
-import { supabase } from "../lib/supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function AdminDashboard() {
   return (
