@@ -21,6 +21,7 @@ interface SubmissionItem {
 
 export default function FeedbackView() {
   const { user } = useAuth();
+  console.log(user?.role);
   const [proofs, setProofs] = useState<SubmissionItem[]>([]);
   const [loading, setLoading] = useState(true);
 

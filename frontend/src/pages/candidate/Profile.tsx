@@ -10,6 +10,7 @@ interface ProfileStats {
 
 export default function Profile() {
   const { user } = useAuth();
+  console.log(user?.role);
   const [stats, setStats] = useState<ProfileStats>({
     proofsCompleted: 0,
     avgScore: 0,

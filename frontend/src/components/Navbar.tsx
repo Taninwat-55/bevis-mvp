@@ -7,10 +7,10 @@ import {
   X,
   Bell,
   LogOut,
-  LayoutDashboard,
   UserCircle2,
   Settings,
   FileText,
+  Shield,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -53,16 +53,28 @@ export default function Navbar() {
         </button>
         <h1
           className="text-lg font-semibold text-[var(--color-candidate-dark)] cursor-pointer"
-          onClick={() => navigate("/dashboard")}
+          onClick={() =>
+            navigate(
+              user?.role === "admin"
+                ? "/admin"
+                : user?.role === "employer"
+                ? "/employer"
+                : "/dashboard"
+            )
+          }
         >
           Bevis
         </h1>
       </div>
 
-      {/* Center: Desktop Links */}
-
       {/* Right: Icons + Profile Dropdown */}
       <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
+        {localStorage.getItem("overrideRole") && (
+          <span className="text-xs text-[var(--color-text-muted)] italic ml-2">
+            (Viewing as {localStorage.getItem("overrideRole")})
+          </span>
+        )}
+
         <button
           onClick={() => toast("No new notifications 📬")}
           className="text-[var(--color-text-muted)] hover:text-[var(--color-candidate-dark)] transition"
@@ -80,7 +92,11 @@ export default function Navbar() {
 
         {/* Dropdown Menu */}
         {dropdownOpen && (
-          <div className="absolute top-10 right-0 w-44 bg-white border border-[var(--color-border)] shadow-lg rounded-[var(--radius-card)] py-2">
+          <div className="absolute top-10 right-0 w-48 bg-white border border-[var(--color-border)] shadow-lg rounded-[var(--radius-card)] py-2">
+            <p className="px-4 py-2 text-xs text-[var(--color-text-muted)] border-b border-[var(--color-border)]">
+              {user?.email}
+            </p>
+
             <button
               onClick={() => {
                 navigate("/profile");
@@ -89,13 +105,6 @@ export default function Navbar() {
               className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
             >
               <UserCircle2 size={16} /> My Profile
-            </button>
-
-            <button
-              onClick={() => toast("Settings coming soon ⚙️")}
-              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text-muted)] hover:bg-[var(--color-bg)] flex items-center gap-2"
-            >
-              <Settings size={16} /> Settings
             </button>
 
             <button
@@ -108,6 +117,26 @@ export default function Navbar() {
               <FileText size={16} /> My Proofs
             </button>
 
+            <button
+              onClick={() => toast("Settings coming soon ⚙️")}
+              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text-muted)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+            >
+              <Settings size={16} /> Settings
+            </button>
+
+            {/* 🧩 Show only if admin */}
+            {user?.role === "admin" && (
+              <button
+                onClick={() => {
+                  navigate("/admin");
+                  setDropdownOpen(false);
+                }}
+                className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+              >
+                <Shield size={16} /> Admin Dashboard
+              </button>
+            )}
+
             <div className="border-t border-[var(--color-border)] my-1" />
 
             <button
@@ -119,38 +148,6 @@ export default function Navbar() {
           </div>
         )}
       </div>
-
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="absolute top-full left-0 w-full bg-white border-t border-[var(--color-border)] shadow-lg md:hidden z-10">
-          <nav className="flex flex-col p-4 space-y-2">
-            <button
-              onClick={() => {
-                navigate("/dashboard");
-                setMobileOpen(false);
-              }}
-              className="flex items-center gap-2 text-left text-[var(--color-text)] font-medium hover:text-[var(--color-candidate-dark)]"
-            >
-              <LayoutDashboard size={18} /> Dashboard
-            </button>
-            <button
-              onClick={() => {
-                navigate("/profile");
-                setMobileOpen(false);
-              }}
-              className="flex items-center gap-2 text-left text-[var(--color-text)] font-medium hover:text-[var(--color-candidate-dark)]"
-            >
-              <UserCircle2 size={18} /> Profile
-            </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-left text-[var(--color-error)] font-medium hover:underline"
-            >
-              <LogOut size={18} /> Logout
-            </button>
-          </nav>
-        </div>
-      )}
     </header>
   );
 }

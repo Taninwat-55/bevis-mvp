@@ -8,6 +8,7 @@ import type { Tables } from "../../lib/Database";
 
 export default function EmployerDashboard() {
   const { user } = useAuth();
+  console.log(user?.role);
   const [jobs, setJobs] = useState<Tables<"jobs">[]>([]);
   const [submissions, setSubmissions] = useState<
     (Tables<"submissions"> & { proof_tasks?: Tables<"proof_tasks"> })[]
