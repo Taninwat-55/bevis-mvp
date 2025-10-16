@@ -108,3 +108,28 @@ export async function submitProof({
   if (error) throw error;
   return data;
 }
+
+export async function getCandidateFeedback(user_id: string) {
+  const { data, error } = await supabase
+    .from("submissions")
+    .select(
+      `
+      id,
+      created_at,
+      status,
+      jobs (title, company),
+      proof_tasks (title),
+      feedback (
+        strengths,
+        improvements,
+        stars,
+        created_at
+      )
+    `
+    )
+    .eq("user_id", user_id)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
