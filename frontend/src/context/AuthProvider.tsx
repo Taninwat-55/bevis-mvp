@@ -11,14 +11,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
     setUser(null);
     localStorage.removeItem("bevis_user");
+    localStorage.removeItem("overrideRole"); // clear override too
   };
 
   useEffect(() => {
-    // 1️⃣ Load cached user (to avoid flash)
+    // 1️⃣ Load cached user (avoid flash)
     const cachedUser = localStorage.getItem("bevis_user");
     if (cachedUser) setUser(JSON.parse(cachedUser));
 
-    // 2️⃣ Check session from Supabase
+    // 2️⃣ Check Supabase session
     supabase.auth.getSession().then(({ data }) => {
       const role = data.session?.user?.user_metadata.role;
       if (data.session?.user) {
@@ -33,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     });
 
-    // 3️⃣ Listen for auth state changes
+    // 3️⃣ Listen for auth changes
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         const role = session?.user?.user_metadata.role;
@@ -48,6 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setUser(null);
           localStorage.removeItem("bevis_user");
+          localStorage.removeItem("overrideRole");
         }
       }
     );
@@ -57,8 +59,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // 🪄 4️⃣ Apply role override (if any)
+  const overrideRole = localStorage.getItem("overrideRole");
+  const effectiveUser = user
+    ? { ...user, role: (overrideRole as SessionUser["role"]) || user.role }
+    : null;
+
   return (
-    <AuthContext.Provider value={{ user, loading, signOut }}>
+    <AuthContext.Provider value={{ user: effectiveUser, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   );

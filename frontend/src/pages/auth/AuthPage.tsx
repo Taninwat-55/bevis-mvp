@@ -59,16 +59,15 @@ export default function AuthPage() {
     const user = userData?.user; // 👈 define it here
     const userRole = user?.user_metadata?.role;
 
-    // ✅ Call the RPC safely
-    const { data: isAdmin } = await supabase.rpc("is_admin" as any, {
-      uid: user?.id,
-    });
-    console.log("Admin?", isAdmin);
-
-    // 🧭 Redirect logic
-    if (isAdmin) navigate("/admin");
-    else if (userRole === "employer") navigate("/employer");
-    else navigate("/");
+    // 🧭 Redirect logic based on role
+    if (userRole === "admin") {
+      console.log("Detected admin login → redirecting to /admin");
+      navigate("/admin");
+    } else if (userRole === "employer") {
+      navigate("/employer");
+    } else {
+      navigate("/");
+    }
 
     setMessage("✅ Logged in successfully!");
     setLoading(false);

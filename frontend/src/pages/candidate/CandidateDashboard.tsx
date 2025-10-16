@@ -5,6 +5,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 export default function CandidateDashboard() {
   const { user } = useAuth();
+  console.log(user?.role);
   const [stats, setStats] = useState({
     proofsCompleted: 0,
     avgScore: 0,
