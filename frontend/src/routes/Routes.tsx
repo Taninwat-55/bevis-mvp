@@ -8,6 +8,9 @@ import CandidateDashboard from "../pages/candidate/CandidateDashboard";
 import JobListings from "../pages/candidate/JobListings";
 import CandidateLayout from "../components/Layout/CandidateLayout";
 import JobDetail from "../pages/candidate/JobDetail";
+import ProofWorkspace from "../pages/candidate/ProofWorkspace";
+import FeedbackView from "../pages/candidate/FeedbackView";
+import Profile from "../pages/candidate/Profile";
 
 export const router = createBrowserRouter([
   // --- Public Routes ---
@@ -31,6 +34,9 @@ export const router = createBrowserRouter([
               { path: "dashboard", element: <CandidateDashboard /> },
               { path: "jobs", element: <JobListings /> },
               { path: "job/:id", element: <JobDetail /> },
+              { path: "proof/:id", element: <ProofWorkspace /> },
+              { path: "proofs", element: <FeedbackView /> },
+              { path: "profile", element: <Profile /> },
             ],
           },
         ],

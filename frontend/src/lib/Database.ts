@@ -132,29 +132,41 @@ export type Database = {
       proof_tasks: {
         Row: {
           ai_generated: boolean | null
+          ai_tools_allowed: boolean | null
           created_at: string | null
+          description: string | null
           duration_minutes: number | null
+          expected_time: string | null
           id: string
-          instructions: string
+          instructions: string | null
           job_id: string | null
+          submission_format: string | null
           title: string
         }
         Insert: {
           ai_generated?: boolean | null
+          ai_tools_allowed?: boolean | null
           created_at?: string | null
+          description?: string | null
           duration_minutes?: number | null
+          expected_time?: string | null
           id?: string
-          instructions: string
+          instructions?: string | null
           job_id?: string | null
+          submission_format?: string | null
           title: string
         }
         Update: {
           ai_generated?: boolean | null
+          ai_tools_allowed?: boolean | null
           created_at?: string | null
+          description?: string | null
           duration_minutes?: number | null
+          expected_time?: string | null
           id?: string
-          instructions?: string
+          instructions?: string | null
           job_id?: string | null
+          submission_format?: string | null
           title?: string
         }
         Relationships: [
