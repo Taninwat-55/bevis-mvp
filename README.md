@@ -29,7 +29,7 @@ Bevis is a next-generation hiring platform that replaces traditional CVs with **
 ---
 
 ## 🧱 Project Structure
-
+```
 bevis-mvp/
 │
 ├── frontend/
@@ -57,7 +57,7 @@ bevis-mvp/
 │ ├── schema.sql # Database schema, RLS policies, RPCs
 └── config/ # Supabase CLI metadata
 └── .gitignore
-
+```
 ---
 
 ## 🎨 Theming & Roles
