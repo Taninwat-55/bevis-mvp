@@ -11,6 +11,8 @@ export default function ProtectedRoute({
 
   if (loading) return <p className="p-8">Loading session…</p>;
   if (!user) return <Navigate to="/auth" replace />;
+
+  console.log("Current role:", user.role, "Allowed:", allowedRole);
   if (allowedRole && user.role !== allowedRole)
     return <Navigate to="/" replace />;
 

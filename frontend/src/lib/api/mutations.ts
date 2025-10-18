@@ -1,5 +1,6 @@
 // src/lib/api/mutations.ts
 import { supabase } from "../supabaseClient";
+import type { Feedback, EmployerJob } from "@/types";
 
 /**
  * ✅ Employer leaves feedback on a candidate submission
@@ -16,7 +17,7 @@ export async function addFeedback({
   strengths: string;
   improvements: string;
   stars: number;
-}) {
+}): Promise<Feedback> {
   const { data, error } = await supabase
     .from("feedback")
     .insert([
@@ -48,7 +49,7 @@ export async function updateJobDetails(
     company?: string;
     required_skills?: string[];
   }
-) {
+): Promise<EmployerJob>  {
   const { data, error } = await supabase
     .from("jobs")
     .update(updates)

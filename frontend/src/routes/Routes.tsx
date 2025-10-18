@@ -11,6 +11,10 @@ import JobDetail from "../pages/candidate/JobDetail";
 import ProofWorkspace from "../pages/candidate/ProofWorkspace";
 import FeedbackView from "../pages/candidate/FeedbackView";
 import Profile from "../pages/candidate/Profile";
+import EmployerDashboard from "@/pages/employer/EmployerDashboard";
+import EmployerLayout from "@/components/layout/EmployerLayout";
+import EmployerHome from "@/pages/employer/EmployerHome";
+import CandidateHome from "@/pages/candidate/CandidateHome";
 
 export const router = createBrowserRouter([
   // --- Public Routes ---
@@ -28,9 +32,9 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute allowedRole="candidate" />,
         children: [
           {
-            element: <CandidateLayout />, // 🧱 Layout wrapper
+            element: <CandidateLayout />,
             children: [
-              { index: true, element: <CandidateDashboard /> },
+              { index: true, element: <CandidateHome /> },
               { path: "dashboard", element: <CandidateDashboard /> },
               { path: "jobs", element: <JobListings /> },
               { path: "job/:id", element: <JobDetail /> },
@@ -41,13 +45,19 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "employer",
-      //   element: <ProtectedRoute allowedRole="employer" />,
-      //   children: [
-      //     { index: true, element: <EmployerDashboard /> },
-      //   ],
-      // },
+      {
+        path: "employer",
+        element: <ProtectedRoute allowedRole="employer" />,
+        children: [
+          {
+            element: <EmployerLayout />,
+            children: [
+              { index: true, element: <EmployerHome /> },
+              { path: "dashboard", element: <EmployerDashboard /> },
+            ],
+          },
+        ],
+      },
       {
         path: "admin",
         element: <ProtectedRoute allowedRole="admin" />,

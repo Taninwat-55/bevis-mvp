@@ -1,10 +1,17 @@
 // src/lib/api/submissions.ts
 import { supabase } from "../supabaseClient";
+import type {
+  CandidateSubmission,
+  // CandidateFeedback,
+  EmployerSubmission,
+  ProofTask,
+  CandidateFeedbackEntry,
+} from "@/types";
 
 /**
  * ✅ Get all submissions by a candidate (for candidate dashboard/profile)
  */
-export async function getCandidateSubmissions(user_id: string) {
+export async function getCandidateSubmissions(user_id: string): Promise<CandidateSubmission[]> {
   const { data, error } = await supabase
     .from("submissions")
     .select(
@@ -30,19 +37,24 @@ export async function getCandidateSubmissions(user_id: string) {
 /**
  * ✅ Get all submissions for an employer’s jobs (for review dashboard)
  */
-export async function getEmployerSubmissions(employer_id: string) {
+// export async function getEmployerSubmissions(employer_id: string) {
+// 1️⃣ Get job IDs owned by employer
+// const { data: jobIds, error: jobErr } = await supabase
+//   .from("jobs")
+//   .select("id")
+//   .eq("created_by", employer_id);
+export async function getEmployerSubmissions(employer_id: string): Promise<EmployerSubmission[]> {
   // 1️⃣ Get job IDs owned by employer
   const { data: jobIds, error: jobErr } = await supabase
     .from("jobs")
     .select("id")
-    .eq("created_by", employer_id);
+    .eq("employer_id", employer_id); // ✅ fixed
 
   if (jobErr) throw jobErr;
   if (!jobIds?.length) return [];
 
   const ids = jobIds.map((j) => j.id);
 
-  // 2️⃣ Fetch submissions for those jobs
   const { data, error } = await supabase
     .from("submissions")
     .select(
@@ -66,7 +78,7 @@ export async function getEmployerSubmissions(employer_id: string) {
 /**
  * ✅ Get details for a single proof task (for job detail / proof workspace)
  */
-export async function getProofTaskDetails(proof_task_id: string) {
+export async function getProofTaskDetails(proof_task_id: string): Promise<ProofTask> {
   const { data, error } = await supabase
     .from("proof_tasks")
     .select(
@@ -131,5 +143,5 @@ export async function getCandidateFeedback(user_id: string) {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return data;
+  return data as CandidateFeedbackEntry[];
 }

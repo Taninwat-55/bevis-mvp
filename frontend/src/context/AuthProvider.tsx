@@ -11,37 +11,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await supabase.auth.signOut();
     setUser(null);
     localStorage.removeItem("bevis_user");
-    localStorage.removeItem("overrideRole"); // clear override too
+    localStorage.removeItem("overrideRole");
   };
 
   useEffect(() => {
-    // 1️⃣ Load cached user (avoid flash)
+    // 1️⃣ Try cached user first
     const cachedUser = localStorage.getItem("bevis_user");
-    if (cachedUser) setUser(JSON.parse(cachedUser));
+    if (cachedUser) {
+      setUser(JSON.parse(cachedUser));
+    }
 
-    // 2️⃣ Check Supabase session
+    // 2️⃣ Always confirm current Supabase session
     supabase.auth.getSession().then(({ data }) => {
-      const role = data.session?.user?.user_metadata.role;
-      if (data.session?.user) {
+      const sessionUser = data.session?.user;
+      if (sessionUser) {
+        const role =
+          (sessionUser.user_metadata.role as SessionUser["role"]) ??
+          "candidate";
         const newUser = {
-          id: data.session.user.id,
-          email: data.session.user.email!,
+          id: sessionUser.id,
+          email: sessionUser.email!,
           role,
         };
         setUser(newUser);
         localStorage.setItem("bevis_user", JSON.stringify(newUser));
+      } else {
+        setUser(null);
+        localStorage.removeItem("bevis_user");
       }
-      setLoading(false);
+      setLoading(false); // ✅ only now set loading false
     });
 
-    // 3️⃣ Listen for auth changes
+    // 3️⃣ Auth change listener
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        const role = session?.user?.user_metadata.role;
-        if (session?.user) {
+        const sessionUser = session?.user;
+        if (sessionUser) {
+          const role =
+            (sessionUser.user_metadata.role as SessionUser["role"]) ??
+            "candidate";
           const newUser = {
-            id: session.user.id,
-            email: session.user.email!,
+            id: sessionUser.id,
+            email: sessionUser.email!,
             role,
           };
           setUser(newUser);
@@ -59,7 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // 🪄 4️⃣ Apply role override (if any)
+  // 🪄 Apply local override if any
   const overrideRole = localStorage.getItem("overrideRole");
   const effectiveUser = user
     ? { ...user, role: (overrideRole as SessionUser["role"]) || user.role }
@@ -67,7 +78,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ user: effectiveUser, loading, signOut }}>
-      {children}
+      {loading ? (
+        <div className="flex items-center justify-center min-h-screen text-gray-500">
+          Loading session…
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 }
