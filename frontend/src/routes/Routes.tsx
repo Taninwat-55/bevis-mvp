@@ -2,6 +2,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import AuthPage from "../pages/auth/AuthPage";
+import LandingPage from "../pages/landing/LandingPage";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import CandidateDashboard from "../pages/candidate/CandidateDashboard";
@@ -17,17 +18,24 @@ import EmployerHome from "@/pages/employer/EmployerHome";
 import CandidateHome from "@/pages/candidate/CandidateHome";
 
 export const router = createBrowserRouter([
-  // --- Public Routes ---
+  // --- Public Landing Page ---
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+
+  // --- Auth Page ---
   {
     path: "/auth",
     element: <AuthPage />,
   },
 
-  // --- Protected Routes ---
+  // --- Protected App Routes ---
   {
-    path: "/",
+    path: "/app",
     element: <App />,
     children: [
+      // 🎓 Candidate routes
       {
         element: <ProtectedRoute allowedRole="candidate" />,
         children: [
@@ -45,6 +53,8 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
+      // 🏢 Employer routes
       {
         path: "employer",
         element: <ProtectedRoute allowedRole="employer" />,
@@ -58,6 +68,8 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
+      // 🧩 Admin routes
       {
         path: "admin",
         element: <ProtectedRoute allowedRole="admin" />,
