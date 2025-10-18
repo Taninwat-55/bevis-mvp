@@ -12,6 +12,7 @@ import {
   FileText,
   Shield,
 } from "lucide-react";
+import { notify } from "./ui/Notify";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -23,8 +24,8 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await signOut();
-    toast.success("👋 You’ve been logged out");
-    navigate("/auth");
+    notify.success("👋 You’ve been logged out");
+    navigate("/");
   };
 
   // Close dropdown when clicking outside
