@@ -6,7 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import CandidateDashboard from "../pages/candidate/CandidateDashboard";
 import JobListings from "../pages/candidate/JobListings";
-import CandidateLayout from "../components/Layout/CandidateLayout";
+import CandidateLayout from "../components/layout/CandidateLayout";
 import JobDetail from "../pages/candidate/JobDetail";
 import ProofWorkspace from "../pages/candidate/ProofWorkspace";
 import FeedbackView from "../pages/candidate/FeedbackView";
