@@ -1,10 +1,11 @@
 // src/lib/api/jobs.ts
 import { supabase } from "../supabaseClient";
+import type { EmployerJob, EmployerJobSummary, CandidateJob } from "@/types";
 
 /**
  * ✅ Fetch all public jobs (for candidates)
  */
-export async function getAllJobs() {
+export async function getAllJobs(): Promise<CandidateJob[]> {
   const { data, error } = await supabase
     .from("jobs")
     .select(
@@ -35,15 +36,33 @@ export async function getJobWithTasks(job_id: string) {
 /**
  * ✅ Fetch all jobs created by the logged-in employer
  */
-export async function getEmployerJobs(employer_id: string) {
+export async function getEmployerJobs(employer_id: string): Promise<EmployerJob[]> {
   const { data, error } = await supabase
     .from("jobs")
     .select("id, title, description, company, location, paid, created_at")
-    .eq("created_by", employer_id)
+    .eq("employer_id", employer_id) // ✅ fixed
     .order("created_at", { ascending: false });
 
   if (error) throw error;
   return data;
 }
+// export async function getEmployerJobs(employer_id: string) {
+//   const { data, error } = await supabase
+//     .from("jobs")
+//     .select("id, title, description, company, location, paid, created_at")
+//     .eq("created_by", employer_id)
+//     .order("created_at", { ascending: false });
 
+//   if (error) throw error;
+//   return data;
+// }
 
+export async function getEmployerJobSummary(employer_id: string): Promise<EmployerJobSummary[]> {
+  const { data, error } = await supabase
+    .from("employer_job_summary")
+    .select("*")
+    .eq("employer_id", employer_id);
+
+  if (error) throw error;
+  return data;
+}

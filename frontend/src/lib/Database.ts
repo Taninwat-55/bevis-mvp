@@ -91,10 +91,12 @@ export type Database = {
           created_at: string | null
           created_by: string | null
           description: string | null
+          employer_id: string | null
           id: string
           location: string | null
           paid: boolean | null
           required_skills: string[] | null
+          status: string | null
           title: string
         }
         Insert: {
@@ -102,10 +104,12 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           description?: string | null
+          employer_id?: string | null
           id?: string
           location?: string | null
           paid?: boolean | null
           required_skills?: string[] | null
+          status?: string | null
           title: string
         }
         Update: {
@@ -113,13 +117,22 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           description?: string | null
+          employer_id?: string | null
           id?: string
           location?: string | null
           paid?: boolean | null
           required_skills?: string[] | null
+          status?: string | null
           title?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "fk_jobs_employer"
+            columns: ["employer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "jobs_employer_id_fkey"
             columns: ["created_by"]
@@ -174,6 +187,13 @@ export type Database = {
             foreignKeyName: "proof_tasks_job_id_fkey"
             columns: ["job_id"]
             isOneToOne: false
+            referencedRelation: "employer_job_summary"
+            referencedColumns: ["job_id"]
+          },
+          {
+            foreignKeyName: "proof_tasks_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
             referencedRelation: "jobs"
             referencedColumns: ["id"]
           },
@@ -217,6 +237,13 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "submissions_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "employer_job_summary"
+            referencedColumns: ["job_id"]
+          },
           {
             foreignKeyName: "submissions_job_id_fkey"
             columns: ["job_id"]
@@ -272,6 +299,24 @@ export type Database = {
       }
     }
     Views: {
+      employer_job_summary: {
+        Row: {
+          avg_score: number | null
+          employer_id: string | null
+          job_id: string | null
+          submissions_count: number | null
+          title: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_jobs_employer"
+            columns: ["employer_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       proof_cards: {
         Row: {
           candidate_name: string | null

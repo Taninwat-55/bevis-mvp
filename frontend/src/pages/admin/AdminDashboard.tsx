@@ -8,8 +8,18 @@ export default function AdminDashboard() {
 
   const handleOverride = (role: "candidate" | "employer" | "admin") => {
     localStorage.setItem("overrideRole", role);
-    toast.success(`🔁 Role temporarily set to ${role}`);
-    navigate(role === "candidate" ? "/dashboard" : `/${role}`);
+    toast.success(`🔁 Viewing as ${role}`);
+    // Navigate + force reload to rehydrate AuthProvider
+    if (role === "admin") {
+      navigate("/admin");
+      window.location.reload();
+    } else if (role === "employer") {
+      navigate("/employer");
+      window.location.reload();
+    } else {
+      navigate("/dashboard"); // candidate route
+      window.location.reload();
+    }
   };
 
   const promoteUser = async () => {
