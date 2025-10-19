@@ -36,4 +36,8 @@ export type EmployerSubmission = {
   submission_link: string | null;
   reflection: string | null;
   proof_tasks: { id: string; title: string | null } | null;
+
+  // 🆕 Added for Talent Pool
+  jobs?: { title: string | null } | null;
+  feedback?: { stars: number | null }[] | null;
 };

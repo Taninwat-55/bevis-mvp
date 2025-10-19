@@ -21,6 +21,7 @@ import RequestResetPage from "@/pages/auth/RequestResetPage";
 import PostJob from "@/pages/employer/PostJob";
 import FeedbackSuccess from "@/pages/employer/FeedbackSuccess";
 import EmployerReview from "@/pages/employer/ReviewProof";
+import TalentPool from "@/pages/employer/TalentPool";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -81,6 +82,7 @@ export const router = createBrowserRouter([
               { path: "review/success", element: <FeedbackSuccess /> },
               { path: "jobs/new", element: <PostJob /> },
               { path: "job/:id", element: <JobDetail /> },
+              { path: "talent", element: <TalentPool /> },
             ],
           },
         ],

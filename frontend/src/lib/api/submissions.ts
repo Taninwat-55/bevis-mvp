@@ -80,6 +80,42 @@ export async function getEmployerSubmissions(
   return data;
 }
 
+export async function getEmployerSubmissionsWithFeedback(
+  employer_id: string
+): Promise<EmployerSubmission[]> {
+  const { data: jobIds, error: jobErr } = await supabase
+    .from("jobs")
+    .select("id")
+    .eq("employer_id", employer_id);
+
+  if (jobErr) throw jobErr;
+  if (!jobIds?.length) return [];
+
+  const ids = jobIds.map((j) => j.id);
+
+  const { data, error } = await supabase
+    .from("submissions")
+    .select(
+      `
+      id,
+      job_id,
+      user_id,
+      created_at,
+      status,
+      submission_link,
+      reflection,
+      proof_tasks ( id, title ),
+      jobs ( title ),
+      feedback ( stars )
+    `
+    )
+    .in("job_id", ids)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data;
+}
+
 /**
  * ✅ Get details for a single proof task (for job detail / proof workspace)
  */
