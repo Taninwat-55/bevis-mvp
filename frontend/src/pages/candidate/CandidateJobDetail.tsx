@@ -21,7 +21,7 @@ interface Job {
   proof_tasks?: ProofTask[];
 }
 
-export default function JobDetail() {
+export default function CandidateJobDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [job, setJob] = useState<Job | null>(null);

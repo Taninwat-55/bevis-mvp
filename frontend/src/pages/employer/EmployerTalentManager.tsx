@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Loader2, Users } from "lucide-react";
 import TalentBoard from "@/components/talent/TalentBoard";
 
-export default function TalentManager() {
+export default function EmployerTalentManager() {
   const { user } = useAuth();
   const [submissions, setSubmissions] = useState<EmployerSubmission[]>([]);
   const [loading, setLoading] = useState(true);

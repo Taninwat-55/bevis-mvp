@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useJobs } from "../../hooks/useJobs";
 
-export default function JobListings() {
+export default function CandidateJobListings() {
   const { jobs, loading, error } = useJobs();
 
   if (loading)

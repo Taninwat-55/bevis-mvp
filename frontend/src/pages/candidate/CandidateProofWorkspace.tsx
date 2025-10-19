@@ -13,7 +13,7 @@ interface ProofTask {
   ai_tools_allowed?: boolean | null;
 }
 
-export default function ProofWorkspace() {
+export default function CandidateProofWorkspace() {
   const { id: proof_task_id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
