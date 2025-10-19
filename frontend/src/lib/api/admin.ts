@@ -1,5 +1,10 @@
 import { supabase } from "../supabaseClient";
-import type { AdminStats, BevisUser, AdminJob } from "../../types/admin";
+import type {
+  AdminStats,
+  BevisUser,
+  AdminJob,
+  AdminFeedback,
+} from "../../types/admin";
 
 // 🧾 Fetch all users
 export async function getAllUsers(): Promise<BevisUser[]> {
@@ -60,6 +65,54 @@ export async function getAllJobs(): Promise<AdminJob[]> {
       location: job.location ?? "—",
       created_at: job.created_at ?? new Date().toISOString(),
       employer_email: job.users?.email ?? "—",
+    })) ?? []
+  );
+}
+
+// 🧾 Fetch all feedback logs (joined via submissions → jobs + users)
+export async function getAllFeedbackLogs(): Promise<AdminFeedback[]> {
+  const { data, error } = await supabase
+    .from("feedback")
+    .select(
+      `
+      id,
+      rating,
+      comments,
+      stars,
+      created_at,
+      submissions!feedback_submission_id_fkey (
+        jobs ( title ),
+        users ( email )
+      ),
+      employer:users!feedback_employer_id_fkey ( email )
+    `
+    )
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  type RawFeedback = {
+    id: string;
+    rating: number | null;
+    stars: number | null;
+    comments: string | null;
+    created_at: string | null;
+    submissions?: {
+      jobs?: { title: string | null } | null;
+      users?: { email: string | null } | null;
+    } | null;
+    employer?: { email: string | null } | null;
+  };
+
+  return (
+    (data as unknown as RawFeedback[])?.map((f) => ({
+      id: f.id,
+      job_title: f.submissions?.jobs?.title ?? "—",
+      candidate_email: f.submissions?.users?.email ?? "—",
+      employer_email: f.employer?.email ?? "—",
+      rating: f.rating ?? f.stars ?? null,
+      comment: f.comments ?? "",
+      created_at: f.created_at ?? new Date().toISOString(),
     })) ?? []
   );
 }
