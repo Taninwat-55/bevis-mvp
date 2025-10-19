@@ -23,3 +23,13 @@ export interface AdminJob {
   created_at: string;
   employer_email: string;
 }
+
+export interface AdminFeedback {
+  id: string;
+  job_title: string;
+  candidate_email: string;
+  employer_email: string;
+  rating: number | null;
+  comment: string;
+  created_at: string;
+}

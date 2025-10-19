@@ -103,6 +103,7 @@ export default function AdminDashboard() {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* 👥 Manage Users */}
           <button
             onClick={() => navigate("/app/admin/users")}
             className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
@@ -113,11 +114,12 @@ export default function AdminDashboard() {
                 Manage Users
               </p>
               <p className="text-sm text-[var(--color-text-muted)]">
-                View and edit roles
+                View and edit user roles
               </p>
             </div>
           </button>
 
+          {/* 💼 Jobs Overview */}
           <button
             onClick={() => navigate("/app/admin/jobs")}
             className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
@@ -131,11 +133,12 @@ export default function AdminDashboard() {
                 Jobs Overview
               </p>
               <p className="text-sm text-[var(--color-text-muted)]">
-                See all job postings
+                Browse all posted jobs
               </p>
             </div>
           </button>
 
+          {/* 🗂️ Feedback Logs */}
           <button
             onClick={() => navigate("/app/admin/feedback")}
             className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
@@ -149,11 +152,12 @@ export default function AdminDashboard() {
                 Feedback Logs
               </p>
               <p className="text-sm text-[var(--color-text-muted)]">
-                Explore candidate feedback
+                Review all candidate feedback
               </p>
             </div>
           </button>
 
+          {/* 🧮 Data Viewer */}
           <button
             onClick={() => navigate("/data-viewer")}
             className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
@@ -169,6 +173,7 @@ export default function AdminDashboard() {
             </div>
           </button>
 
+          {/* 👩‍🎓 View as Candidate */}
           <button
             onClick={() => handleOverride("candidate")}
             className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
@@ -187,6 +192,7 @@ export default function AdminDashboard() {
             </div>
           </button>
 
+          {/* 🏢 View as Employer */}
           <button
             onClick={() => handleOverride("employer")}
             className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"

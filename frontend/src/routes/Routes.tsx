@@ -7,9 +7,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
 import RequestResetPage from "@/pages/auth/RequestResetPage";
 
-// Admin imports
-import AdminDashboard from "../pages/admin/AdminDashboard";
-
 // Candidate imports
 import CandidateDashboard from "../pages/candidate/CandidateDashboard";
 import CandidateJobListings from "../pages/candidate/CandidateJobListings";
@@ -32,8 +29,12 @@ import EmployerSubmissions from "@/pages/employer/EmployerSubmissions";
 import EmployerJobDetail from "@/pages/employer/EmployerJobDetail";
 import EmployerTalentPool from "@/pages/employer/EmployerTalentPool";
 import EmployerJobListings from "../pages/employer/EmployerJobListings";
+
+// Admin imports
+import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsers from "@/pages/admin/AdminUsers";
 import AdminJobs from "@/pages/admin/AdminJobs";
+import AdminFeedback from "@/pages/admin/AdminFeedback";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -111,6 +112,7 @@ export const router = createBrowserRouter([
           { index: true, element: <AdminDashboard /> },
           { path: "users", element: <AdminUsers /> },
           { path: "jobs", element: <AdminJobs /> },
+          { path: "feedback", element: <AdminFeedback /> },
         ],
       },
     ],
