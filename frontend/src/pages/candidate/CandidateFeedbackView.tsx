@@ -19,7 +19,7 @@ interface SubmissionItem {
   feedback?: FeedbackItem[] | null;
 }
 
-export default function FeedbackView() {
+export default function CandidateFeedbackView() {
   const { user } = useAuth();
   console.log(user?.role);
   const [proofs, setProofs] = useState<SubmissionItem[]>([]);

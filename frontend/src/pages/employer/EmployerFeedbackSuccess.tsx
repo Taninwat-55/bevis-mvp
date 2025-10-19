@@ -1,7 +1,7 @@
 // src/pages/employer/FeedbackSuccess.tsx
 import { useNavigate } from "react-router-dom";
 
-export default function FeedbackSuccess() {
+export default function EmployerFeedbackSuccess() {
   const navigate = useNavigate();
 
   return (

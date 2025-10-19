@@ -6,7 +6,7 @@ import { supabase } from "../../lib/supabaseClient";
 import { notify } from "@/components/ui/Notify";
 import { getErrorMessage } from "@/lib/error";
 
-export default function PostJob() {
+export default function EmployerPostJob() {
   const { user } = useAuth();
   const navigate = useNavigate();
 

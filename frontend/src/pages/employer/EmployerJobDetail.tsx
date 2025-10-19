@@ -6,7 +6,7 @@ import { getEmployerSubmissions } from "@/lib/api/submissions";
 import type { EmployerJob, EmployerSubmission, ProofTask } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 
-export default function JobDetail() {
+export default function EmployerJobDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -33,7 +33,7 @@ export default function JobDetail() {
         // relevant job submissions
         // const jobSubs = allSubs.filter(
         //   (s) => s.proof_tasks && s.proof_tasks.id && s.status
-        // ); 
+        // );
         setSubmissions(jobSubs);
       } catch (err) {
         console.error(err);

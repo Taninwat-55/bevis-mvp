@@ -4,25 +4,34 @@ import App from "../App";
 import AuthPage from "../pages/auth/AuthPage";
 import LandingPage from "../pages/landing/LandingPage";
 import ProtectedRoute from "./ProtectedRoute";
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import CandidateDashboard from "../pages/candidate/CandidateDashboard";
-import JobListings from "../pages/candidate/JobListings";
-import CandidateLayout from "../layout/CandidateLayout";
-import JobDetail from "../pages/candidate/JobDetail";
-import ProofWorkspace from "../pages/candidate/ProofWorkspace";
-import FeedbackView from "../pages/candidate/FeedbackView";
-import Profile from "../pages/candidate/Profile";
-import EmployerDashboard from "@/pages/employer/EmployerDashboard";
-import EmployerLayout from "@/layout/EmployerLayout";
-import EmployerHome from "@/pages/employer/EmployerHome";
-import CandidateHome from "@/pages/candidate/CandidateHome";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
 import RequestResetPage from "@/pages/auth/RequestResetPage";
-import PostJob from "@/pages/employer/PostJob";
-import FeedbackSuccess from "@/pages/employer/FeedbackSuccess";
-import EmployerReview from "@/pages/employer/ReviewProof";
-import TalentPool from "@/pages/employer/TalentPool";
-import TalentManager from "@/pages/employer/TalentManager";
+
+// Admin imports
+import AdminDashboard from "../pages/admin/AdminDashboard";
+
+// Candidate imports
+import CandidateDashboard from "../pages/candidate/CandidateDashboard";
+import CandidateJobListings from "../pages/candidate/CandidateJobListings";
+import CandidateLayout from "../layout/CandidateLayout";
+import CandidateJobDetail from "../pages/candidate/CandidateJobDetail";
+import CandidateProofWorkspace from "../pages/candidate/CandidateProofWorkspace";
+import CandidateFeedbackView from "../pages/candidate/CandidateFeedbackView";
+import CandidateProfile from "../pages/candidate/CandidateProfile";
+import CandidateHome from "@/pages/candidate/CandidateHome";
+
+// Employer imports
+import EmployerHome from "@/pages/employer/EmployerHome";
+import EmployerDashboard from "@/pages/employer/EmployerDashboard";
+import EmployerLayout from "@/layout/EmployerLayout";
+import EmployerPostJob from "@/pages/employer/EmployerPostJob";
+import EmployerFeedbackSuccess from "@/pages/employer/EmployerFeedbackSuccess";
+import EmployerReview from "@/pages/employer/EmployerReviewProof";
+import EmployerTalentManager from "@/pages/employer/EmployerTalentManager";
+import EmployerSubmissions from "@/pages/employer/EmployerSubmissions";
+import EmployerJobDetail from "@/pages/employer/EmployerJobDetail";
+import EmployerTalentPool from "@/pages/employer/EmployerTalentPool";
+import EmployerJobListings from "../pages/employer/EmployerJobListings";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -59,11 +68,11 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <CandidateHome /> },
               { path: "dashboard", element: <CandidateDashboard /> },
-              { path: "jobs", element: <JobListings /> },
-              { path: "job/:id", element: <JobDetail /> },
-              { path: "proof/:id", element: <ProofWorkspace /> },
-              { path: "proofs", element: <FeedbackView /> },
-              { path: "profile", element: <Profile /> },
+              { path: "jobs", element: <CandidateJobListings /> },
+              { path: "job/:id", element: <CandidateJobDetail /> },
+              { path: "proof/:id", element: <CandidateProofWorkspace /> },
+              { path: "proofs", element: <CandidateFeedbackView /> },
+              { path: "profile", element: <CandidateProfile /> },
             ],
           },
         ],
@@ -80,11 +89,13 @@ export const router = createBrowserRouter([
               { index: true, element: <EmployerHome /> },
               { path: "dashboard", element: <EmployerDashboard /> },
               { path: "review/:id", element: <EmployerReview /> },
-              { path: "review/success", element: <FeedbackSuccess /> },
-              { path: "jobs/new", element: <PostJob /> },
-              { path: "job/:id", element: <JobDetail /> },
-              { path: "talent", element: <TalentPool /> },
-              { path: "talent/manage", element: <TalentManager /> },
+              { path: "review/success", element: <EmployerFeedbackSuccess /> },
+              { path: "jobs/new", element: <EmployerPostJob /> },
+              { path: "job/:id", element: <EmployerJobDetail /> },
+              { path: "jobs", element: <EmployerJobListings /> },
+              { path: "submissions", element: <EmployerSubmissions /> },
+              { path: "talent", element: <EmployerTalentPool /> },
+              { path: "talent/manage", element: <EmployerTalentManager /> },
             ],
           },
         ],

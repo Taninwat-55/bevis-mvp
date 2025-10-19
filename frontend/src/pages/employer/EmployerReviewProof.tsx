@@ -8,7 +8,7 @@ import { getSubmissionById } from "../../lib/api/submissions";
 import { useAuth } from "../../hooks/useAuth";
 import type { EmployerSubmission } from "@/types";
 
-export default function EmployerReview() {
+export default function EmployerReviewProof() {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();

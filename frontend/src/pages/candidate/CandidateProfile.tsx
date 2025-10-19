@@ -8,7 +8,7 @@ interface ProfileStats {
   jobsApplied: number;
 }
 
-export default function Profile() {
+export default function CandidateProfile() {
   const { user } = useAuth();
   console.log(user?.role);
   const [stats, setStats] = useState<ProfileStats>({
