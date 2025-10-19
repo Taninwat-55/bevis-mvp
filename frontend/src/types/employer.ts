@@ -30,9 +30,10 @@ export type EmployerJobSummary = {
 export type EmployerSubmission = {
   id: string;
   user_id: string | null;
+  job_id: string | null;
   created_at: string | null;
   status: string | null;
   submission_link: string | null;
   reflection: string | null;
-  proof_tasks: { id: string; title: string } | null;
+  proof_tasks: { id: string; title: string | null } | null;
 };

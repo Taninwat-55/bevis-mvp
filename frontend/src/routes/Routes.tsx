@@ -80,6 +80,7 @@ export const router = createBrowserRouter([
               { path: "review/:id", element: <EmployerReview /> },
               { path: "review/success", element: <FeedbackSuccess /> },
               { path: "jobs/new", element: <PostJob /> },
+              { path: "job/:id", element: <JobDetail /> },
             ],
           },
         ],

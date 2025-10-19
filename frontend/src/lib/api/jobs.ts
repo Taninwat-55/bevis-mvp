@@ -24,7 +24,7 @@ export async function getJobWithTasks(job_id: string) {
   const { data, error } = await supabase
     .from("jobs")
     .select(
-      "id, title, description, company, location, paid, created_by, proof_tasks(id, title, description, expected_time, submission_format, ai_tools_allowed)"
+      "id, title, description, company, location, paid, created_at, created_by, proof_tasks(id, title, description, expected_time, submission_format, ai_tools_allowed)"
     )
     .eq("id", job_id)
     .single();
@@ -36,7 +36,9 @@ export async function getJobWithTasks(job_id: string) {
 /**
  * ✅ Fetch all jobs created by the logged-in employer
  */
-export async function getEmployerJobs(employer_id: string): Promise<EmployerJob[]> {
+export async function getEmployerJobs(
+  employer_id: string
+): Promise<EmployerJob[]> {
   const { data, error } = await supabase
     .from("jobs")
     .select("id, title, description, company, location, paid, created_at")
@@ -57,7 +59,9 @@ export async function getEmployerJobs(employer_id: string): Promise<EmployerJob[
 //   return data;
 // }
 
-export async function getEmployerJobSummary(employer_id: string): Promise<EmployerJobSummary[]> {
+export async function getEmployerJobSummary(
+  employer_id: string
+): Promise<EmployerJobSummary[]> {
   const { data, error } = await supabase
     .from("employer_job_summary")
     .select("*")
