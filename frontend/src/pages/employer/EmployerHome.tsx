@@ -1,5 +1,5 @@
 // src/pages/employer/EmployerHome.tsx
-import HomeLayout from "@/components/layout/HomeLayout";
+import HomeLayout from "@/layout/HomeLayout";
 import { useAuth } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 

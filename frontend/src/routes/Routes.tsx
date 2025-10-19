@@ -7,13 +7,13 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import CandidateDashboard from "../pages/candidate/CandidateDashboard";
 import JobListings from "../pages/candidate/JobListings";
-import CandidateLayout from "../components/layout/CandidateLayout";
+import CandidateLayout from "../layout/CandidateLayout";
 import JobDetail from "../pages/candidate/JobDetail";
 import ProofWorkspace from "../pages/candidate/ProofWorkspace";
 import FeedbackView from "../pages/candidate/FeedbackView";
 import Profile from "../pages/candidate/Profile";
 import EmployerDashboard from "@/pages/employer/EmployerDashboard";
-import EmployerLayout from "@/components/layout/EmployerLayout";
+import EmployerLayout from "@/layout/EmployerLayout";
 import EmployerHome from "@/pages/employer/EmployerHome";
 import CandidateHome from "@/pages/candidate/CandidateHome";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
@@ -22,6 +22,7 @@ import PostJob from "@/pages/employer/PostJob";
 import FeedbackSuccess from "@/pages/employer/FeedbackSuccess";
 import EmployerReview from "@/pages/employer/ReviewProof";
 import TalentPool from "@/pages/employer/TalentPool";
+import TalentManager from "@/pages/employer/TalentManager";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -83,6 +84,7 @@ export const router = createBrowserRouter([
               { path: "jobs/new", element: <PostJob /> },
               { path: "job/:id", element: <JobDetail /> },
               { path: "talent", element: <TalentPool /> },
+              { path: "talent/manage", element: <TalentManager /> },
             ],
           },
         ],

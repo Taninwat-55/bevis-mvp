@@ -24,6 +24,14 @@ export type EmployerJobSummary = {
   avg_score: number | null;
 };
 
+export type HiringStage =
+  | "new"
+  | "shortlisted"
+  | "interview"
+  | "hold"
+  | "hired"
+  | "rejected";
+
 /**
  * Type representing a candidate submission visible to an employer.
  */
@@ -37,7 +45,10 @@ export type EmployerSubmission = {
   reflection: string | null;
   proof_tasks: { id: string; title: string | null } | null;
 
-  // 🆕 Added for Talent Pool
   jobs?: { title: string | null } | null;
   feedback?: { stars: number | null }[] | null;
+
+  // 🧭 Talent Manager fields
+  hiring_stage?: HiringStage | null;
+  employer_notes?: string | null;
 };

@@ -102,3 +102,19 @@ export async function updateSubmissionStatus(
   if (error) throw error;
   return data;
 }
+
+export async function updateHiringStage(
+  submission_id: string,
+  hiring_stage: string,
+  employer_notes?: string
+) {
+  const { data, error } = await supabase
+    .from("submissions")
+    .update({ hiring_stage, employer_notes })
+    .eq("id", submission_id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}

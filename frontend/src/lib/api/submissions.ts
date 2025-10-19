@@ -104,6 +104,8 @@ export async function getEmployerSubmissionsWithFeedback(
       status,
       submission_link,
       reflection,
+      hiring_stage,
+      employer_notes,
       proof_tasks ( id, title ),
       jobs ( title ),
       feedback ( stars )
@@ -113,7 +115,7 @@ export async function getEmployerSubmissionsWithFeedback(
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return data;
+  return data as EmployerSubmission[];
 }
 
 /**

@@ -79,6 +79,11 @@ export default function Sidebar({ role }: SidebarProps) {
       label: "Talent Pool",
       icon: <Users size={17} />,
     },
+    {
+      to: "/app/employer/talent/manage",
+      label: "Talent Manager",
+      icon: <Users size={17} />,
+    },
   ];
 
   // 🧩 Admin links
