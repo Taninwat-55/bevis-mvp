@@ -134,7 +134,6 @@ export default function Sidebar({ role }: SidebarProps) {
               : resolvedRole === "employer"
               ? "🏢 Employer"
               : "🧩 Admin"}{" "}
-            Panel
           </span>
         )}
         <button
