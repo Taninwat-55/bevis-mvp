@@ -95,6 +95,15 @@ export default function AdminDashboard() {
         <h2 className="heading-md mb-4">Quick Access</h2>
         <ul className="space-y-3 text-[var(--color-text)]">
           <li>
+            👥{" "}
+            <button
+              onClick={() => navigate("/app/admin/users")}
+              className="cursor-pointer hover:text-[var(--color-admin-dark)] font-medium"
+            >
+              Manage Users
+            </button>
+          </li>
+          <li>
             👩‍🎓{" "}
             <button
               onClick={() => handleOverride("candidate")}

@@ -1,5 +1,35 @@
 import { supabase } from "../supabaseClient";
-import type { AdminStats } from "../../types/admin";
+import type { AdminStats, BevisUser } from "../../types/admin";
+
+// 🧾 Fetch all users
+export async function getAllUsers(): Promise<BevisUser[]> {
+  const { data, error } = await supabase
+    .from("users")
+    .select("id, email, role, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+
+  // Normalize possible nulls to empty strings
+  return (
+    data?.map((u) => ({
+      id: u.id,
+      email: u.email ?? "", // 🩹 fallback
+      role: u.role as BevisUser["role"],
+      created_at: u.created_at ?? new Date().toISOString(),
+    })) ?? []
+  );
+}
+
+// 🔁 Update user role
+export async function updateUserRole(userId: string, newRole: string) {
+  const { error } = await supabase
+    .from("users")
+    .update({ role: newRole })
+    .eq("id", userId);
+  if (error) throw error;
+  return true;
+}
 
 export async function getAdminStats(): Promise<AdminStats> {
   // Fetch all feedback rows (for avg calc)
