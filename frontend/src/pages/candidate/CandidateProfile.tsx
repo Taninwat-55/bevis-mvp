@@ -71,7 +71,7 @@ export default function CandidateProfile() {
         </p>
       </header>
 
-      <section className="bg-white rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6 mb-8">
+      <section className="bg-[var(--color-surface)] transition-colors rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6 mb-8">
         <h2 className="heading-md mb-4">Account Information</h2>
         <div className="space-y-2 text-sm">
           <p>
@@ -87,7 +87,7 @@ export default function CandidateProfile() {
         </div>
       </section>
 
-      <section className="bg-white rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6">
+      <section className="bg-[var(--color-surface)] transition-colors rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6">
         <h2 className="heading-md mb-4">Performance Summary</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <StatCard label="Proofs Completed" value={stats.proofsCompleted} />

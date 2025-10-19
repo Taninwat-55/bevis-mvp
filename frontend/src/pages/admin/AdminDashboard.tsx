@@ -79,7 +79,7 @@ export default function AdminDashboard() {
         ].map((item) => (
           <div
             key={item.label}
-            className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]"
+            className="bg-[var(--color-surface)] p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]"
           >
             <p className="text-sm text-[var(--color-text-muted)]">
               {item.label}
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
           {/* 👥 Manage Users */}
           <button
             onClick={() => navigate("/app/admin/users")}
-            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+            className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <Users size={20} className="text-[var(--color-admin-dark)]" />
             <div>
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
           {/* 💼 Jobs Overview */}
           <button
             onClick={() => navigate("/app/admin/jobs")}
-            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+            className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <Briefcase
               size={20}
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
           {/* 🗂️ Feedback Logs */}
           <button
             onClick={() => navigate("/app/admin/feedback")}
-            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+            className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <FileSpreadsheet
               size={20}
@@ -159,8 +159,8 @@ export default function AdminDashboard() {
 
           {/* 🧮 Data Viewer */}
           <button
-            onClick={() => navigate("/data-viewer")}
-            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+            onClick={() => navigate("/app/admin/data-viewer")}
+            className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <Database size={20} className="text-[var(--color-text-muted)]" />
             <div>
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
           {/* 👩‍🎓 View as Candidate */}
           <button
             onClick={() => handleOverride("candidate")}
-            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+            className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <UserCircle2
               size={20}
@@ -195,7 +195,7 @@ export default function AdminDashboard() {
           {/* 🏢 View as Employer */}
           <button
             onClick={() => handleOverride("employer")}
-            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+            className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <UserCheck
               size={20}
@@ -214,23 +214,13 @@ export default function AdminDashboard() {
       </section>
 
       {/* 🛠 Admin Actions */}
-      <section className="bg-white p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
-        <h2 className="heading-md mb-4">Admin Actions</h2>
+      <section className="bg-[var(--color-surface)] p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
+        <h2 className="heading-md mb-4 text-[var(--color-text)]">
+          Admin Actions
+        </h2>
+
         <div className="flex gap-4 flex-wrap">
-          <button
-            onClick={() => handleOverride("candidate")}
-            className="bg-[var(--color-candidate)] text-white px-5 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-candidate-dark)] transition"
-          >
-            👩‍🎓 View as Candidate
-          </button>
-
-          <button
-            onClick={() => handleOverride("employer")}
-            className="bg-[var(--color-employer)] text-white px-5 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-employer-dark)] transition"
-          >
-            🏢 View as Employer
-          </button>
-
+          {/* 🔁 Reset to Admin */}
           <button
             onClick={() => handleOverride("admin")}
             className="bg-gray-600 text-white px-5 py-2 rounded-[var(--radius-button)] hover:bg-gray-700 transition"
@@ -238,6 +228,7 @@ export default function AdminDashboard() {
             🧩 Reset to Admin
           </button>
 
+          {/* 🔼 Promote Current User */}
           <button
             onClick={promoteUser}
             className="bg-[var(--color-success)] text-white px-5 py-2 rounded-[var(--radius-button)] hover:bg-green-600 transition"
@@ -245,6 +236,10 @@ export default function AdminDashboard() {
             🔼 Promote Current User
           </button>
         </div>
+
+        <p className="text-sm text-[var(--color-text-muted)] mt-3">
+          Use these tools for system-level maintenance or role upgrades.
+        </p>
       </section>
     </div>
   );

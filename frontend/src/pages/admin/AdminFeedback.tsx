@@ -108,7 +108,7 @@ export default function AdminFeedback() {
                   e.target.value === "all" ? "all" : Number(e.target.value)
                 )
               }
-              className="border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm bg-white"
+              className="border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm bg-[var(--color-surface)] transition-colors"
             >
               <option value="all">All Ratings</option>
               <option value="5">⭐ 5 Stars</option>
@@ -125,7 +125,7 @@ export default function AdminFeedback() {
                   prev === "newest" ? "oldest" : "newest"
                 )
               }
-              className="flex items-center gap-2 border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm bg-white hover:bg-[var(--color-bg-hover)] transition"
+              className="flex items-center gap-2 border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm bg-[var(--color-surface)] transition-colors hover:bg-[var(--color-bg-hover)] transition"
             >
               <ArrowDownUp size={16} />
               {sortOrder === "newest" ? "Newest First" : "Oldest First"}
@@ -139,7 +139,7 @@ export default function AdminFeedback() {
       </header>
 
       {/* 📋 Table */}
-      <div className="bg-white rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] overflow-hidden">
+      <div className="bg-[var(--color-surface)] transition-colors rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-[var(--color-bg-muted)] border-b border-[var(--color-border)]">
             <tr>
@@ -228,7 +228,7 @@ export default function AdminFeedback() {
           <select
             value={perPage}
             onChange={(e) => setPerPage(Number(e.target.value))}
-            className="border border-[var(--color-border)] rounded px-2 py-1 bg-white"
+            className="border border-[var(--color-border)] rounded px-2 py-1 bg-[var(--color-surface)] transition-colors"
           >
             <option value={10}>10 / page</option>
             <option value={25}>25 / page</option>

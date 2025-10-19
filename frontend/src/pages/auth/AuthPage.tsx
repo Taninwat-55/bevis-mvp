@@ -119,7 +119,7 @@ export default function AuthPage() {
         <span>←</span>
         <span>Back</span>
       </button>
-      <div className="bg-white p-8 rounded-card shadow-soft w-full max-w-md relative overflow-hidden transition-all duration-300">
+      <div className="bg-[var(--color-surface)] transition-colors p-8 rounded-card shadow-soft w-full max-w-md relative overflow-hidden transition-all duration-300">
         <h1 className="text-2xl font-semibold text-center mb-6 text-[var(--color-candidate-dark)]">
           {isLogin ? "Welcome Back 👋" : "Create Your Account"}
         </h1>

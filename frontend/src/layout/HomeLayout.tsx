@@ -19,7 +19,7 @@ export default function HomeLayout({
   children,
 }: HomeLayoutProps) {
   return (
-    <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 space-y-8">
+    <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 space-y-8 transition-colors">
       {/* 🏠 Hero Section */}
       <header>
         <h1

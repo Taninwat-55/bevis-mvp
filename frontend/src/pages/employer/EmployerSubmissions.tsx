@@ -55,7 +55,7 @@ export default function EmployerSubmissions() {
             <li
               key={s.id}
               onClick={() => navigate(`/app/employer/review/${s.id}`)}
-              className="border border-[var(--color-border)] rounded-[var(--radius-card)] bg-white p-4 hover:shadow-[var(--shadow-soft)] cursor-pointer transition"
+              className="border border-[var(--color-border)] rounded-[var(--radius-card)] bg-[var(--color-surface)] transition-colors p-4 hover:shadow-[var(--shadow-soft)] cursor-pointer transition"
             >
               <div className="flex justify-between items-center">
                 <div>

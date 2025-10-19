@@ -10,7 +10,7 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-white via-[var(--color-bg)] to-white text-[var(--color-text)]">
       <LandingNavbar />
-      <main className="mt-16 space-y-32">
+      <main className="mt-16 flex flex-col">
         <HeroSection />
         {/* <TrustedBySection /> */}
         <ProofLoopSection />

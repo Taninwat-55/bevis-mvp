@@ -69,7 +69,7 @@ export default function CandidateDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link
             to="/candidate/jobs"
-            className="bg-white p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] hover:shadow-[var(--shadow-hover)] transition"
+            className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] hover:shadow-[var(--shadow-hover)] transition"
           >
             <h3 className="font-medium text-[var(--color-text)] mb-1">
               Browse Jobs
@@ -80,7 +80,7 @@ export default function CandidateDashboard() {
           </Link>
           <Link
             to="/candidate/proofs"
-            className="bg-white p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] hover:shadow-[var(--shadow-hover)] transition"
+            className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] hover:shadow-[var(--shadow-hover)] transition"
           >
             <h3 className="font-medium text-[var(--color-text)] mb-1">
               My Proofs
@@ -97,7 +97,7 @@ export default function CandidateDashboard() {
 
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="bg-white p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] text-center">
+    <div className="bg-[var(--color-surface)] p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] text-center transition-colors">
       <div className="text-3xl font-semibold text-[var(--color-candidate)] mb-1">
         {value}
       </div>

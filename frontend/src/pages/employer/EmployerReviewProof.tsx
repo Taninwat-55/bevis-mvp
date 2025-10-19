@@ -80,7 +80,7 @@ export default function EmployerReviewProof() {
         </p>
       </header>
 
-      <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] max-w-2xl">
+      <section className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] max-w-2xl">
         <p className="text-sm mb-3 text-[var(--color-text-muted)]">
           <strong>Submission Link:</strong>{" "}
           <a

@@ -1,6 +1,7 @@
 export default function FinalCTASection() {
   return (
-    <section className="py-24 px-6 text-center bg-gradient-to-br from-[var(--color-candidate-dark)] via-[var(--color-candidate)] to-[var(--color-employer-dark)] text-white relative overflow-hidden">
+    <section className="final-cta py-24 px-6 text-center text-white relative overflow-hidden transition-colors">
+      <div className="absolute inset-0 bg-[url('/textures/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
       {/* Glow overlay */}
       <div className="absolute inset-0 bg-[url('/textures/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
       <div className="relative z-10">
@@ -11,13 +12,13 @@ export default function FinalCTASection() {
         <div className="flex flex-wrap gap-4 justify-center">
           <a
             href="/auth"
-            className="px-8 py-3 rounded-[var(--radius-button)] bg-white text-[var(--color-candidate-dark)] font-medium hover:bg-gray-100 transition"
+            className="px-8 py-3 rounded-[var(--radius-button)] bg-[var(--color-surface)] transition-colors text-[var(--color-candidate-dark)] font-medium hover:bg-gray-100 transition"
           >
             🎓 Join as Candidate
           </a>
           <a
             href="/auth"
-            className="px-8 py-3 rounded-[var(--radius-button)] bg-white text-[var(--color-employer-dark)] font-medium hover:bg-gray-100 transition"
+            className="px-8 py-3 rounded-[var(--radius-button)] bg-[var(--color-surface)] transition-colors text-[var(--color-employer-dark)] font-medium hover:bg-gray-100 transition"
           >
             🏢 Post a Job
           </a>

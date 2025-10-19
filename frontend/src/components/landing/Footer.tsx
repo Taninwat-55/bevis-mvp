@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="py-10 px-6 bg-white border-t border-[var(--color-border)] text-center">
+    <footer className="py-10 px-6 bg-[var(--color-surface)] transition-colors border-t border-[var(--color-border)] text-center">
       <p className="text-sm text-[var(--color-text-muted)] mb-3">
         © {new Date().getFullYear()}{" "}
         <span className="font-semibold">Bevis</span> · Proof-Based Hiring

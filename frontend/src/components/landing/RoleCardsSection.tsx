@@ -21,7 +21,7 @@ export default function RoleCardsSection() {
   return (
     <section
       id="roles"
-      className="py-24 px-6 bg-white border-t border-[var(--color-border)]"
+      className="py-24 px-6 bg-[var(--color-surface)] transition-colors border-t border-[var(--color-border)]"
     >
       <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-10">
         {roles.map(({ title, desc, color, href, cta }) => (

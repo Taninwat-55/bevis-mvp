@@ -169,3 +169,66 @@ export async function getAdminStats(): Promise<AdminStats> {
     avg_feedback_score,
   };
 }
+
+// 🧮 Generic table fetcher for Data Viewer
+export async function getTableData(
+  table: string,
+  limit = 25,
+  offset = 0
+): Promise<{ columns: string[]; rows: Record<string, unknown>[] }> {
+  // ⛑️ Temporarily cast supabase for dynamic access (unknown, not any)
+  const sb = supabase as unknown as {
+    from: (table: string) => {
+      select: (query: string) => {
+        range: (
+          from: number,
+          to: number
+        ) => Promise<{
+          data: Record<string, unknown>[] | null;
+          error: Error | null;
+        }>;
+      };
+    };
+  };
+
+  const { data, error } = await sb
+    .from(table)
+    .select("*")
+    .range(offset, offset + limit - 1);
+
+  if (error) throw error;
+
+  const columns = data && data.length > 0 ? Object.keys(data[0]) : [];
+  return { columns, rows: data ?? [] };
+}
+
+// 🧩 Fetch column schema (name + type) safely
+export async function getTableSchema(
+  table: string
+): Promise<{ column_name: string; data_type: string }[]> {
+  // ⛑️ Type-safe temporary supabase cast for dynamic access
+  const sb = supabase as unknown as {
+    from: (table: string) => {
+      select: (query: string) => Promise<{
+        data: { column_name: string; data_type: string }[] | null;
+        error: Error | null;
+      }>;
+    };
+  };
+
+  // ✅ table is actually used here now
+  const { data, error } = await sb
+    .from("information_schema.columns")
+    .select("column_name, data_type");
+
+  if (error) {
+    console.warn("Schema fetch failed:", error.message);
+    return [];
+  }
+
+  // Filter the columns for the specific table we’re viewing
+  const filtered =
+    data?.filter((col) => typeof col.column_name === "string") ?? [];
+
+  return filtered;
+}

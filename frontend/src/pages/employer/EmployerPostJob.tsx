@@ -79,7 +79,7 @@ export default function EmployerPostJob() {
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10">
-      <div className="bg-white border border-[var(--color-border)] shadow-[var(--shadow-soft)] rounded-[var(--radius-card)] max-w-2xl mx-auto p-8">
+      <div className="bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] shadow-[var(--shadow-soft)] rounded-[var(--radius-card)] max-w-2xl mx-auto p-8">
         <h1 className="heading-lg mb-2 text-[var(--color-employer-dark)]">
           🧭 Post a New Job
         </h1>

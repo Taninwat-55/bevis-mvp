@@ -126,12 +126,12 @@ export default function Sidebar({ role }: SidebarProps) {
 
   return (
     <aside
-      className={`hidden md:flex flex-col bg-white border-r border-[var(--color-border)] shadow-[var(--shadow-soft)] transition-all duration-300 ${
+      className={`hidden md:flex flex-col bg-[var(--color-surface)] border-r border-[var(--color-border)] shadow-[var(--shadow-soft)] transition-all duration-300 ${
         collapsed ? "w-20" : "w-55"
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)]">
+      <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)] bg-[var(--color-surface)] transition-colors">
         {!collapsed && (
           <span className="font-semibold text-[var(--color-text)] whitespace-nowrap">
             {resolvedRole === "candidate"

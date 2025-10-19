@@ -31,7 +31,7 @@ export default function RequestResetPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
-      <div className="bg-white p-8 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] w-full max-w-md">
+      <div className="bg-[var(--color-surface)] transition-colors p-8 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] w-full max-w-md">
         <h1 className="text-2xl font-semibold text-center mb-4 text-[var(--color-candidate-dark)]">
           Forgot Password
         </h1>

@@ -91,7 +91,7 @@ export default function EmployerJobDetail() {
       </header>
 
       {/* 🧾 Job Description */}
-      <section className="bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] p-6 max-w-3xl">
+      <section className="bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] p-6 max-w-3xl">
         <h2 className="heading-md mb-2">Job Description</h2>
         <p className="text-[var(--color-text-muted)] whitespace-pre-line leading-relaxed">
           {description || "No description provided."}
@@ -107,7 +107,7 @@ export default function EmployerJobDetail() {
       </section>
 
       {/* 🧠 Proof Tasks */}
-      <section className="bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] p-6 max-w-3xl">
+      <section className="bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] p-6 max-w-3xl">
         <h2 className="heading-md mb-4">Proof Tasks</h2>
         {proof_tasks.length === 0 ? (
           <p className="text-[var(--color-text-muted)] italic">
@@ -142,7 +142,7 @@ export default function EmployerJobDetail() {
       </section>
 
       {/* 📊 Submissions Summary */}
-      <section className="bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] p-6 max-w-3xl">
+      <section className="bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] p-6 max-w-3xl">
         <h2 className="heading-md mb-4">Candidate Submissions</h2>
 
         {submissions.length === 0 ? (
