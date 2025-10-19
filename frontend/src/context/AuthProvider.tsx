@@ -39,16 +39,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
         localStorage.removeItem("bevis_user");
       }
-      setLoading(false); // ✅ only now set loading false
+      setLoading(false);
     });
 
     // 3️⃣ Auth change listener
     const { data: listener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (event === "PASSWORD_RECOVERY") {
-          // Redirect to reset password page
-          console.log("🔐 Password recovery event detected!");
-          console.log("Password recovery session started");
           window.location.href = "/auth/reset";
           return;
         }
@@ -78,14 +75,50 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  // 🪄 Apply local override if any
+  // 🪄 Listen to localStorage override changes globally
+  const [overrideVersion, setOverrideVersion] = useState(0);
+
+  useEffect(() => {
+    const onStorageChange = (e: StorageEvent) => {
+      if (e.key === "overrideRole") {
+        setOverrideVersion((v) => v + 1);
+      }
+    };
+    window.addEventListener("storage", onStorageChange);
+    return () => window.removeEventListener("storage", onStorageChange);
+  }, []);
+
+  // 🔁 React to same-tab override changes immediately
+  useEffect(() => {
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function (key, value) {
+      originalSetItem.apply(this, [key, value]);
+      if (key === "overrideRole") {
+        setUser((u) =>
+          u ? { ...u, role: value as SessionUser["role"] } : null
+        );
+      }
+    };
+    return () => {
+      localStorage.setItem = originalSetItem;
+    };
+  }, []);
+
+  // 🔁 Apply local override
   const overrideRole = localStorage.getItem("overrideRole");
   const effectiveUser = user
     ? { ...user, role: (overrideRole as SessionUser["role"]) || user.role }
     : null;
 
+  const setOverride = (role: SessionUser["role"]) => {
+    localStorage.setItem("overrideRole", role);
+    setUser((u) => (u ? { ...u, role } : null)); // immediately update context
+  };
+
   return (
-    <AuthContext.Provider value={{ user: effectiveUser, loading, signOut }}>
+    <AuthContext.Provider
+      value={{ user: effectiveUser, loading, signOut, setOverride }}
+    >
       {loading ? (
         <div className="flex items-center justify-center min-h-screen text-gray-500">
           Loading session…
