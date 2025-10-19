@@ -34,7 +34,7 @@ export default function ProofLoopSection() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="bg-white p-8 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-hover)] transition"
+            className="bg-[var(--color-surface)] transition-colors p-8 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-hover)] transition"
           >
             <div className="text-4xl mb-4">{emoji}</div>
             <h3 className="font-semibold text-lg mb-3">{title}</h3>

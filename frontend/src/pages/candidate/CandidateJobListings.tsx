@@ -30,7 +30,7 @@ export default function CandidateJobListings() {
           return (
             <div
               key={job.id}
-              className="bg-white rounded-[var(--radius-card)] p-6 border border-[var(--color-border)] shadow-[var(--shadow-soft)]"
+              className="bg-[var(--color-surface)] transition-colors rounded-[var(--radius-card)] p-6 border border-[var(--color-border)] shadow-[var(--shadow-soft)]"
             >
               <h3 className="text-lg font-semibold text-[var(--color-text)] mb-1">
                 {job.title}

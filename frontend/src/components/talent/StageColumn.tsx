@@ -11,12 +11,15 @@ interface StageColumnProps {
 }
 
 const stageColors: Record<HiringStage, string> = {
-  new: "border-blue-200 bg-blue-50",
-  shortlisted: "border-yellow-200 bg-yellow-50",
-  interview: "border-purple-200 bg-purple-50",
-  hold: "border-gray-200 bg-gray-50",
-  hired: "border-green-200 bg-green-50",
-  rejected: "border-red-200 bg-red-50",
+  new: "border-[var(--stage-new-border)] bg-[var(--stage-new-bg)]",
+  shortlisted:
+    "border-[var(--stage-shortlisted-border)] bg-[var(--stage-shortlisted-bg)]",
+  interview:
+    "border-[var(--stage-interview-border)] bg-[var(--stage-interview-bg)]",
+  hold: "border-[var(--stage-hold-border)] bg-[var(--stage-hold-bg)]",
+  hired: "border-[var(--stage-hired-border)] bg-[var(--stage-hired-bg)]",
+  rejected:
+    "border-[var(--stage-rejected-border)] bg-[var(--stage-rejected-bg)]",
 };
 
 // -----------------------------

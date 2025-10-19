@@ -56,7 +56,7 @@ export default function EmployerJobListings() {
             <li
               key={job.id}
               onClick={() => navigate(`/app/employer/job/${job.id}`)}
-              className="border border-[var(--color-border)] rounded-[var(--radius-card)] bg-white p-4 hover:shadow-[var(--shadow-soft)] cursor-pointer transition"
+              className="border border-[var(--color-border)] rounded-[var(--radius-card)] bg-[var(--color-surface)] transition-colors p-4 hover:shadow-[var(--shadow-soft)] cursor-pointer"
             >
               <h3 className="font-semibold text-[var(--color-text)]">
                 {job.title}

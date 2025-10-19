@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function LandingNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+  const { isDark, toggleTheme } = useTheme();
 
   const navLinks = [
     { label: "For Candidates", href: "#candidates" },
@@ -14,7 +16,7 @@ export default function LandingNavbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-[var(--color-border)] shadow-[var(--shadow-soft)]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-surface)] transition-colors backdrop-blur-md border-b border-[var(--color-border)] shadow-[var(--shadow-soft)]">
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <h1
@@ -37,8 +39,18 @@ export default function LandingNavbar() {
           ))}
         </nav>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons + Theme Toggle */}
         <div className="hidden md:flex items-center gap-3">
+          {/* 🌗 Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-[var(--radius-button)] text-[var(--color-text-muted)] hover:text-[var(--color-candidate-dark)] transition"
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {/* Auth buttons */}
           <button
             onClick={() => navigate("/auth")}
             className="text-sm px-4 py-2 rounded-[var(--radius-button)] text-[var(--color-candidate-dark)] font-medium border border-[var(--color-candidate-dark)] hover:bg-[var(--color-candidate-dark)] hover:text-white transition"
@@ -64,7 +76,7 @@ export default function LandingNavbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-[var(--color-border)]">
+        <div className="md:hidden bg-[var(--color-surface)] transition-colors border-t border-[var(--color-border)]">
           <nav className="flex flex-col p-4 space-y-3">
             {navLinks.map((link) => (
               <a
@@ -76,7 +88,18 @@ export default function LandingNavbar() {
                 {link.label}
               </a>
             ))}
+
             <hr className="border-[var(--color-border)] my-2" />
+
+            {/* 🌗 Mobile theme toggle */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-2 text-[var(--color-text-muted)] hover:text-[var(--color-candidate-dark)] transition text-sm"
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+              {isDark ? "Light Mode" : "Dark Mode"}
+            </button>
+
             <button
               onClick={() => {
                 setMobileOpen(false);
@@ -86,6 +109,7 @@ export default function LandingNavbar() {
             >
               Log In
             </button>
+
             <button
               onClick={() => {
                 setMobileOpen(false);

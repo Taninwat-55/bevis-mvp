@@ -65,7 +65,7 @@ export default function CandidateProofWorkspace() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* --- Left Panel: Instructions --- */}
-        <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
+        <section className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
           <h2 className="heading-md mb-4">Instructions</h2>
           <ul className="text-sm text-[var(--color-text-muted)] space-y-2">
             <li>⏱ Expected Time: {task.expected_time || "30 min"}</li>
@@ -94,7 +94,7 @@ export default function CandidateProofWorkspace() {
         </section>
 
         {/* --- Right Panel: Submission Form --- */}
-        <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
+        <section className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">

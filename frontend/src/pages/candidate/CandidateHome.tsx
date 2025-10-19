@@ -40,7 +40,7 @@ function Card({
   href: string;
 }) {
   return (
-    <div className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
+    <div className="bg-[var(--color-surface)] p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] transition-colors">
       <h2 className="font-semibold mb-2 text-[var(--color-text)]">{title}</h2>
       <p className="text-sm text-[var(--color-text-muted)] mb-4">{desc}</p>
       <a

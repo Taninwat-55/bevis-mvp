@@ -91,7 +91,7 @@ export default function EmployerTalentPool() {
 
       {/* 📊 Summary */}
       <section className="flex flex-wrap gap-4">
-        <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
+        <div className="flex-1 min-w-[200px] bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
           <h3 className="text-sm text-[var(--color-text-muted)]">
             Total Reviewed
           </h3>
@@ -99,7 +99,7 @@ export default function EmployerTalentPool() {
             {reviewed.length}
           </p>
         </div>
-        <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
+        <div className="flex-1 min-w-[200px] bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
           <h3 className="text-sm text-[var(--color-text-muted)]">
             Average Rating
           </h3>
@@ -147,7 +147,7 @@ export default function EmployerTalentPool() {
       </section>
 
       {/* 👥 Talent List */}
-      <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
+      <section className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
         <h2 className="heading-md mb-4">Candidates</h2>
         {loading ? (
           <p className="text-[var(--color-text-muted)]">

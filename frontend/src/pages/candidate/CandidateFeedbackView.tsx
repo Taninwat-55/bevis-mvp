@@ -62,7 +62,7 @@ export default function CandidateFeedbackView() {
           return (
             <div
               key={p.id}
-              className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]"
+              className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]"
             >
               <h3 className="text-lg font-semibold text-[var(--color-text)] mb-1">
                 {p.proof_tasks?.title || "Proof Task"}

@@ -42,7 +42,7 @@ export default function NotesModal({
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-[var(--radius-card)] shadow-xl w-full max-w-md p-6">
+      <div className="bg-[var(--color-surface)] transition-colors rounded-[var(--radius-card)] shadow-xl w-full max-w-md p-6">
         <h2 className="heading-md mb-3">📝 Manage Notes</h2>
         <p className="text-sm text-[var(--color-text-muted)] mb-3">
           Candidate ID:{" "}

@@ -91,7 +91,7 @@ export default function EmployerDashboard() {
                 <li
                   key={job.id}
                   onClick={() => navigate(`/app/employer/job/${job.id}`)}
-                  className="cursor-pointer bg-white p-4 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition group"
+                  className="cursor-pointer bg-[var(--color-surface)] transition-colors p-4 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition group"
                 >
                   <div className="flex justify-between items-center">
                     <div>
@@ -132,7 +132,7 @@ export default function EmployerDashboard() {
               <li
                 key={s.id}
                 onClick={() => navigate(`/app/employer/review/${s.id}`)}
-                className="bg-white p-3 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition"
+                className="bg-[var(--color-surface)] transition-colors p-3 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition"
               >
                 <span className="font-medium">{s.proof_tasks?.title}</span>
                 <span className="ml-2 text-[var(--color-text-muted)]">
@@ -155,7 +155,7 @@ function MetricCard({
   value: string | number;
 }) {
   return (
-    <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
+    <div className="flex-1 min-w-[200px] bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
       <h3 className="text-sm text-[var(--color-text-muted)]">{title}</h3>
       <p className="text-2xl font-semibold text-[var(--color-text)] mt-1">
         {value}

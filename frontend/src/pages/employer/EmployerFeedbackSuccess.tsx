@@ -6,7 +6,7 @@ export default function EmployerFeedbackSuccess() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-bg)] text-center px-6">
-      <div className="bg-white border border-[var(--color-border)] shadow-[var(--shadow-soft)] rounded-[var(--radius-card)] p-10 max-w-md">
+      <div className="bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] shadow-[var(--shadow-soft)] rounded-[var(--radius-card)] p-10 max-w-md">
         <h1 className="text-3xl font-semibold text-[var(--color-employer-dark)] mb-4">
           🎉 Feedback Submitted!
         </h1>

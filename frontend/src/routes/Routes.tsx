@@ -35,6 +35,8 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsers from "@/pages/admin/AdminUsers";
 import AdminJobs from "@/pages/admin/AdminJobs";
 import AdminFeedback from "@/pages/admin/AdminFeedback";
+import AdminDataViewer from "@/pages/admin/AdminDataViewer";
+import UserSettings from "@/pages/shared/UserSettings";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -76,6 +78,7 @@ export const router = createBrowserRouter([
               { path: "proof/:id", element: <CandidateProofWorkspace /> },
               { path: "proofs", element: <CandidateFeedbackView /> },
               { path: "profile", element: <CandidateProfile /> },
+              { path: "settings", element: <UserSettings /> },
             ],
           },
         ],
@@ -99,6 +102,7 @@ export const router = createBrowserRouter([
               { path: "submissions", element: <EmployerSubmissions /> },
               { path: "talent", element: <EmployerTalentPool /> },
               { path: "talent/manage", element: <EmployerTalentManager /> },
+              { path: "settings", element: <UserSettings /> },
             ],
           },
         ],
@@ -113,6 +117,7 @@ export const router = createBrowserRouter([
           { path: "users", element: <AdminUsers /> },
           { path: "jobs", element: <AdminJobs /> },
           { path: "feedback", element: <AdminFeedback /> },
+          { path: "data-viewer", element: <AdminDataViewer /> },
         ],
       },
     ],

@@ -13,11 +13,14 @@ import {
   Shield,
 } from "lucide-react";
 import { notify } from "./ui/Notify";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const { signOut, user, setOverride } = useAuth();
 
+  const { isDark, toggleTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -49,7 +52,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="bg-white border-b border-[var(--color-border)] shadow-[var(--shadow-soft)] px-6 py-3 flex items-center justify-between relative z-20">
+    <header className="bg-[var(--color-surface)] border-b border-[var(--color-border)] shadow-[var(--shadow-soft)] px-6 py-3 flex items-center justify-between relative z-20 transition-colors">
       {/* Left: Logo + Toggle */}
       <div className="flex items-center space-x-3">
         <button
@@ -89,6 +92,13 @@ export default function Navbar() {
           <Bell size={20} />
         </button>
 
+        <button
+          onClick={toggleTheme}
+          className="text-[var(--color-text-muted)] hover:text-[var(--color-candidate-dark)] transition"
+        >
+          {isDark ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+
         {/* Profile Icon */}
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -99,7 +109,7 @@ export default function Navbar() {
 
         {/* Dropdown Menu */}
         {dropdownOpen && (
-          <div className="absolute top-10 right-0 w-48 bg-white border border-[var(--color-border)] shadow-lg rounded-[var(--radius-card)] py-2">
+          <div className="absolute top-10 right-0 w-48 bg-[var(--color-surface)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] rounded-[var(--radius-card)] py-2 transition-colors">
             <p className="px-4 py-2 text-xs text-[var(--color-text-muted)] border-b border-[var(--color-border)]">
               {user?.email}
             </p>
@@ -109,7 +119,7 @@ export default function Navbar() {
                 navigate("/app/profile");
                 setDropdownOpen(false);
               }}
-              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
             >
               <UserCircle2 size={16} /> My Profile
             </button>
@@ -119,14 +129,17 @@ export default function Navbar() {
                 navigate("/app/proofs");
                 setDropdownOpen(false);
               }}
-              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
             >
               <FileText size={16} /> My Proofs
             </button>
 
             <button
-              onClick={() => toast("Settings coming soon ⚙️")}
-              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text-muted)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+              onClick={() => {
+                navigate("/app/settings");
+                setDropdownOpen(false);
+              }}
+              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
             >
               <Settings size={16} /> Settings
             </button>
@@ -140,7 +153,7 @@ export default function Navbar() {
                     navigate("/app/dashboard", { replace: true });
                     setDropdownOpen(false);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+                  className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
                 >
                   👩‍🎓 View as Candidate
                 </button>
@@ -150,7 +163,7 @@ export default function Navbar() {
                     navigate("/app/employer", { replace: true });
                     setDropdownOpen(false);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+                  className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
                 >
                   🏢 View as Employer
                 </button>
@@ -160,7 +173,7 @@ export default function Navbar() {
                     navigate("/app/admin", { replace: true });
                     setDropdownOpen(false);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+                  className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
                 >
                   <Shield size={16} /> Admin Dashboard
                 </button>
@@ -171,7 +184,7 @@ export default function Navbar() {
 
             <button
               onClick={handleLogout}
-              className="w-full text-left px-4 py-2 text-sm text-[var(--color-error)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-error)] hover:bg-[color-mix(in srgb, var(--color-text-muted) 6%, transparent)] flex items-center gap-2"
             >
               <LogOut size={16} /> Log Out
             </button>

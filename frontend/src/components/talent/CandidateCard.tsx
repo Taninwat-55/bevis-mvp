@@ -75,7 +75,7 @@ export default function CandidateCard({
 
         {/* Dropdown */}
         {open && (
-          <div className="absolute right-2 top-6 bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-md text-sm z-10">
+          <div className="absolute right-2 top-6 bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] rounded-[var(--radius-card)] shadow-md text-sm z-10">
             {STAGES.map((stage) => (
               <button
                 key={stage}

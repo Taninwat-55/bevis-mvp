@@ -67,13 +67,13 @@ export default function CandidateJobDetail() {
         </p>
       </header>
 
-      <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] mb-8">
+      <section className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] mb-8">
         <h2 className="heading-md mb-2">About the Role</h2>
         <p className="body-base">{job.description}</p>
       </section>
 
       {proof && (
-        <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
+        <section className="bg-[var(--color-surface)] transition-colors p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
           <h2 className="heading-md mb-4">Proof Task</h2>
           <p className="font-medium mb-1">{proof.title}</p>
           <p className="text-[var(--color-text-muted)] mb-3">

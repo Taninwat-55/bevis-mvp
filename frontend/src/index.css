@@ -1,37 +1,177 @@
 @import "tailwindcss";
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-@import "tailwindcss";
-
+/* ── 🎨 Light tokens ───────────────────────────── */
 @theme {
-  /* 🎨  Colors  */
-  --color-candidate: #6c5ce7;
-  --color-candidate-light: #a29bfe;
-  --color-candidate-dark: #4834d4;
-
-  --color-employer: #4a90e2;
-  --color-employer-light: #74b9ff;
-  --color-employer-dark: #2473c8;
-
-  --color-success: #22c55e;
-  --color-error: #ef4444;
-  --color-bg: #f8f9fb;
+  --color-bg: #f9fafb;
+  --color-surface: #ffffff;
+  --color-surface-text: #1e293b;
   --color-border: #e2e8f0;
   --color-text: #1e293b;
   --color-text-muted: #64748b;
 
-  /* ✍️  Typography  */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --hero-gradient: linear-gradient(
+    to bottom right,
+    color-mix(in srgb, var(--color-candidate-light) 30%, transparent),
+    transparent,
+    color-mix(in srgb, var(--color-employer-light) 40%, transparent)
+  );
 
-  /* 📐  Radius & Shadows  */
+  /* ✍️ Inputs (light) */
+  --color-input-bg: #ffffff;
+  --color-input-text: #1e293b;
+  --color-input-border: #e2e8f0;
+  --color-input-placeholder: #94a3b8;
+
+  --color-candidate: #6c5ce7;
+  --color-candidate-dark: #4834d4;
+  --color-employer: #4a90e2;
+  --color-employer-dark: #2473c8;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+
   --radius-card: 1rem;
   --radius-button: 0.5rem;
-
   --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* 🎨 Hiring stage colors (light) */
+  --stage-new-bg: #eff6ff;
+  --stage-new-border: #bfdbfe;
+
+  --stage-shortlisted-bg: #fef9c3;
+  --stage-shortlisted-border: #fde68a;
+
+  --stage-interview-bg: #f3e8ff;
+  --stage-interview-border: #d8b4fe;
+
+  --stage-hold-bg: #f1f5f9;
+  --stage-hold-border: #cbd5e1;
+
+  --stage-hired-bg: #dcfce7;
+  --stage-hired-border: #86efac;
+
+  --stage-rejected-bg: #fee2e2;
+  --stage-rejected-border: #fca5a5;
 }
 
+/* ── 🌙 Dark tokens (triggered by .dark class) ─── */
+.dark {
+  --color-bg: #0b1120;
+  --color-surface: #1e293b;
+  --color-surface-text: #f8fafc;
+  --color-border: #334155;
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+
+  /* 🌌 Darker, cinematic gradient */
+  --hero-gradient: radial-gradient(
+    circle at 30% 40%,
+    color-mix(in srgb, var(--color-candidate-dark) 25%, transparent) 0%,
+    color-mix(in srgb, var(--color-employer-dark) 20%, transparent) 50%,
+    transparent 90%
+  );
+
+  /* ✍️ Inputs (dark) */
+  --color-input-bg: #0f172a;
+  --color-input-text: #f8fafc;
+  --color-input-border: #334155;
+  --color-input-placeholder: #64748b;
+
+  --color-candidate: #a29bfe;
+  --color-candidate-dark: #6c5ce7;
+  --color-employer: #74b9ff;
+  --color-employer-dark: #4a90e2;
+  --color-success: #4ade80;
+  --color-error: #f87171;
+
+  /* 🌙 Hiring stage colors (dark) */
+  --stage-new-bg: #1e3a8a33;
+  --stage-new-border: #3b82f6;
+
+  --stage-shortlisted-bg: #854d0e33;
+  --stage-shortlisted-border: #facc15;
+
+  --stage-interview-bg: #5b21b633;
+  --stage-interview-border: #c084fc;
+
+  --stage-hold-bg: #47556933;
+  --stage-hold-border: #94a3b8;
+
+  --stage-hired-bg: #14532d33;
+  --stage-hired-border: #22c55e;
+
+  --stage-rejected-bg: #7f1d1d33;
+  --stage-rejected-border: #ef4444;
+}
+
+:root {
+  --hero-gradient-light: radial-gradient(
+    circle at 50% 30%,
+    #c7b9ff 0%,
+    /* darker lavender core */ #a5b4fc 40%,
+    /* soft indigo-blue */ #e2e8f0 85% /* fades to neutral gray */
+  );
+  --hero-gradient-dark: radial-gradient(
+    circle at 50% 30%,
+    #312e81 0%,
+    /* indigo */ #1e3a8a 40%,
+    /* deep blue */ #0b1120 100%
+  );
+
+  --cta-gradient-light: linear-gradient(to bottom right, #6c5ce7, #4a90e2);
+  --cta-gradient-dark: linear-gradient(to bottom right, #312e81, #1e3a8a);
+}
+
+.hero-landing {
+  background: var(--hero-gradient-light);
+}
+.dark .hero-landing {
+  background: var(--hero-gradient-dark);
+}
+
+.final-cta {
+  background: var(--cta-gradient-light);
+}
+.dark .final-cta {
+  background: var(--cta-gradient-dark);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ── 🧩 Global form + text normalization ───────── */
+@layer base {
+  input,
+  textarea,
+  select {
+    background-color: var(--color-input-bg);
+    color: var(--color-input-text);
+    border-color: var(--color-input-border);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-input-placeholder);
+  }
+
+  /* Buttons */
+  button {
+    color: var(--color-text);
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Labels */
+  label {
+    color: var(--color-text);
+  }
+}
+
+/* ── 🧭 Utility helpers for typography + focus ── */
 @layer utilities {
   .heading-lg {
     @apply text-2xl font-semibold text-[var(--color-text)];
@@ -42,11 +182,37 @@
   .body-base {
     @apply text-base text-[var(--color-text-muted)];
   }
+  .hover-bg-soft:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-text-muted) 8%,
+      transparent
+    );
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: color-mix(
+      in srgb,
+      var(--color-employer-dark) 60%,
+      transparent
+    );
+    box-shadow: 0 0 0 1px var(--color-employer-dark);
+  }
 }
 
-/* Base body styling */
+.final-cta {
+  background: var(--cta-gradient-light);
+}
+.dark .final-cta {
+  background: var(--cta-gradient-dark);
+}
+
 body {
-  font-family: var(--font-sans);
   background-color: var(--color-bg);
   color: var(--color-text);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
 }
