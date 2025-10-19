@@ -1,7 +1,7 @@
+// src/pages/employer/EmployerDashboard.tsx
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { supabase } from "../../lib/supabaseClient";
 import {
   getEmployerJobs,
   getEmployerSubmissions,
@@ -22,35 +22,6 @@ export default function EmployerDashboard() {
   const [submissions, setSubmissions] = useState<EmployerSubmission[]>([]);
   const [summaries, setSummaries] = useState<EmployerJobSummary[]>([]);
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  // ✨ Create job
-  async function handleAddJob(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!title || !description) return toast.error("Please fill in all fields");
-    if (!user?.id) return toast.error("User not authenticated");
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from("jobs")
-        .insert([{ title, description, employer_id: user.id }]);
-      if (error) throw error;
-      toast.success("✅ Job posted successfully!");
-      setTitle("");
-      setDescription("");
-      const refreshed = await getEmployerJobs(user.id);
-      setJobs(refreshed);
-    } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message || "Failed to post job");
-      } else toast.error("Failed to post job");
-    } finally {
-      setLoading(false);
-    }
-  }
-
   // 📦 Load data
   useEffect(() => {
     if (!user) return;
@@ -67,6 +38,7 @@ export default function EmployerDashboard() {
         setSummaries(summariesData);
       } catch (err) {
         console.error("Error fetching employer data:", err);
+        toast.error("Failed to load dashboard data.");
       }
     }
     loadData();
@@ -88,74 +60,22 @@ export default function EmployerDashboard() {
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 space-y-10">
-      {/* 🧭 Header + Post Job Button */}
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="heading-lg">Employer Dashboard</h1>
+      {/* 🧭 Header + CTA */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="heading-lg">🏢 Employer Dashboard</h1>
+        <button
+          onClick={() => navigate("/app/employer/jobs/new")}
+          className="bg-[var(--color-employer)] text-white px-4 py-2 rounded-[var(--radius-button)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-employer-dark)] transition"
+        >
+          + Post Job
+        </button>
       </div>
-      {/* 📊 Top Summary Bar */}
-      <section className="flex flex-wrap gap-4">
-        <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
-          <h3 className="text-sm text-[var(--color-text-muted)]">
-            Jobs Posted
-          </h3>
-          <p className="text-2xl font-semibold text-[var(--color-text)] mt-1">
-            {totalJobs}
-          </p>
-        </div>
-        <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
-          <h3 className="text-sm text-[var(--color-text-muted)]">
-            Total Submissions
-          </h3>
-          <p className="text-2xl font-semibold text-[var(--color-text)] mt-1">
-            {totalSubmissions}
-          </p>
-        </div>
-        <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
-          <h3 className="text-sm text-[var(--color-text-muted)]">
-            Average Rating
-          </h3>
-          <p className="text-2xl font-semibold text-[var(--color-text)] mt-1">
-            {avgRating ?? "—"}
-          </p>
-        </div>
-      </section>
 
-      {/* 🧱 Post Job Form */}
-      <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
-        <h2 className="heading-md mb-4">Post a New Job</h2>
-        <form onSubmit={handleAddJob} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
-              Job Title
-            </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm"
-              placeholder="e.g., Junior Frontend Developer"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
-              Description
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm"
-              rows={3}
-              placeholder="Short summary of the role and proof task"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-[var(--color-employer)] text-white px-4 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-employer-dark)] transition disabled:opacity-50"
-          >
-            {loading ? "Posting..." : "Post Job"}
-          </button>
-        </form>
+      {/* 📊 Summary Metrics */}
+      <section className="flex flex-wrap gap-4">
+        <MetricCard title="Jobs Posted" value={totalJobs} />
+        <MetricCard title="Total Submissions" value={totalSubmissions} />
+        <MetricCard title="Average Rating" value={avgRating ?? "—"} />
       </section>
 
       {/* 💼 Jobs List */}
@@ -212,7 +132,7 @@ export default function EmployerDashboard() {
               <li
                 key={s.id}
                 onClick={() => navigate(`/app/employer/review/${s.id}`)}
-                className="bg-white p-3 rounded-[var(--radius-card)] border border-[var(--color-border)]"
+                className="bg-white p-3 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition"
               >
                 <span className="font-medium">{s.proof_tasks?.title}</span>
                 <span className="ml-2 text-[var(--color-text-muted)]">
@@ -223,6 +143,23 @@ export default function EmployerDashboard() {
           </ul>
         )}
       </section>
+    </div>
+  );
+}
+
+function MetricCard({
+  title,
+  value,
+}: {
+  title: string;
+  value: string | number;
+}) {
+  return (
+    <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
+      <h3 className="text-sm text-[var(--color-text-muted)]">{title}</h3>
+      <p className="text-2xl font-semibold text-[var(--color-text)] mt-1">
+        {value}
+      </p>
     </div>
   );
 }
