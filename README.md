@@ -29,6 +29,7 @@ Bevis is a next-generation hiring platform that replaces traditional CVs with **
 ---
 
 ## 🧱 Project Structure
+
 ```
 bevis-mvp/
 │
@@ -43,11 +44,14 @@ bevis-mvp/
 │ │ │ │ ├── ProofLoopSection.tsx
 │ │ │ │ ├── RoleCardSection.tsx
 │ │ │ │ ├── TrustedBySection.tsx
-│ │ │ ├── layout/
-│ │ │ │ ├── CandidateLayout.tsx
-│ │ │ │ ├── EmployerLayout.tsx
-│ │ │ │ ├── HomeLayout.tsx
+│ │ │ ├── talent/
+│ │ │ │ ├── CandidateCard.tsx
+│ │ │ │ ├── index.ts
+│ │ │ │ ├── NotesModal.tsx
+│ │ │ │ ├── StageColumn.tsx
+│ │ │ │ ├── TalentBoard.tsx
 │ │ │ ├── ui/
+│ │ │ │ ├── Breadcrumb.tsx
 │ │ │ │ ├── Button.tsx (Empty file)
 │ │ │ │ ├── Notify.tsx
 │ │ │ │ ├── Toast.tsx
@@ -60,31 +64,46 @@ bevis-mvp/
 │ │ │ ├── useAuth.ts
 │ │ │ ├── useJobs.ts
 │ │ │ ├── useProofs.ts
+│ │ ├── layout/
+│ │ │ ├── CandidateLayout.tsx
+│ │ │ ├── EmployerLayout.tsx
+│ │ │ ├── HomeLayout.tsx
 │ │ ├── lib/api/ # Supabase API functions
 │ │ │ ├── api/
+│ │ │ │ ├── feedback.ts
 │ │ │ │ ├── index.ts
 │ │ │ │ ├── jobs.ts
 │ │ │ │ ├── mutations.ts
 │ │ │ │ ├── submissions.ts
 │ │ │ ├── Database.ts
+│ │ │ ├── error.ts
 │ │ │ ├── SupabaseClient.ts
 │ │ ├── pages/
 │ │ │ ├── admin/ # Admin Dashboard
 │ │ │ │ ├── AdminDashboard.tsx
 │ │ │ ├── auth/ # Login / Signup
 │ │ │ │ ├── AuthPage.tsx
+│ │ │ │ ├── RequestResetPage.tsx
+│ │ │ │ ├── ResetPasswordPage.tsx
 │ │ │ ├── candidate/ # Candidate pages (C1–C6)
 │ │ │ │ ├── CandidateDashboard.tsx
+│ │ │ │ ├── CandidateFeedbackView.tsx
 │ │ │ │ ├── CandidateHome.tsx
-│ │ │ │ ├── FeedbackView.tsx
-│ │ │ │ ├── JobDetail.tsx
-│ │ │ │ ├── JobListings.tsx
-│ │ │ │ ├── Profile.tsx
-│ │ │ │ ├── ProofWorkspace.tsx
+│ │ │ │ ├── CandidateJobDetail.tsx
+│ │ │ │ ├── CandidateJobListings.tsx
+│ │ │ │ ├── CandidateProfile.tsx
+│ │ │ │ ├── CandidateProofWorkspace.tsx
 │ │ │ ├── employer/ # Employer pages (C1–C6)
 │ │ │ │ ├── EmployerDashboard.tsx
+│ │ │ │ ├── EmployerFeedbackSuccess.tsx
 │ │ │ │ ├── EmployerHome.tsx
-│ │ │ │ ├── EmployerReview.tsx
+│ │ │ │ ├── EmployerJobDetail.tsx
+│ │ │ │ ├── EmployerJobListings.tsx
+│ │ │ │ ├── EmployerPostJob.tsx
+│ │ │ │ ├── EmployerReviewProof.tsx
+│ │ │ │ ├── EmployerSubmissions.tsx
+│ │ │ │ ├── EmployerTalentManager.tsx
+│ │ │ │ ├── EmployerTalentPool.tsx
 │ │ │ ├── landing/
 │ │ │ │ ├── LandingPage.tsx
 │ │ └── routes/ # Protected routes + layout wrappers
@@ -107,6 +126,7 @@ bevis-mvp/
 └── config/ # Supabase CLI metadata
 └── .gitignore
 ```
+
 ---
 
 ## 🎨 Theming & Roles
@@ -191,6 +211,7 @@ const effectiveUser = user
   ? { ...user, role: overrideRole || user.role }
   : null;
 ```
+
 This allows instant role switching without re-login or DB changes.
 
 ---
@@ -241,4 +262,4 @@ npm run dev
 
 **© 2025 Bevis — Proof-Based Hiring Platform (MVP)**
 
-*Built with 💜 by Taninwat “Ice” Kaewpankan*
+_Built with 💜 by Taninwat “Ice” Kaewpankan_
