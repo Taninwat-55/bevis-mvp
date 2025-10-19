@@ -9,7 +9,7 @@ export const BevisToaster = () => (
   <Toaster
     position="top-right"
     toastOptions={{
-      duration: 3500,
+      duration: 2500,
       style: {
         fontSize: "0.9rem",
         borderRadius: "10px",

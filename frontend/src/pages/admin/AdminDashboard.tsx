@@ -2,24 +2,41 @@
 import { supabase } from "../../lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { getAdminStats } from "../../lib/api/admin";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function AdminDashboard() {
+  const { setOverride } = useAuth();
   const navigate = useNavigate();
 
+  const [stats, setStats] = useState<{
+    total_users: number;
+    total_jobs: number;
+    total_submissions: number;
+    total_feedbacks: number;
+    avg_feedback_score: string | number;
+  }>({
+    total_users: 0,
+    total_jobs: 0,
+    total_submissions: 0,
+    total_feedbacks: 0,
+    avg_feedback_score: "—",
+  });
+
+  useEffect(() => {
+    getAdminStats()
+      .then(setStats)
+      .catch((err) => console.error("Stats load error:", err));
+  }, []);
+
   const handleOverride = (role: "candidate" | "employer" | "admin") => {
-    localStorage.setItem("overrideRole", role);
+    setOverride?.(role);
     toast.success(`🔁 Viewing as ${role}`);
-    // Navigate + force reload to rehydrate AuthProvider
-    if (role === "admin") {
-      navigate("/admin");
-      window.location.reload();
-    } else if (role === "employer") {
-      navigate("/employer");
-      window.location.reload();
-    } else {
-      navigate("/dashboard"); // candidate route
-      window.location.reload();
-    }
+
+    if (role === "admin") navigate("/app/admin", { replace: true });
+    else if (role === "employer") navigate("/app/employer", { replace: true });
+    else navigate("/app/dashboard", { replace: true });
   };
 
   const promoteUser = async () => {
@@ -38,6 +55,40 @@ export default function AdminDashboard() {
           Manage your system and explore user perspectives.
         </p>
       </header>
+
+      {/* 🧾 System Overview Section */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
+          <p className="text-sm text-[var(--color-text-muted)]">Users</p>
+          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
+            {stats.total_users}
+          </h3>
+        </div>
+
+        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
+          <p className="text-sm text-[var(--color-text-muted)]">Jobs</p>
+          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
+            {stats.total_jobs}
+          </h3>
+        </div>
+
+        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
+          <p className="text-sm text-[var(--color-text-muted)]">Submissions</p>
+          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
+            {stats.total_submissions}
+          </h3>
+        </div>
+
+        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
+          <p className="text-sm text-[var(--color-text-muted)]">Feedbacks</p>
+          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
+            {stats.total_feedbacks}
+          </h3>
+          <p className="text-sm text-[var(--color-text-muted)] mt-1">
+            ⭐ Avg Score: {stats.avg_feedback_score}
+          </p>
+        </div>
+      </section>
 
       {/* Quick Links Section */}
       <section className="bg-white p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] mb-8">

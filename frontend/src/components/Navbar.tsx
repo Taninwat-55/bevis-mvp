@@ -16,11 +16,17 @@ import { notify } from "./ui/Notify";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { signOut, user } = useAuth();
+  const { signOut, user, setOverride } = useAuth();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const actualRole = JSON.parse(
+    localStorage.getItem("bevis_user") || "{}"
+  )?.role;
+  const overrideRole = localStorage.getItem("overrideRole");
+  const isAdmin = actualRole === "admin" || overrideRole === "admin";
 
   const handleLogout = async () => {
     await signOut();
@@ -126,16 +132,39 @@ export default function Navbar() {
             </button>
 
             {/* 🧩 Show only if admin */}
-            {user?.role === "admin" && (
-              <button
-                onClick={() => {
-                  navigate("/app/admin");
-                  setDropdownOpen(false);
-                }}
-                className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
-              >
-                <Shield size={16} /> Admin Dashboard
-              </button>
+            {isAdmin && (
+              <>
+                <button
+                  onClick={() => {
+                    setOverride?.("candidate");
+                    navigate("/app/dashboard", { replace: true });
+                    setDropdownOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+                >
+                  👩‍🎓 View as Candidate
+                </button>
+                <button
+                  onClick={() => {
+                    setOverride?.("employer");
+                    navigate("/app/employer", { replace: true });
+                    setDropdownOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+                >
+                  🏢 View as Employer
+                </button>
+                <button
+                  onClick={() => {
+                    setOverride?.("admin");
+                    navigate("/app/admin", { replace: true });
+                    setDropdownOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
+                >
+                  <Shield size={16} /> Admin Dashboard
+                </button>
+              </>
             )}
 
             <div className="border-t border-[var(--color-border)] my-1" />
