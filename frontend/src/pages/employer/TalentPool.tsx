@@ -1,5 +1,5 @@
 // src/pages/employer/EmployerTalentPool.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { getEmployerSubmissionsWithFeedback } from "@/lib/api/submissions";
 import type { EmployerSubmission } from "@/types";
@@ -11,6 +11,12 @@ export default function EmployerTalentPool() {
   const navigate = useNavigate();
   const [submissions, setSubmissions] = useState<EmployerSubmission[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // 🧭 Filters + Sort
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "reviewed" | "pending"
+  >("all");
+  const [sortBy, setSortBy] = useState<"date" | "rating" | "job">("date");
 
   useEffect(() => {
     if (!user?.id) return;
@@ -29,7 +35,31 @@ export default function EmployerTalentPool() {
     loadTalent();
   }, [user?.id]);
 
-  // 🧮 Compute stats
+  // 🧮 Filter + Sort logic
+  const filtered = submissions.filter((s) =>
+    statusFilter === "all" ? true : s.status === statusFilter
+  );
+
+  const sorted = [...filtered].sort((a, b) => {
+    switch (sortBy) {
+      case "rating": {
+        const ratingA = a.feedback?.[0]?.stars ?? 0;
+        const ratingB = b.feedback?.[0]?.stars ?? 0;
+        return ratingB - ratingA;
+      }
+      case "job": {
+        const jobA = a.jobs?.title?.toLowerCase() ?? "";
+        const jobB = b.jobs?.title?.toLowerCase() ?? "";
+        return jobA.localeCompare(jobB);
+      }
+      default:
+        return (
+          new Date(b.created_at ?? "").getTime() -
+          new Date(a.created_at ?? "").getTime()
+        );
+    }
+  });
+
   const reviewed = submissions.filter((s) => s.status === "reviewed");
   const avgRating =
     reviewed.length > 0
@@ -42,7 +72,7 @@ export default function EmployerTalentPool() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 space-y-8">
       {/* 🧭 Header */}
-      <header className="flex items-center justify-between">
+      <header className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="heading-lg text-[var(--color-employer-dark)]">
             🌟 Talent Pool
@@ -79,6 +109,43 @@ export default function EmployerTalentPool() {
         </div>
       </section>
 
+      {/* 🔍 Controls */}
+      <section className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-[var(--color-text-muted)]">
+            Filter:
+          </label>
+          <select
+            value={statusFilter}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+              setStatusFilter(e.target.value as "all" | "reviewed" | "pending")
+            }
+            className="border border-[var(--color-border)] rounded-[var(--radius-button)] px-2 py-1 text-sm"
+          >
+            <option value="all">All</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-[var(--color-text-muted)]">
+            Sort by:
+          </label>
+          <select
+            value={sortBy}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+              setSortBy(e.target.value as "date" | "rating" | "job")
+            }
+            className="border border-[var(--color-border)] rounded-[var(--radius-button)] px-2 py-1 text-sm"
+          >
+            <option value="date">Date</option>
+            <option value="rating">Rating</option>
+            <option value="job">Job</option>
+          </select>
+        </div>
+      </section>
+
       {/* 👥 Talent List */}
       <section className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
         <h2 className="heading-md mb-4">Candidates</h2>
@@ -86,9 +153,9 @@ export default function EmployerTalentPool() {
           <p className="text-[var(--color-text-muted)]">
             Loading candidates...
           </p>
-        ) : reviewed.length === 0 ? (
+        ) : sorted.length === 0 ? (
           <p className="text-[var(--color-text-muted)] italic">
-            No reviewed candidates yet.
+            No candidates found for this filter.
           </p>
         ) : (
           <table className="w-full border-collapse text-sm">
@@ -98,11 +165,12 @@ export default function EmployerTalentPool() {
                 <th className="py-2 px-3">Job</th>
                 <th className="py-2 px-3">Task</th>
                 <th className="py-2 px-3">Rating</th>
+                <th className="py-2 px-3">Status</th>
                 <th className="py-2 px-3">Action</th>
               </tr>
             </thead>
             <tbody>
-              {reviewed.map((s) => (
+              {sorted.map((s) => (
                 <tr
                   key={s.id}
                   className="border-b border-[var(--color-border)] hover:bg-[var(--color-bg-accent)] transition"
@@ -114,6 +182,15 @@ export default function EmployerTalentPool() {
                     {s.feedback?.[0]?.stars
                       ? `⭐ ${s.feedback[0].stars}/5`
                       : "—"}
+                  </td>
+                  <td
+                    className={`py-2 px-3 font-medium ${
+                      s.status === "reviewed"
+                        ? "text-green-600"
+                        : "text-[var(--color-text-muted)]"
+                    }`}
+                  >
+                    {s.status}
                   </td>
                   <td className="py-2 px-3">
                     <button

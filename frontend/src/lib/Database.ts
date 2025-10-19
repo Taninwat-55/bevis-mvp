@@ -202,6 +202,8 @@ export type Database = {
       submissions: {
         Row: {
           created_at: string | null
+          employer_notes: string | null
+          hiring_stage: string | null
           id: string
           job_id: string | null
           proof_link: string | null
@@ -214,6 +216,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          employer_notes?: string | null
+          hiring_stage?: string | null
           id?: string
           job_id?: string | null
           proof_link?: string | null
@@ -226,6 +230,8 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          employer_notes?: string | null
+          hiring_stage?: string | null
           id?: string
           job_id?: string | null
           proof_link?: string | null

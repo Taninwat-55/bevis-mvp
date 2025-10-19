@@ -1,5 +1,5 @@
 // src/pages/candidate/CandidateHome.tsx
-import HomeLayout from "@/components/layout/HomeLayout";
+import HomeLayout from "@/layout/HomeLayout";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function CandidateHome() {

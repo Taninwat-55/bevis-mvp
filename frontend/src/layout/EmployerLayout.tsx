@@ -1,7 +1,8 @@
-import Sidebar from "../Sidebar";
+// src/components/layout/EmployerLayout.tsx
+import Sidebar from "../components/Sidebar";
 import { Outlet } from "react-router-dom";
 
-export default function CandidateLayout() {
+export default function EmployerLayout() {
   return (
     <div className="flex min-h-screen bg-[var(--color-bg)]">
       <Sidebar />
