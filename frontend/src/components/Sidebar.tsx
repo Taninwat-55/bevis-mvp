@@ -1,4 +1,5 @@
 // src/components/Sidebar.tsx
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -14,6 +15,8 @@ import {
   Star,
   Settings,
   House,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
@@ -21,12 +24,9 @@ interface SidebarProps {
   role?: "candidate" | "employer" | "admin";
 }
 
-/**
- * 🎨 Unified Sidebar — shared across all roles.
- * Reads `user.role` from AuthContext (or explicit prop).
- */
 export default function Sidebar({ role }: SidebarProps) {
   const { user } = useAuth();
+  const [collapsed, setCollapsed] = useState(false); // 👈 state to toggle collapse
 
   const resolvedRole = role || user?.role || "candidate";
 
@@ -40,68 +40,76 @@ export default function Sidebar({ role }: SidebarProps) {
 
   // 👩‍🎓 Candidate links
   const candidateLinks = [
-    { to: "/home", label: "Home", icon: <House size={17} /> },
+    { to: "/app", label: "Home", icon: <House size={17} /> },
     {
-      to: "/dashboard",
+      to: "/app/dashboard",
       label: "Dashboard",
       icon: <LayoutDashboard size={17} />,
     },
-    { to: "/jobs", label: "Jobs", icon: <Briefcase size={17} /> },
-    {
-      to: "/proofs",
-      label: "My Proofs",
-      icon: <FileText size={17} />,
-    },
-    {
-      to: "/profile",
-      label: "Profile",
-      icon: <UserSquare2 size={17} />,
-    },
+    { to: "/app/jobs", label: "Jobs", icon: <Briefcase size={17} /> },
+    { to: "/app/proofs", label: "My Proofs", icon: <FileText size={17} /> },
+    { to: "/app/profile", label: "Profile", icon: <UserSquare2 size={17} /> },
   ];
 
   // 🏢 Employer links
   const employerLinks = [
-    { to: "/employer", label: "Home", icon: <House size={17} /> },
+    { to: "/app/employer", label: "Home", icon: <House size={17} /> },
     {
-      to: "/employer/dashboard",
+      to: "/app/employer/dashboard",
       label: "Dashboard",
       icon: <LayoutDashboard size={17} />,
     },
-    { to: "/employer/jobs", label: "My Jobs", icon: <Briefcase size={17} /> },
     {
-      to: "/employer/post",
+      to: "/app/employer/jobs",
+      label: "My Jobs",
+      icon: <Briefcase size={17} />,
+    },
+    {
+      to: "/app/employer/jobs/new",
       label: "Post a Job",
       icon: <PlusCircle size={17} />,
     },
     {
-      to: "/employer/submissions",
+      to: "/app/employer/submissions",
       label: "Submissions",
       icon: <FolderKanban size={17} />,
     },
-    { to: "/employer/talent", label: "Talent Pool", icon: <Users size={17} /> },
+    {
+      to: "/app/employer/talent",
+      label: "Talent Pool",
+      icon: <Users size={17} />,
+    },
   ];
 
   // 🧩 Admin links
   const adminLinks = [
-    { to: "/admin", label: "Dashboard", icon: <Shield size={17} /> },
-    { to: "/admin/users", label: "Users", icon: <Users size={17} /> },
+    { to: "/app/admin", label: "Dashboard", icon: <Shield size={17} /> },
+    { to: "/app/admin/users", label: "Users", icon: <Users size={17} /> },
     {
-      to: "/admin/jobs",
+      to: "/app/admin/jobs",
       label: "Jobs Overview",
       icon: <Briefcase size={17} />,
     },
     {
-      to: "/admin/data-viewer",
+      to: "/app/admin/data-viewer",
       label: "Data Viewer",
       icon: <Database size={17} />,
     },
-    { to: "/admin/feedback", label: "Feedback Logs", icon: <Star size={17} /> },
     {
-      to: "/admin/analytics",
+      to: "/app/admin/feedback",
+      label: "Feedback Logs",
+      icon: <Star size={17} />,
+    },
+    {
+      to: "/app/admin/analytics",
       label: "Analytics",
       icon: <BarChart size={17} />,
     },
-    { to: "/admin/settings", label: "Settings", icon: <Settings size={17} /> },
+    {
+      to: "/app/admin/settings",
+      label: "Settings",
+      icon: <Settings size={17} />,
+    },
   ];
 
   const activeLinks =
@@ -112,17 +120,34 @@ export default function Sidebar({ role }: SidebarProps) {
       : candidateLinks;
 
   return (
-    <aside className="hidden md:flex flex-col w-60 bg-white border-r border-[var(--color-border)] shadow-[var(--shadow-soft)]">
-      <div className="p-5 border-b border-[var(--color-border)] font-semibold text-[var(--color-text)]">
-        {resolvedRole === "candidate"
-          ? "🎓 Candidate"
-          : resolvedRole === "employer"
-          ? "🏢 Employer"
-          : "🧩 Admin"}{" "}
-        Panel
+    <aside
+      className={`hidden md:flex flex-col bg-white border-r border-[var(--color-border)] shadow-[var(--shadow-soft)] transition-all duration-300 ${
+        collapsed ? "w-20" : "w-55"
+      }`}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)]">
+        {!collapsed && (
+          <span className="font-semibold text-[var(--color-text)] whitespace-nowrap">
+            {resolvedRole === "candidate"
+              ? "🎓 Candidate"
+              : resolvedRole === "employer"
+              ? "🏢 Employer"
+              : "🧩 Admin"}{" "}
+            Panel
+          </span>
+        )}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="cursor-pointer text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition"
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+        </button>
       </div>
 
-      <nav className="flex flex-col p-4 space-y-1">
+      {/* Nav Links */}
+      <nav className="flex flex-col p-3 space-y-1">
         {activeLinks.map(({ to, label, icon }) => (
           <NavLink
             key={to}
@@ -143,7 +168,7 @@ export default function Sidebar({ role }: SidebarProps) {
             }
           >
             {icon}
-            <span>{label}</span>
+            {!collapsed && <span>{label}</span>}
           </NavLink>
         ))}
       </nav>
