@@ -64,6 +64,7 @@ export async function getEmployerSubmissions(
     .select(
       `
       id,
+      job_id,
       user_id,
       created_at,
       status,
