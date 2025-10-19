@@ -6,3 +6,10 @@ export interface AdminStats {
   total_feedbacks: number;
   avg_feedback_score: string | number;
 }
+
+export interface BevisUser {
+  id: string;
+  email: string;
+  role: "candidate" | "employer" | "admin";
+  created_at: string;
+}

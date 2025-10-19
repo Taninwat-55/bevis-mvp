@@ -32,6 +32,7 @@ import EmployerSubmissions from "@/pages/employer/EmployerSubmissions";
 import EmployerJobDetail from "@/pages/employer/EmployerJobDetail";
 import EmployerTalentPool from "@/pages/employer/EmployerTalentPool";
 import EmployerJobListings from "../pages/employer/EmployerJobListings";
+import AdminUsers from "@/pages/admin/AdminUsers";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -105,7 +106,10 @@ export const router = createBrowserRouter([
       {
         path: "admin",
         element: <ProtectedRoute allowedRole="admin" />,
-        children: [{ index: true, element: <AdminDashboard /> }],
+        children: [
+          { index: true, element: <AdminDashboard /> },
+          { path: "users", element: <AdminUsers /> },
+        ],
       },
     ],
   },
