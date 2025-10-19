@@ -35,18 +35,67 @@ bevis-mvp/
 ├── frontend/
 │ ├── src/
 │ │ ├── components/ # Shared UI (Navbar, Sidebar, etc.)
+│ │ │ ├── landing/
+│ │ │ │ ├── FinalCTASection.tsx
+│ │ │ │ ├── Footer.tsx
+│ │ │ │ ├── HeroSection.tsx
+│ │ │ │ ├── LandingNavbar.tsx
+│ │ │ │ ├── ProofLoopSection.tsx
+│ │ │ │ ├── RoleCardSection.tsx
+│ │ │ │ ├── TrustedBySection.tsx
 │ │ │ ├── layout/
+│ │ │ │ ├── CandidateLayout.tsx
+│ │ │ │ ├── EmployerLayout.tsx
+│ │ │ │ ├── HomeLayout.tsx
 │ │ │ ├── ui/
+│ │ │ │ ├── Button.tsx (Empty file)
+│ │ │ │ ├── Notify.tsx
+│ │ │ │ ├── Toast.tsx
+│ │ │ ├── Navbar.tsx
+│ │ │ ├── Sidebar.tsx
 │ │ ├── context/ # AuthContext + AuthProvider
+│ │ │ ├── AuthContext.tsx
+│ │ │ ├── AuthProvider.tsx
 │ │ ├── hooks/ # useAuth, useJobs, useProofs
+│ │ │ ├── useAuth.ts
+│ │ │ ├── useJobs.ts
+│ │ │ ├── useProofs.ts
 │ │ ├── lib/api/ # Supabase API functions
+│ │ │ ├── api/
+│ │ │ │ ├── index.ts
+│ │ │ │ ├── jobs.ts
+│ │ │ │ ├── mutations.ts
+│ │ │ │ ├── submissions.ts
+│ │ │ ├── Database.ts
+│ │ │ ├── SupabaseClient.ts
 │ │ ├── pages/
 │ │ │ ├── admin/ # Admin Dashboard
+│ │ │ │ ├── AdminDashboard.tsx
 │ │ │ ├── auth/ # Login / Signup
+│ │ │ │ ├── AuthPage.tsx
 │ │ │ ├── candidate/ # Candidate pages (C1–C6)
+│ │ │ │ ├── CandidateDashboard.tsx
+│ │ │ │ ├── CandidateHome.tsx
+│ │ │ │ ├── FeedbackView.tsx
+│ │ │ │ ├── JobDetail.tsx
+│ │ │ │ ├── JobListings.tsx
+│ │ │ │ ├── Profile.tsx
+│ │ │ │ ├── ProofWorkspace.tsx
 │ │ │ ├── employer/ # Employer pages (C1–C6)
+│ │ │ │ ├── EmployerDashboard.tsx
+│ │ │ │ ├── EmployerHome.tsx
+│ │ │ │ ├── EmployerReview.tsx
+│ │ │ ├── landing/
+│ │ │ │ ├── LandingPage.tsx
 │ │ └── routes/ # Protected routes + layout wrappers
+│ │ │ ├── ProtectedRoute.tsx
+│ │ │ ├── Routes.tsx
 │ │ └── types/
+│ │ │ ├── candidate.ts
+│ │ │ ├── employer.ts
+│ │ │ ├── index.ts
+│ │ │ ├── shared.ts
+│ │ │ ├── supabase.ts
 │ └── index.css, main.tsx # Tailwind theme + root app (App.tsx)
 │
 └── backend/supabase/
@@ -83,9 +132,12 @@ Components use semantic color variables for consistent theming.
 | **C4**               | Proof Workspace                                                      | Submit proof via GitHub link + reflection                  |
 | **C5**               | Feedback View                                                        | See employer feedback, ratings, and comments               |
 | **C6**               | Profile                                                              | Candidate’s personal info + account overview               |
+| **E1**               | Employer Flow + Dashboard                                            | Employer overview (dashboard + home)                       |
 | **Admin Dashboard**  | Admin tools to view as other roles, promote users, and manage system |
+| **Landing Page**     | Modular marketing layout                                             |
 | **Auth System**      | Full Supabase login + signup flow, role-based redirect               |
 | **Navbar & Sidebar** | Persistent layout with responsive navigation                         |
+| **Toast**            | Unified `BevisToaster` + `notify` helper                             |
 
 ---
 
@@ -188,4 +240,5 @@ npm run dev
 ---
 
 **© 2025 Bevis — Proof-Based Hiring Platform (MVP)**
+
 *Built with 💜 by Taninwat “Ice” Kaewpankan*

@@ -23,8 +23,8 @@ export default function HeroSection() {
         transition={{ delay: 0.2 }}
         className="max-w-2xl text-lg md:text-xl text-[var(--color-text-muted)] mb-10"
       >
-        Bevis replaces CVs with verified proof tasks — show what you can do, not
-        where you studied.
+        Bevis complements your CV with verified proof of skills — show what you
+        can do, not just where you studied.
       </motion.p>
 
       <motion.div

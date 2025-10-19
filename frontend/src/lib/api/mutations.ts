@@ -49,7 +49,7 @@ export async function updateJobDetails(
     company?: string;
     required_skills?: string[];
   }
-): Promise<EmployerJob>  {
+): Promise<EmployerJob> {
   const { data, error } = await supabase
     .from("jobs")
     .update(updates)
@@ -78,6 +78,24 @@ export async function updateProofTask(
     .from("proof_tasks")
     .update(updates)
     .eq("id", proof_task_id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * ✅ Update submission status (e.g., "reviewed", "shortlisted")
+ */
+export async function updateSubmissionStatus(
+  submission_id: string,
+  status: string
+) {
+  const { data, error } = await supabase
+    .from("submissions")
+    .update({ status })
+    .eq("id", submission_id)
     .select()
     .single();
 

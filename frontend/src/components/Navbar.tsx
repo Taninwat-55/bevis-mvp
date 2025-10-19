@@ -57,10 +57,10 @@ export default function Navbar() {
           onClick={() =>
             navigate(
               user?.role === "admin"
-                ? "/admin"
+                ? "/app/admin"
                 : user?.role === "employer"
-                ? "/employer"
-                : "/dashboard"
+                ? "/app/employer"
+                : "/app"
             )
           }
         >
@@ -100,7 +100,7 @@ export default function Navbar() {
 
             <button
               onClick={() => {
-                navigate("/profile");
+                navigate("/app/profile");
                 setDropdownOpen(false);
               }}
               className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
@@ -110,7 +110,7 @@ export default function Navbar() {
 
             <button
               onClick={() => {
-                navigate("/proofs");
+                navigate("/app/proofs");
                 setDropdownOpen(false);
               }}
               className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"
@@ -129,7 +129,7 @@ export default function Navbar() {
             {user?.role === "admin" && (
               <button
                 onClick={() => {
-                  navigate("/admin");
+                  navigate("/app/admin");
                   setDropdownOpen(false);
                 }}
                 className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-bg)] flex items-center gap-2"

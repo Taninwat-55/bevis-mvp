@@ -44,7 +44,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // 3️⃣ Auth change listener
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
+        if (event === "PASSWORD_RECOVERY") {
+          // Redirect to reset password page
+          console.log("🔐 Password recovery event detected!");
+          console.log("Password recovery session started");
+          window.location.href = "/auth/reset";
+          return;
+        }
+
         const sessionUser = session?.user;
         if (sessionUser) {
           const role =

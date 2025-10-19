@@ -88,6 +88,10 @@ export default function EmployerDashboard() {
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 space-y-10">
+      {/* 🧭 Header + Post Job Button */}
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="heading-lg">Employer Dashboard</h1>
+      </div>
       {/* 📊 Top Summary Bar */}
       <section className="flex flex-wrap gap-4">
         <div className="flex-1 min-w-[200px] bg-white border border-[var(--color-border)] rounded-[var(--radius-card)] p-4 text-center shadow-[var(--shadow-soft)]">
@@ -166,7 +170,7 @@ export default function EmployerDashboard() {
               return (
                 <li
                   key={job.id}
-                  onClick={() => navigate(`/employer/jobs/${job.id}`)}
+                  onClick={() => navigate(`/app/employer/job/${job.id}`)}
                   className="cursor-pointer bg-white p-4 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition group"
                 >
                   <div className="flex justify-between items-center">
@@ -207,6 +211,7 @@ export default function EmployerDashboard() {
             {submissions.map((s) => (
               <li
                 key={s.id}
+                onClick={() => navigate(`/app/employer/review/${s.id}`)}
                 className="bg-white p-3 rounded-[var(--radius-card)] border border-[var(--color-border)]"
               >
                 <span className="font-medium">{s.proof_tasks?.title}</span>
