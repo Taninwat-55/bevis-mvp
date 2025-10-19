@@ -5,6 +5,14 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { getAdminStats } from "../../lib/api/admin";
 import { useAuth } from "@/hooks/useAuth";
+import {
+  Users,
+  Briefcase,
+  FileSpreadsheet,
+  UserCheck,
+  UserCircle2,
+  Database,
+} from "lucide-react";
 
 export default function AdminDashboard() {
   const { setOverride } = useAuth();
@@ -47,93 +55,159 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] p-10">
-      <header className="mb-8">
+      {/* Header */}
+      <header className="mb-10">
         <h1 className="heading-lg text-[var(--color-text)] mb-2">
           🧩 Admin Dashboard
         </h1>
         <p className="body-base text-[var(--color-text-muted)]">
-          Manage your system and explore user perspectives.
+          Monitor key metrics and manage platform data.
         </p>
       </header>
 
-      {/* 🧾 System Overview Section */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
-          <p className="text-sm text-[var(--color-text-muted)]">Users</p>
-          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
-            {stats.total_users}
-          </h3>
-        </div>
+      {/* 🧾 System Overview */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        {[
+          { label: "Users", value: stats.total_users },
+          { label: "Jobs", value: stats.total_jobs },
+          { label: "Submissions", value: stats.total_submissions },
+          {
+            label: "Feedbacks",
+            value: `${stats.total_feedbacks}`,
+            sub: `⭐ Avg Score: ${stats.avg_feedback_score}`,
+          },
+        ].map((item) => (
+          <div
+            key={item.label}
+            className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]"
+          >
+            <p className="text-sm text-[var(--color-text-muted)]">
+              {item.label}
+            </p>
+            <h3 className="text-2xl font-semibold text-[var(--color-text)]">
+              {item.value}
+            </h3>
+            {item.sub && (
+              <p className="text-sm text-[var(--color-text-muted)] mt-1">
+                {item.sub}
+              </p>
+            )}
+          </div>
+        ))}
+      </section>
 
-        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
-          <p className="text-sm text-[var(--color-text-muted)]">Jobs</p>
-          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
-            {stats.total_jobs}
-          </h3>
-        </div>
+      {/* 🚀 Quick Access */}
+      <section className="mb-10">
+        <h2 className="heading-md mb-4 text-[var(--color-text)]">
+          Quick Access
+        </h2>
 
-        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
-          <p className="text-sm text-[var(--color-text-muted)]">Submissions</p>
-          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
-            {stats.total_submissions}
-          </h3>
-        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button
+            onClick={() => navigate("/app/admin/users")}
+            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+          >
+            <Users size={20} className="text-[var(--color-admin-dark)]" />
+            <div>
+              <p className="font-medium text-[var(--color-text)]">
+                Manage Users
+              </p>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                View and edit roles
+              </p>
+            </div>
+          </button>
 
-        <div className="bg-white p-5 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
-          <p className="text-sm text-[var(--color-text-muted)]">Feedbacks</p>
-          <h3 className="text-2xl font-semibold text-[var(--color-text)]">
-            {stats.total_feedbacks}
-          </h3>
-          <p className="text-sm text-[var(--color-text-muted)] mt-1">
-            ⭐ Avg Score: {stats.avg_feedback_score}
-          </p>
+          <button
+            onClick={() => navigate("/app/admin/jobs")}
+            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+          >
+            <Briefcase
+              size={20}
+              className="text-[var(--color-employer-dark)]"
+            />
+            <div>
+              <p className="font-medium text-[var(--color-text)]">
+                Jobs Overview
+              </p>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                See all job postings
+              </p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => navigate("/app/admin/feedback")}
+            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+          >
+            <FileSpreadsheet
+              size={20}
+              className="text-[var(--color-candidate-dark)]"
+            />
+            <div>
+              <p className="font-medium text-[var(--color-text)]">
+                Feedback Logs
+              </p>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                Explore candidate feedback
+              </p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => navigate("/data-viewer")}
+            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+          >
+            <Database size={20} className="text-[var(--color-text-muted)]" />
+            <div>
+              <p className="font-medium text-[var(--color-text)]">
+                Data Viewer
+              </p>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                Inspect platform tables
+              </p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => handleOverride("candidate")}
+            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+          >
+            <UserCircle2
+              size={20}
+              className="text-[var(--color-candidate-dark)]"
+            />
+            <div>
+              <p className="font-medium text-[var(--color-text)]">
+                View as Candidate
+              </p>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                Switch perspective
+              </p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => handleOverride("employer")}
+            className="flex items-center gap-3 p-4 bg-white rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
+          >
+            <UserCheck
+              size={20}
+              className="text-[var(--color-employer-dark)]"
+            />
+            <div>
+              <p className="font-medium text-[var(--color-text)]">
+                View as Employer
+              </p>
+              <p className="text-sm text-[var(--color-text-muted)]">
+                Switch perspective
+              </p>
+            </div>
+          </button>
         </div>
       </section>
 
-      {/* Quick Links Section */}
-      <section className="bg-white p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] mb-8">
-        <h2 className="heading-md mb-4">Quick Access</h2>
-        <ul className="space-y-3 text-[var(--color-text)]">
-          <li>
-            👥{" "}
-            <button
-              onClick={() => navigate("/app/admin/users")}
-              className="cursor-pointer hover:text-[var(--color-admin-dark)] font-medium"
-            >
-              Manage Users
-            </button>
-          </li>
-          <li>
-            👩‍🎓{" "}
-            <button
-              onClick={() => handleOverride("candidate")}
-              className="hover:text-[var(--color-candidate-dark)] font-medium"
-            >
-              View Candidate Dashboard
-            </button>
-          </li>
-          <li>
-            🏢{" "}
-            <button
-              onClick={() => handleOverride("employer")}
-              className="hover:text-[var(--color-employer-dark)] font-medium"
-            >
-              View Employer Dashboard
-            </button>
-          </li>
-          <li>
-            📊{" "}
-            <button
-              onClick={() => navigate("/data-viewer")}
-              className="hover:text-[var(--color-candidate-dark)] font-medium"
-            >
-              Inspect Tables (Coming Soon)
-            </button>
-          </li>
-        </ul>
-      </section>
-
-      {/* Actions Section */}
+      {/* 🛠 Admin Actions */}
       <section className="bg-white p-6 rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)]">
         <h2 className="heading-md mb-4">Admin Actions</h2>
         <div className="flex gap-4 flex-wrap">

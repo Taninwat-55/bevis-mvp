@@ -33,6 +33,7 @@ import EmployerJobDetail from "@/pages/employer/EmployerJobDetail";
 import EmployerTalentPool from "@/pages/employer/EmployerTalentPool";
 import EmployerJobListings from "../pages/employer/EmployerJobListings";
 import AdminUsers from "@/pages/admin/AdminUsers";
+import AdminJobs from "@/pages/admin/AdminJobs";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -109,6 +110,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <AdminDashboard /> },
           { path: "users", element: <AdminUsers /> },
+          { path: "jobs", element: <AdminJobs /> },
         ],
       },
     ],
