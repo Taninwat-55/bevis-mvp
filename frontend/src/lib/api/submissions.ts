@@ -11,7 +11,9 @@ import type {
 /**
  * ✅ Get all submissions by a candidate (for candidate dashboard/profile)
  */
-export async function getCandidateSubmissions(user_id: string): Promise<CandidateSubmission[]> {
+export async function getCandidateSubmissions(
+  user_id: string
+): Promise<CandidateSubmission[]> {
   const { data, error } = await supabase
     .from("submissions")
     .select(
@@ -43,7 +45,9 @@ export async function getCandidateSubmissions(user_id: string): Promise<Candidat
 //   .from("jobs")
 //   .select("id")
 //   .eq("created_by", employer_id);
-export async function getEmployerSubmissions(employer_id: string): Promise<EmployerSubmission[]> {
+export async function getEmployerSubmissions(
+  employer_id: string
+): Promise<EmployerSubmission[]> {
   // 1️⃣ Get job IDs owned by employer
   const { data: jobIds, error: jobErr } = await supabase
     .from("jobs")
@@ -78,7 +82,9 @@ export async function getEmployerSubmissions(employer_id: string): Promise<Emplo
 /**
  * ✅ Get details for a single proof task (for job detail / proof workspace)
  */
-export async function getProofTaskDetails(proof_task_id: string): Promise<ProofTask> {
+export async function getProofTaskDetails(
+  proof_task_id: string
+): Promise<ProofTask> {
   const { data, error } = await supabase
     .from("proof_tasks")
     .select(
@@ -144,4 +150,30 @@ export async function getCandidateFeedback(user_id: string) {
 
   if (error) throw error;
   return data as CandidateFeedbackEntry[];
+}
+
+/**
+ * ✅ Get one submission with job + proof task details (for EmployerReview page)
+ */
+export async function getSubmissionById(submission_id: string) {
+  const { data, error } = await supabase
+    .from("submissions")
+    .select(
+      `
+      id,
+      user_id,
+      job_id,
+      status,
+      submission_link,
+      reflection,
+      created_at,
+      proof_tasks ( id, title, description ),
+      jobs ( id, title, company )
+    `
+    )
+    .eq("id", submission_id)
+    .single();
+
+  if (error) throw error;
+  return data;
 }

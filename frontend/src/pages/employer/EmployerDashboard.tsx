@@ -207,6 +207,7 @@ export default function EmployerDashboard() {
             {submissions.map((s) => (
               <li
                 key={s.id}
+                onClick={() => navigate(`/app/employer/review/${s.id}`)}
                 className="bg-white p-3 rounded-[var(--radius-card)] border border-[var(--color-border)]"
               >
                 <span className="font-medium">{s.proof_tasks?.title}</span>

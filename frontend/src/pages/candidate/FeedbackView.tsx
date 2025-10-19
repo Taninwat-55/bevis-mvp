@@ -73,18 +73,25 @@ export default function FeedbackView() {
 
               {reviewed ? (
                 <>
-                  <div className="flex items-center mb-3">
-                    {"★".repeat(fb.stars || 0)}
-                    {"☆".repeat(5 - (fb.stars || 0))}
+                  <div className="flex items-center mb-3 text-yellow-500">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <span key={i}>{i < (fb.stars || 0) ? "★" : "☆"}</span>
+                    ))}
                     <span className="ml-2 text-sm text-[var(--color-text-muted)]">
                       {fb.stars}/5
                     </span>
                   </div>
                   <p className="text-sm mb-1">
-                    <strong>Strengths:</strong> {fb.strengths}
+                    <strong className="text-[var(--color-success)]">
+                      Strengths:
+                    </strong>{" "}
+                    {fb.strengths}
                   </p>
                   <p className="text-sm mb-1">
-                    <strong>Improvements:</strong> {fb.improvements}
+                    <strong className="text-[var(--color-error)]">
+                      Improvements:
+                    </strong>{" "}
+                    {fb.improvements}
                   </p>
                 </>
               ) : (
@@ -96,7 +103,11 @@ export default function FeedbackView() {
               <p className="text-xs text-[var(--color-text-muted)] mt-3">
                 Submitted{" "}
                 {p.created_at
-                  ? new Date(p.created_at).toLocaleDateString()
+                  ? new Date(p.created_at || "").toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })
                   : "–"}
               </p>
             </div>

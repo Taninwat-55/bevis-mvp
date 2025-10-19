@@ -16,6 +16,10 @@ import EmployerDashboard from "@/pages/employer/EmployerDashboard";
 import EmployerLayout from "@/components/layout/EmployerLayout";
 import EmployerHome from "@/pages/employer/EmployerHome";
 import CandidateHome from "@/pages/candidate/CandidateHome";
+import EmployerReview from "@/pages/employer/EmployerReview";
+import FeedbackSuccess from "@/pages/employer/FeedbackSuccess";
+import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
+import RequestResetPage from "@/pages/auth/RequestResetPage";
 
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
@@ -28,6 +32,14 @@ export const router = createBrowserRouter([
   {
     path: "/auth",
     element: <AuthPage />,
+  },
+  {
+    path: "/auth/forgot",
+    element: <RequestResetPage />,
+  },
+  {
+    path: "/auth/reset",
+    element: <ResetPasswordPage />,
   },
 
   // --- Protected App Routes ---
@@ -64,6 +76,8 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <EmployerHome /> },
               { path: "dashboard", element: <EmployerDashboard /> },
+              { path: "review/:id", element: <EmployerReview /> },
+              { path: "review/success", element: <FeedbackSuccess /> },
             ],
           },
         ],
