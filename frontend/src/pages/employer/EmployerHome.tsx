@@ -1,6 +1,7 @@
 // src/pages/employer/EmployerHome.tsx
 import HomeLayout from "@/components/layout/HomeLayout";
 import { useAuth } from "@/hooks/useAuth";
+import { Link } from "react-router-dom";
 
 export default function EmployerHome() {
   const { user } = useAuth();
@@ -14,17 +15,17 @@ export default function EmployerHome() {
       <Card
         title="💼 Post a Job"
         desc="Create a new proof-based task and start collecting candidate submissions."
-        href="/employer/post"
+        href="/app/employer/jobs/new"
       />
       <Card
         title="🧠 Review Submissions"
         desc="Evaluate proofs and provide structured feedback to candidates."
-        href="/employer/submissions"
+        href="/app/employer/dashboard"
       />
       <Card
         title="🌟 Explore Talent Pool"
         desc="Browse verified candidates with strong proof records."
-        href="/employer/talent"
+        href="/app/employer/talent"
       />
     </HomeLayout>
   );
@@ -43,12 +44,12 @@ function Card({
     <div className="bg-white p-6 rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)]">
       <h2 className="font-semibold mb-2 text-[var(--color-text)]">{title}</h2>
       <p className="text-sm text-[var(--color-text-muted)] mb-4">{desc}</p>
-      <a
-        href={href}
+      <Link
+        to={href}
         className="text-[var(--color-employer-dark)] font-medium hover:underline"
       >
         Go →
-      </a>
+      </Link>
     </div>
   );
 }
