@@ -1,6 +1,6 @@
 export default function LandingFooter() {
   return (
-    <footer className="bg-[var(--color-surface)] border-t border-[var(--color-border)] py-8">
+    <footer className="bg-[var(--color-bg)] border-t border-[var(--color-border)] py-8">
       <div className="mx-auto max-w-7xl px-6 py-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="text-sm text-[var(--color-text-muted)]">

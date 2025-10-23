@@ -6,6 +6,7 @@ import WhyProofSection from "@/components/landing/WhyProofSection";
 import LandingFooter from "@/components/landing/LandingFooter";
 import ProblemSection from "@/components/landing/ProblemSection";
 import FinalCTASection from "@/components/landing/FinalCTASection";
+import FeaturedEmployersSection from "@/components/landing/FeaturedEmployerSection";
 
 export default function LandingPage() {
   return (
@@ -15,6 +16,7 @@ export default function LandingPage() {
       <ProblemSection />
       <HowItWorksSection />
       <JobListingsSection />
+      <FeaturedEmployersSection />
       <WhyProofSection />
       <FinalCTASection />
       <LandingFooter />

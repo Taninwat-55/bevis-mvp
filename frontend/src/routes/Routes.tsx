@@ -43,6 +43,8 @@ import UserSettings from "@/pages/shared/UserSettings";
 // --- Public pages
 import PublicJobDetailPage from "@/pages/PublicJobDetailPage";
 import PublicJobsPage from "@/pages/PublicJobsPage";
+import PublicCandidateProfilePage from "@/pages/PublicCandidateProfilePage";
+import PublicLeaderboard from "@/pages/PublicLeaderboard";
 
 export const router = createBrowserRouter([
   // 🌐 Public
@@ -50,12 +52,16 @@ export const router = createBrowserRouter([
   { path: "/jobs", element: <PublicJobsPage /> },
   { path: "/jobs/:id", element: <PublicJobDetailPage /> },
 
+  // 🏆 New public fairness routes
+  { path: "/leaderboard", element: <PublicLeaderboard /> },
+  { path: "/candidate/:id", element: <PublicCandidateProfilePage /> },
+
   // 🔐 Auth
   { path: "/auth", element: <AuthPage /> },
   { path: "/auth/forgot", element: <RequestResetPage /> },
   { path: "/auth/reset", element: <ResetPasswordPage /> },
 
-  // 🎓 Candidate
+  // 🎓 Candidate (protected)
   {
     path: "/candidate",
     element: (

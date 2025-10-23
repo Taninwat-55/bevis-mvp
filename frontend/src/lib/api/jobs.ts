@@ -54,3 +54,14 @@ export async function getEmployerJobSummary(
   if (error) throw error;
   return data;
 }
+
+export async function getFeaturedJobs() {
+  const { data, error } = await supabase
+    .from("jobs")
+    .select("id, title, company, location, created_at")
+    .eq("featured", true)
+    .eq("is_public", true)
+    .limit(6);
+  if (error) throw error;
+  return data;
+}

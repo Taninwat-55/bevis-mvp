@@ -4,7 +4,7 @@ export default function WhyProofSection() {
   return (
     <section
       id="about"
-      className="bg-[var(--color-surface)] py-20 border-t border-[var(--color-border)]"
+      className="bg-[var(--color-bg)] py-20 border-t border-[var(--color-border)]"
     >
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-12 text-center">
