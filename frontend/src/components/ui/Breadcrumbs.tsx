@@ -18,7 +18,7 @@ export default function Breadcrumbs() {
       <ol className="flex flex-wrap items-center space-x-1">
         <li>
           <Link
-            to="/app"
+            to="/"
             className="hover:text-[var(--color-text)] transition-colors"
           >
             Home

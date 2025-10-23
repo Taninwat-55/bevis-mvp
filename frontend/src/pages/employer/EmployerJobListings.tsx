@@ -39,7 +39,7 @@ export default function EmployerJobListings() {
           🧾 My Jobs
         </h1>
         <button
-          onClick={() => navigate("/app/employer/jobs/new")}
+          onClick={() => navigate("/employer/jobs/new")}
           className="bg-[var(--color-employer)] text-white px-4 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-employer-dark)] transition"
         >
           + Post New Job
@@ -55,7 +55,7 @@ export default function EmployerJobListings() {
           {jobs.map((job) => (
             <li
               key={job.id}
-              onClick={() => navigate(`/app/employer/job/${job.id}`)}
+              onClick={() => navigate(`/employer/job/${job.id}`)}
               className="border border-[var(--color-border)] rounded-[var(--radius-card)] bg-[var(--color-surface)] transition-colors p-4 hover:shadow-[var(--shadow-soft)] cursor-pointer"
             >
               <h3 className="font-semibold text-[var(--color-text)]">

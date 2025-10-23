@@ -5,6 +5,7 @@ import type { EmployerSubmission } from "@/types";
 import toast from "react-hot-toast";
 import { Loader2, Users } from "lucide-react";
 import TalentBoard from "@/components/talent/TalentBoard";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function EmployerTalentManager() {
   const { user } = useAuth();
@@ -26,6 +27,30 @@ export default function EmployerTalentManager() {
       }
     }
     load();
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (!user?.id) return;
+
+    const channel = supabase
+      .channel("submissions_changes")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "submissions" },
+        (payload) => {
+          const updated = payload.new as EmployerSubmission;
+          if (!updated?.id) return;
+
+          setSubmissions((prev) =>
+            prev.map((s) => (s.id === updated.id ? { ...s, ...updated } : s))
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [user?.id]);
 
   if (loading)

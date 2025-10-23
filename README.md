@@ -38,12 +38,13 @@ bevis-mvp/
 │ │ ├── components/ # Shared UI (Navbar, Sidebar, etc.)
 │ │ │ ├── landing/
 │ │ │ │ ├── FinalCTASection.tsx
-│ │ │ │ ├── Footer.tsx
 │ │ │ │ ├── HeroSection.tsx
+│ │ │ │ ├── HowItWorksSection.tsx
+│ │ │ │ ├── JobListingsSection.tsx
+│ │ │ │ ├── LandingFooter.tsx
 │ │ │ │ ├── LandingNavbar.tsx
-│ │ │ │ ├── ProofLoopSection.tsx
-│ │ │ │ ├── RoleCardSection.tsx
-│ │ │ │ ├── TrustedBySection.tsx
+│ │ │ │ ├── ProblemSection.tsx
+│ │ │ │ ├── WhyProofSection.tsx
 │ │ │ ├── talent/
 │ │ │ │ ├── CandidateCard.tsx
 │ │ │ │ ├── index.ts
@@ -51,8 +52,10 @@ bevis-mvp/
 │ │ │ │ ├── StageColumn.tsx
 │ │ │ │ ├── TalentBoard.tsx
 │ │ │ ├── ui/
+│ │ │ │ ├── BackButton.tsx
 │ │ │ │ ├── Breadcrumb.tsx
-│ │ │ │ ├── Button.tsx (Empty file)
+│ │ │ │ ├── FilterChips.tsx
+│ │ │ │ ├── MultiSelectFilter.tsx
 │ │ │ │ ├── Notify.tsx
 │ │ │ │ ├── Toast.tsx
 │ │ │ ├── Navbar.tsx
@@ -64,12 +67,14 @@ bevis-mvp/
 │ │ │ ├── useAuth.ts
 │ │ │ ├── useJobs.ts
 │ │ │ ├── useProofs.ts
+│ │ │ ├── useTheme.ts
 │ │ ├── layout/
 │ │ │ ├── CandidateLayout.tsx
 │ │ │ ├── EmployerLayout.tsx
 │ │ │ ├── HomeLayout.tsx
 │ │ ├── lib/api/ # Supabase API functions
 │ │ │ ├── api/
+│ │ │ │ ├── admin.ts
 │ │ │ │ ├── feedback.ts
 │ │ │ │ ├── index.ts
 │ │ │ │ ├── jobs.ts
@@ -77,10 +82,15 @@ bevis-mvp/
 │ │ │ │ ├── submissions.ts
 │ │ │ ├── Database.ts
 │ │ │ ├── error.ts
+│ │ │ ├── motion.ts
 │ │ │ ├── SupabaseClient.ts
 │ │ ├── pages/
 │ │ │ ├── admin/ # Admin Dashboard
 │ │ │ │ ├── AdminDashboard.tsx
+│ │ │ │ ├── AdminDataViewer.tsx
+│ │ │ │ ├── AdminFeedback.tsx
+│ │ │ │ ├── AdminJobs.tsx
+│ │ │ │ ├── AdminUsers.tsx
 │ │ │ ├── auth/ # Login / Signup
 │ │ │ │ ├── AuthPage.tsx
 │ │ │ │ ├── RequestResetPage.tsx
@@ -106,10 +116,15 @@ bevis-mvp/
 │ │ │ │ ├── EmployerTalentPool.tsx
 │ │ │ ├── landing/
 │ │ │ │ ├── LandingPage.tsx
+│ │ │ ├── shared/
+│ │ │ │ ├── UserSettings.tsx.tsx
+│ │ │ ├── PublicJobDetailPage.tsx
+│ │ │ ├── PublicJobsPage.tsx
 │ │ └── routes/ # Protected routes + layout wrappers
 │ │ │ ├── ProtectedRoute.tsx
 │ │ │ ├── Routes.tsx
 │ │ └── types/
+│ │ │ ├── admin.ts
 │ │ │ ├── candidate.ts
 │ │ │ ├── employer.ts
 │ │ │ ├── index.ts

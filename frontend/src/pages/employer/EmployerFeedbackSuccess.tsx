@@ -15,7 +15,7 @@ export default function EmployerFeedbackSuccess() {
           candidate.
         </p>
         <button
-          onClick={() => navigate("/app/employer/dashboard")}
+          onClick={() => navigate("/employer/dashboard")}
           className="bg-[var(--color-employer)] text-white px-6 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-employer-dark)] transition"
         >
           ← Back to Dashboard

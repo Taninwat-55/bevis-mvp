@@ -170,7 +170,7 @@ export default function PublicJobDetailPage() {
             Ready to take this challenge?
           </p>
           <Link
-            to={`/auth?redirect=/app/proof/${job.id}`}
+            to={`/auth?redirect=/candidate/proof/${job.id}`}
             className="inline-block rounded-[var(--radius-button)] bg-[var(--color-candidate)] text-white px-6 py-3 font-medium hover:brightness-110 transition shadow-[var(--shadow-soft)]"
           >
             Log in to Apply

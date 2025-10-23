@@ -1,9 +1,11 @@
 import CandidateCard from "./CandidateCard";
 import type { EmployerSubmission, HiringStage } from "@/types";
+import { useDroppable } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
-// -----------------------------
-// Props
-// -----------------------------
 interface StageColumnProps {
   stage: HiringStage;
   label: string;
@@ -11,32 +13,37 @@ interface StageColumnProps {
 }
 
 const stageColors: Record<HiringStage, string> = {
-  new: "border-[var(--stage-new-border)] bg-[var(--stage-new-bg)]",
+  new: "bg-[hsl(230,100%,98%)] dark:bg-[hsl(230,15%,12%)] border-[hsl(230,70%,75%)]",
   shortlisted:
-    "border-[var(--stage-shortlisted-border)] bg-[var(--stage-shortlisted-bg)]",
+    "bg-[hsl(45,100%,98%)] dark:bg-[hsl(45,15%,12%)] border-[hsl(45,70%,70%)]",
   interview:
-    "border-[var(--stage-interview-border)] bg-[var(--stage-interview-bg)]",
-  hold: "border-[var(--stage-hold-border)] bg-[var(--stage-hold-bg)]",
-  hired: "border-[var(--stage-hired-border)] bg-[var(--stage-hired-bg)]",
+    "bg-[hsl(200,100%,98%)] dark:bg-[hsl(200,15%,12%)] border-[hsl(200,70%,70%)]",
+  hold: "bg-[hsl(0,0%,98%)] dark:bg-[hsl(0,0%,14%)] border-[hsl(0,0%,70%)]",
+  hired:
+    "bg-[hsl(140,100%,98%)] dark:bg-[hsl(140,15%,12%)] border-[hsl(140,70%,65%)]",
   rejected:
-    "border-[var(--stage-rejected-border)] bg-[var(--stage-rejected-bg)]",
+    "bg-[hsl(0,100%,98%)] dark:bg-[hsl(0,15%,12%)] border-[hsl(0,70%,70%)]",
 };
 
-// -----------------------------
-// Component
-// -----------------------------
 export default function StageColumn({
   stage,
   label,
   submissions,
 }: StageColumnProps) {
+  const { setNodeRef, isOver } = useDroppable({
+    id: stage,
+    data: { stage },
+  });
+
   return (
     <div
-      className={`flex flex-col border rounded-[var(--radius-card)] p-4 shadow-[var(--shadow-soft)] h-[75vh] ${stageColors[stage]}`}
+      className={`flex flex-col rounded-xl border p-4 shadow-sm h-[75vh] min-w-[16rem]
+        transition-all duration-150 ${stageColors[stage]} ${
+        isOver ? "ring-2 ring-[var(--color-employer)] scale-[1.01]" : ""
+      }`}
     >
-      {/* 🧭 Column Header */}
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold text-[var(--color-text)] text-sm">
+        <h3 className="font-semibold text-sm text-[var(--color-text)]">
           {label}
         </h3>
         <span className="text-xs text-[var(--color-text-muted)]">
@@ -44,20 +51,24 @@ export default function StageColumn({
         </span>
       </div>
 
-      {/* 🧩 Cards Container */}
-      <div className="overflow-y-auto pr-1 flex-1">
-        {submissions.length === 0 ? (
-          <p className="text-xs text-[var(--color-text-muted)] italic text-center mt-6">
-            No candidates
-          </p>
-        ) : (
-          <div className="space-y-2">
-            {submissions.map((submission) => (
+      {/* Make cards inside this column sortable */}
+      <SortableContext
+        id={stage}
+        items={submissions.map((s) => s.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <div ref={setNodeRef} className="overflow-y-auto pr-1 flex-1 space-y-2">
+          {submissions.length === 0 ? (
+            <p className="text-xs text-[var(--color-text-muted)] italic text-center mt-6">
+              No candidates
+            </p>
+          ) : (
+            submissions.map((submission) => (
               <CandidateCard key={submission.id} submission={submission} />
-            ))}
-          </div>
-        )}
-      </div>
+            ))
+          )}
+        </div>
+      </SortableContext>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+// src/context/AuthProvider.tsx
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { AuthContext, type SessionUser } from "./AuthContext";

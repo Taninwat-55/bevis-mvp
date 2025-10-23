@@ -1,14 +1,20 @@
+// src/routes/ProtectedRoute.tsx
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import type { ReactNode } from "react";
+
+interface ProtectedRouteProps {
+  allowedRole?: "candidate" | "employer" | "admin";
+  children?: ReactNode;
+}
 
 export default function ProtectedRoute({
   allowedRole,
-}: {
-  allowedRole?: "candidate" | "employer" | "admin";
-}) {
+  children,
+}: ProtectedRouteProps) {
   const { user, loading } = useAuth();
 
-  // ⏳ Wait for auth to resolve fully
+  // ⏳ Wait for auth to resolve
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen text-gray-500">
@@ -17,19 +23,18 @@ export default function ProtectedRoute({
     );
   }
 
-  // 🚫 No user at all → go to auth page
+  // 🚫 No user → redirect to login
   if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  // 🔒 Role mismatch → send to proper dashboard instead of landing
+  // 🔒 Wrong role → redirect to their own dashboard
   if (allowedRole && user.role !== allowedRole) {
-    if (user.role === "admin") return <Navigate to="/app/admin" replace />;
-    if (user.role === "employer")
-      return <Navigate to="/app/employer" replace />;
-    return <Navigate to="/app/dashboard" replace />;
+    if (user.role === "admin") return <Navigate to="/admin" replace />;
+    if (user.role === "employer") return <Navigate to="/employer" replace />;
+    return <Navigate to="/candidate/dashboard" replace />;
   }
 
-  // ✅ Authorized → render child routes
-  return <Outlet />;
+  // ✅ Authorized → render either children or nested routes
+  return <>{children || <Outlet />}</>;
 }

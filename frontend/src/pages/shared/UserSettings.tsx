@@ -15,7 +15,7 @@ export default function UserSettings() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] p-10">
       <header className="mb-8 flex flex-col gap-2">
-        <BackButton to="/app/dashboard" />
+        <BackButton to="/dashboard" />
         <h1 className="heading-lg text-[var(--color-text)] flex items-center gap-2">
           ⚙️ Account Settings
         </h1>

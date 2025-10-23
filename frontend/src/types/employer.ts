@@ -1,7 +1,6 @@
 // src/types/employer.ts
-/**
- * Type representing a single job posted by an employer.
- */
+
+// Type representing a single job posted by an employer.
 export type EmployerJob = {
   id: string;
   title: string;
@@ -32,9 +31,7 @@ export type HiringStage =
   | "hired"
   | "rejected";
 
-/**
- * Type representing a candidate submission visible to an employer.
- */
+// Type representing a candidate submission visible to an employer.
 export type EmployerSubmission = {
   id: string;
   user_id: string | null;

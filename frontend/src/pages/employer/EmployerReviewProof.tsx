@@ -60,7 +60,7 @@ export default function EmployerReviewProof() {
       await updateSubmissionStatus(submission!.id, "reviewed");
       toast.success("✅ Feedback submitted successfully!");
 
-      navigate("/app/employer/review/success");
+      navigate("/employer/review/success");
     } catch (err) {
       console.error(err);
       toast.error("Failed to submit feedback");
@@ -141,7 +141,7 @@ export default function EmployerReviewProof() {
           {/* 🡐 Back Button */}
           <button
             type="button"
-            onClick={() => navigate("/app/employer/dashboard")}
+            onClick={() => navigate("/employer/dashboard")}
             className="border border-[var(--color-border)] text-[var(--color-text-muted)] px-4 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-border)] transition"
           >
             ← Back to Dashboard

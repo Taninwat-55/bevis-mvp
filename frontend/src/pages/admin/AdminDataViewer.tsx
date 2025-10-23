@@ -78,7 +78,7 @@ export default function AdminDataViewer() {
     <div className="min-h-screen bg-[var(--color-bg)] p-10">
       {/* Header */}
       <header className="mb-8 flex flex-col gap-2">
-        <BackButton to="/app/admin" />
+        <BackButton to="/admin" />
         <div className="flex items-center justify-between flex-wrap gap-3">
           <h1 className="heading-lg text-[var(--color-text)] flex items-center gap-2">
             <Database size={22} /> Data Viewer

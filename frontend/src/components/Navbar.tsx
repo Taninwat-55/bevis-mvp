@@ -66,10 +66,12 @@ export default function Navbar() {
           onClick={() =>
             navigate(
               user?.role === "admin"
-                ? "/app/admin"
+                ? "/admin"
                 : user?.role === "employer"
-                ? "/app/employer"
-                : "/app"
+                ? "/employer"
+                : user?.role === "candidate"
+                ? "/candidate"
+                : "/"
             )
           }
         >
@@ -116,7 +118,13 @@ export default function Navbar() {
 
             <button
               onClick={() => {
-                navigate("/app/profile");
+                navigate(
+                  user?.role === "admin"
+                    ? "/admin/settings"
+                    : user?.role === "employer"
+                    ? "/employer/settings"
+                    : "/candidate/profile"
+                );
                 setDropdownOpen(false);
               }}
               className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
@@ -126,7 +134,13 @@ export default function Navbar() {
 
             <button
               onClick={() => {
-                navigate("/app/proofs");
+                navigate(
+                  user?.role === "candidate"
+                    ? "/candidate/proofs"
+                    : user?.role === "employer"
+                    ? "/employer/submissions"
+                    : "/admin/feedback"
+                );
                 setDropdownOpen(false);
               }}
               className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
@@ -136,7 +150,13 @@ export default function Navbar() {
 
             <button
               onClick={() => {
-                navigate("/app/settings");
+                navigate(
+                  user?.role === "admin"
+                    ? "/admin/settings"
+                    : user?.role === "employer"
+                    ? "/employer/settings"
+                    : "/candidate/settings"
+                );
                 setDropdownOpen(false);
               }}
               className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
@@ -150,7 +170,7 @@ export default function Navbar() {
                 <button
                   onClick={() => {
                     setOverride?.("candidate");
-                    navigate("/app/dashboard", { replace: true });
+                    navigate("/candidate/dashboard", { replace: true });
                     setDropdownOpen(false);
                   }}
                   className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
@@ -160,7 +180,7 @@ export default function Navbar() {
                 <button
                   onClick={() => {
                     setOverride?.("employer");
-                    navigate("/app/employer", { replace: true });
+                    navigate("/employer", { replace: true });
                     setDropdownOpen(false);
                   }}
                   className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
@@ -170,7 +190,7 @@ export default function Navbar() {
                 <button
                   onClick={() => {
                     setOverride?.("admin");
-                    navigate("/app/admin", { replace: true });
+                    navigate("/admin", { replace: true });
                     setDropdownOpen(false);
                   }}
                   className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
