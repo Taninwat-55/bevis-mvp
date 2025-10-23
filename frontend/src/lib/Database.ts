@@ -73,8 +73,8 @@ export type Database = {
             foreignKeyName: "feedback_submission_id_fkey"
             columns: ["submission_id"]
             isOneToOne: false
-            referencedRelation: "proof_cards"
-            referencedColumns: ["submission_id"]
+            referencedRelation: "submission_with_user"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "feedback_submission_id_fkey"
@@ -92,7 +92,9 @@ export type Database = {
           created_by: string | null
           description: string | null
           employer_id: string | null
+          featured: boolean | null
           id: string
+          is_public: boolean | null
           location: string | null
           paid: boolean | null
           required_skills: string[] | null
@@ -105,7 +107,9 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           employer_id?: string | null
+          featured?: boolean | null
           id?: string
+          is_public?: boolean | null
           location?: string | null
           paid?: boolean | null
           required_skills?: string[] | null
@@ -118,7 +122,9 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           employer_id?: string | null
+          featured?: boolean | null
           id?: string
+          is_public?: boolean | null
           location?: string | null
           paid?: boolean | null
           required_skills?: string[] | null
@@ -138,6 +144,123 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          credits: number | null
+          email: string | null
+          full_name: string | null
+          id: string
+          role: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          credits?: number | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          role?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          credits?: number | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string | null
+        }
+        Relationships: []
+      }
+      proof_cards: {
+        Row: {
+          candidate_name: string | null
+          comments: string | null
+          id: string
+          job_title: string | null
+          rating: number | null
+          reviewed_at: string | null
+          share_url: string | null
+          submission_id: string | null
+          task_title: string | null
+        }
+        Insert: {
+          candidate_name?: string | null
+          comments?: string | null
+          id?: string
+          job_title?: string | null
+          rating?: number | null
+          reviewed_at?: string | null
+          share_url?: string | null
+          submission_id?: string | null
+          task_title?: string | null
+        }
+        Update: {
+          candidate_name?: string | null
+          comments?: string | null
+          id?: string
+          job_title?: string | null
+          rating?: number | null
+          reviewed_at?: string | null
+          share_url?: string | null
+          submission_id?: string | null
+          task_title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proof_cards_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "submission_with_user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proof_cards_submission_id_fkey"
+            columns: ["submission_id"]
+            isOneToOne: false
+            referencedRelation: "submissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      proof_pools: {
+        Row: {
+          created_at: string | null
+          id: string
+          job_id: string | null
+          top_percent: number | null
+          total_pool: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          job_id?: string | null
+          top_percent?: number | null
+          total_pool?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          job_id?: string | null
+          top_percent?: number | null
+          total_pool?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proof_pools_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "employer_job_summary"
+            referencedColumns: ["job_id"]
+          },
+          {
+            foreignKeyName: "proof_pools_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
             referencedColumns: ["id"]
           },
         ]
@@ -212,6 +335,7 @@ export type Database = {
           score: number | null
           status: string | null
           submission_link: string | null
+          updated_at: string | null
           user_id: string | null
         }
         Insert: {
@@ -226,6 +350,7 @@ export type Database = {
           score?: number | null
           status?: string | null
           submission_link?: string | null
+          updated_at?: string | null
           user_id?: string | null
         }
         Update: {
@@ -240,6 +365,7 @@ export type Database = {
           score?: number | null
           status?: string | null
           submission_link?: string | null
+          updated_at?: string | null
           user_id?: string | null
         }
         Relationships: [
@@ -265,7 +391,7 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "submissions_user_id_fkey"
+            foreignKeyName: "submissions_user_id_users_reset_fk"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -323,28 +449,79 @@ export type Database = {
           },
         ]
       }
-      proof_cards: {
+      submission_with_user: {
         Row: {
+          candidate_email: string | null
           candidate_name: string | null
-          comments: string | null
+          company: string | null
+          created_at: string | null
+          hiring_stage: string | null
+          id: string | null
+          job_id: string | null
           job_title: string | null
-          rating: number | null
-          reviewed_at: string | null
-          submission_id: string | null
-          task_title: string | null
+          status: string | null
+          submission_link: string | null
+          updated_at: string | null
+          user_id: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "submissions_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "employer_job_summary"
+            referencedColumns: ["job_id"]
+          },
+          {
+            foreignKeyName: "submissions_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_user_id_users_reset_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
-      is_admin: {
-        Args: { uid: string }
-        Returns: boolean
+      get_job_detail: {
+        Args: { job_id_input: string }
+        Returns: {
+          ai_tools_allowed: boolean
+          company: string
+          created_at: string
+          description: string
+          duration_minutes: number
+          expected_time: string
+          id: string
+          paid: boolean
+          proof_task_instructions: string
+          proof_task_title: string
+          submission_format: string
+          title: string
+        }[]
       }
-      promote_to_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
+      get_public_jobs: {
+        Args: never
+        Returns: {
+          company: string
+          created_at: string
+          description: string
+          duration_minutes: number
+          id: string
+          paid: boolean
+          proof_task: string
+          title: string
+        }[]
       }
+      is_admin: { Args: { uid: string }; Returns: boolean }
+      promote_to_admin: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

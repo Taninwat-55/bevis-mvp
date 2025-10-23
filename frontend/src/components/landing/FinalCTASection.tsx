@@ -4,7 +4,7 @@ export default function FinalCTASection() {
   return (
     <section
       id="contact"
-      className="bg-[var(--color-bg)] py-20 border-t border-[var(--color-border)]"
+      className="bg-[var(--color-surface)] py-20 border-t border-[var(--color-border)]"
     >
       <div className="mx-auto max-w-7xl px-6 text-center">
         <h3 className="text-2xl font-semibold text-[var(--color-text)]">

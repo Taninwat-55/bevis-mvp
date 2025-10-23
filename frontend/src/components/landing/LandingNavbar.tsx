@@ -9,6 +9,7 @@ export default function LandingNavbar() {
 
   const links = [
     { label: "Find Jobs", to: "/jobs" },
+    { label: "Leaderboard", to: "/leaderboard" },
     { label: "For Employers", to: "/auth?role=employer" },
     { label: "Why Proof", href: "#about" },
   ];

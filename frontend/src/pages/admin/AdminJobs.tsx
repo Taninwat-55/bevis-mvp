@@ -1,6 +1,6 @@
 // src/pages/admin/AdminJobs.tsx
 import { useEffect, useState, useMemo } from "react";
-import { getAllJobs } from "@/lib/api/admin";
+import { getAllJobs, toggleFeaturedJob } from "@/lib/api/admin";
 import type { AdminJob } from "@/types/admin";
 import toast from "react-hot-toast";
 import { ArrowDownUp } from "lucide-react";
@@ -193,6 +193,9 @@ export default function AdminJobs() {
               <th className="py-3 px-4 text-sm font-medium">Company</th>
               <th className="py-3 px-4 text-sm font-medium">Employer</th>
               <th className="py-3 px-4 text-sm font-medium">Status</th>
+              <th className="py-3 px-4 text-sm font-medium text-center">
+                ⭐ Featured
+              </th>
               <th className="py-3 px-4 text-sm font-medium">Created</th>
             </tr>
           </thead>
@@ -219,6 +222,45 @@ export default function AdminJobs() {
                       {j.status}
                     </span>
                   </td>
+
+                  {/* ⭐ New Featured Toggle */}
+                  <td className="py-3 px-4 text-center">
+                    <button
+                      onClick={async () => {
+                        try {
+                          await toggleFeaturedJob(j.id, !j.featured);
+                          toast.success(
+                            j.featured
+                              ? "Job unfeatured successfully"
+                              : "Job featured successfully ⭐"
+                          );
+                          setJobs((prev) =>
+                            prev.map((job) =>
+                              job.id === j.id
+                                ? { ...job, featured: !j.featured }
+                                : job
+                            )
+                          );
+                        } catch (err) {
+                          toast.error("Failed to update featured state");
+                          console.error(err);
+                        }
+                      }}
+                      className={`px-2 py-1 rounded text-xs font-medium ${
+                        j.featured
+                          ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
+                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      } transition`}
+                      title={
+                        j.featured
+                          ? "Click to unfeature this job"
+                          : "Click to feature this job"
+                      }
+                    >
+                      {j.featured ? "⭐ Featured" : "Mark as Featured"}
+                    </button>
+                  </td>
+
                   <td className="py-3 px-4 text-sm text-[var(--color-text-muted)]">
                     {new Date(j.created_at).toLocaleDateString()}
                   </td>
@@ -227,7 +269,7 @@ export default function AdminJobs() {
             ) : (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="text-center py-6 text-[var(--color-text-muted)]"
                 >
                   No jobs found.

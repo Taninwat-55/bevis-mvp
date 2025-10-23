@@ -24,3 +24,36 @@ export type Feedback = {
   stars: number | null;
   created_at: string | null;
 };
+
+/**
+ * Minimal public information shown in the leaderboard.
+ * Mirrors the `profiles` table subset (name + credits).
+ */
+export type LeaderProfile = {
+  full_name: string | null;
+  credits: number | null;
+};
+
+// Minimal public-facing profile info
+export type ProfileLite = {
+  id: string;
+  full_name: string | null;
+  credits: number | null;
+};
+
+// Minimal proof card info used in public + candidate profile grids
+export type ProofCardLite = {
+  id?: string;
+  job_title: string | null;
+  rating: number | null;
+  comments: string | null;
+  reviewed_at: string | null;
+};
+
+export type FeaturedJob = {
+  id: string;
+  title: string | null;
+  company: string | null;
+  location: string | null;
+  created_at: string | null;
+};

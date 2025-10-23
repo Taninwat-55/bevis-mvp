@@ -38,6 +38,7 @@ export async function getAllJobs(): Promise<AdminJob[]> {
       company,
       location,
       created_at,
+      featured, 
       users!employer_id ( email )
     `
     )
@@ -115,6 +116,16 @@ export async function getAllFeedbackLogs(): Promise<AdminFeedback[]> {
       created_at: f.created_at ?? new Date().toISOString(),
     })) ?? []
   );
+}
+
+// Toggle feature state
+export async function toggleFeaturedJob(jobId: string, newState: boolean) {
+  const { error } = await supabase
+    .from("jobs")
+    .update({ featured: newState })
+    .eq("id", jobId);
+  if (error) throw error;
+  return true;
 }
 
 // 🔁 Update user role

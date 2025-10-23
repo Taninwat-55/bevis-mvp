@@ -19,6 +19,7 @@ export default function EmployerPostJob() {
     company: "",
     location: "",
     paid: false,
+    featured: false,
     description: "",
   });
 
@@ -47,8 +48,10 @@ export default function EmployerPostJob() {
             company: job.company,
             location: job.location,
             paid: job.paid,
+            featured: job.featured, // ⭐ include here
             description: job.description,
             employer_id: user.id,
+            is_public: true, // optional: make sure it’s public for homepage display
           },
         ])
         .select("id")
@@ -116,6 +119,24 @@ export default function EmployerPostJob() {
                 onChange={(e) => setJob({ ...job, paid: e.target.checked })}
               />
               <span>Paid opportunity</span>
+            </label>
+
+            {/* ⭐ New Featured toggle */}
+            <label className="inline-flex items-center gap-2 mt-1">
+              <input
+                type="checkbox"
+                checked={job.featured}
+                onChange={(e) => setJob({ ...job, featured: e.target.checked })}
+              />
+              <span className="flex items-center gap-1">
+                <span>⭐ Feature this job</span>
+                <span
+                  className="text-[var(--color-text-muted)] text-xs italic"
+                  title="Featured jobs are displayed on the homepage under 'Featured Employers'"
+                >
+                  (appears on homepage)
+                </span>
+              </span>
             </label>
 
             <label className="block text-sm font-medium mt-2">

@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom"; // ✅ already imported
 import { getAllJobs } from "@/lib/api/jobs";
 import { getErrorMessage } from "@/lib/error";
 import type { CandidateJob } from "@/types";
@@ -15,13 +15,21 @@ export default function PublicJobsPage() {
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // ✅ STEP 1: Read from URL
+  const [searchParams] = useSearchParams();
+  const initialQuery = searchParams.get("query") || "";
+  const initialCategory = searchParams.get("category") || "";
+
   // --- filters ---
-  const [query, setQuery] = useState("");
+  // ✅ STEP 2: Initialize with URL values
+  const [query, setQuery] = useState(initialQuery);
   const [paidOnly, setPaidOnly] = useState(false);
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [locations, setLocations] = useState<string[]>([]);
   const [companies, setCompanies] = useState<string[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<string[]>(
+    initialCategory ? [initialCategory] : []
+  );
 
   useEffect(() => {
     getAllJobs()
@@ -29,6 +37,14 @@ export default function PublicJobsPage() {
       .catch((e) => setErr(getErrorMessage(e)))
       .finally(() => setLoading(false));
   }, []);
+
+  // ✅ STEP 3: Sync URL changes dynamically (optional)
+  useEffect(() => {
+    const q = searchParams.get("query") || "";
+    const cat = searchParams.get("category") || "";
+    setQuery(q);
+    setCategories(cat ? [cat] : []);
+  }, [searchParams]);
 
   // --- unique filter options ---
   const allLocations = useMemo(

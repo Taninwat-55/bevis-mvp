@@ -22,6 +22,7 @@ export interface AdminJob {
   location?: string;
   created_at: string;
   employer_email: string;
+  featured?: boolean | null;
 }
 
 export interface AdminFeedback {

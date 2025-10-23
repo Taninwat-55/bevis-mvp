@@ -1,6 +1,9 @@
+// src/pages/candidate/CandidateProfile.tsx
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { useAuth } from "../../hooks/useAuth";
+// import { useProofs } from "@/hooks/useProofs";
+import ProofCardsGrid from "@/components/ProofCardsGrid";
 
 interface ProfileStats {
   proofsCompleted: number;
@@ -17,6 +20,7 @@ export default function CandidateProfile() {
     jobsApplied: 0,
   });
   const [joined, setJoined] = useState<string>("");
+  // const { cards, credits } = useProofs();
 
   useEffect(() => {
     if (!user?.id) return;
@@ -94,6 +98,11 @@ export default function CandidateProfile() {
           <StatCard label="Average Score" value={`${stats.avgScore}★`} />
           <StatCard label="Jobs Applied" value={stats.jobsApplied} />
         </div>
+      </section>
+
+      <section className="mt-8 bg-[var(--color-surface)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6">
+        <h2 className="heading-md mb-4">My Proof Cards</h2>
+        <ProofCardsGrid />
       </section>
     </div>
   );
