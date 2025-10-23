@@ -4,23 +4,25 @@ import App from "../App";
 import AuthPage from "../pages/auth/AuthPage";
 import LandingPage from "../pages/landing/LandingPage";
 import ProtectedRoute from "./ProtectedRoute";
+
+// --- Auth
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
 import RequestResetPage from "@/pages/auth/RequestResetPage";
 
-// Candidate imports
-import CandidateDashboard from "../pages/candidate/CandidateDashboard";
-import CandidateJobListings from "../pages/candidate/CandidateJobListings";
-import CandidateLayout from "../layout/CandidateLayout";
-import CandidateJobDetail from "../pages/candidate/CandidateJobDetail";
-import CandidateProofWorkspace from "../pages/candidate/CandidateProofWorkspace";
-import CandidateFeedbackView from "../pages/candidate/CandidateFeedbackView";
-import CandidateProfile from "../pages/candidate/CandidateProfile";
+// --- Candidate pages
+import CandidateLayout from "@/layout/CandidateLayout";
 import CandidateHome from "@/pages/candidate/CandidateHome";
+import CandidateDashboard from "@/pages/candidate/CandidateDashboard";
+import CandidateJobListings from "@/pages/candidate/CandidateJobListings";
+import CandidateJobDetail from "@/pages/candidate/CandidateJobDetail";
+import CandidateProofWorkspace from "@/pages/candidate/CandidateProofWorkspace";
+import CandidateFeedbackView from "@/pages/candidate/CandidateFeedbackView";
+import CandidateProfile from "@/pages/candidate/CandidateProfile";
 
-// Employer imports
+// --- Employer pages
+import EmployerLayout from "@/layout/EmployerLayout";
 import EmployerHome from "@/pages/employer/EmployerHome";
 import EmployerDashboard from "@/pages/employer/EmployerDashboard";
-import EmployerLayout from "@/layout/EmployerLayout";
 import EmployerPostJob from "@/pages/employer/EmployerPostJob";
 import EmployerFeedbackSuccess from "@/pages/employer/EmployerFeedbackSuccess";
 import EmployerReview from "@/pages/employer/EmployerReviewProof";
@@ -28,105 +30,99 @@ import EmployerTalentManager from "@/pages/employer/EmployerTalentManager";
 import EmployerSubmissions from "@/pages/employer/EmployerSubmissions";
 import EmployerJobDetail from "@/pages/employer/EmployerJobDetail";
 import EmployerTalentPool from "@/pages/employer/EmployerTalentPool";
-import EmployerJobListings from "../pages/employer/EmployerJobListings";
+import EmployerJobListings from "@/pages/employer/EmployerJobListings";
 
-// Admin imports
-import AdminDashboard from "../pages/admin/AdminDashboard";
+// --- Admin pages
+import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminUsers from "@/pages/admin/AdminUsers";
 import AdminJobs from "@/pages/admin/AdminJobs";
 import AdminFeedback from "@/pages/admin/AdminFeedback";
 import AdminDataViewer from "@/pages/admin/AdminDataViewer";
 import UserSettings from "@/pages/shared/UserSettings";
 
-// Public
+// --- Public pages
 import PublicJobDetailPage from "@/pages/PublicJobDetailPage";
 import PublicJobsPage from "@/pages/PublicJobsPage";
 
 export const router = createBrowserRouter([
-  // --- Public Landing Page ---
-  {
-    path: "/",
-    element: <LandingPage />,
-  },
-
+  // 🌐 Public
+  { path: "/", element: <LandingPage /> },
   { path: "/jobs", element: <PublicJobsPage /> },
   { path: "/jobs/:id", element: <PublicJobDetailPage /> },
 
-  // --- Auth Page ---
-  {
-    path: "/auth",
-    element: <AuthPage />,
-  },
-  {
-    path: "/auth/forgot",
-    element: <RequestResetPage />,
-  },
-  {
-    path: "/auth/reset",
-    element: <ResetPasswordPage />,
-  },
+  // 🔐 Auth
+  { path: "/auth", element: <AuthPage /> },
+  { path: "/auth/forgot", element: <RequestResetPage /> },
+  { path: "/auth/reset", element: <ResetPasswordPage /> },
 
-  // --- Protected App Routes ---
+  // 🎓 Candidate
   {
-    path: "/app",
-    element: <App />,
+    path: "/candidate",
+    element: (
+      <ProtectedRoute allowedRole="candidate">
+        <App />
+      </ProtectedRoute>
+    ),
     children: [
-      // 🎓 Candidate routes
       {
-        element: <ProtectedRoute allowedRole="candidate" />,
+        element: <CandidateLayout />,
         children: [
-          {
-            element: <CandidateLayout />,
-            children: [
-              { index: true, element: <CandidateHome /> },
-              { path: "dashboard", element: <CandidateDashboard /> },
-              { path: "jobs", element: <CandidateJobListings /> },
-              { path: "job/:id", element: <CandidateJobDetail /> },
-              { path: "proof/:id", element: <CandidateProofWorkspace /> },
-              { path: "proofs", element: <CandidateFeedbackView /> },
-              { path: "profile", element: <CandidateProfile /> },
-              { path: "settings", element: <UserSettings /> },
-            ],
-          },
+          { index: true, element: <CandidateHome /> },
+          { path: "dashboard", element: <CandidateDashboard /> },
+          { path: "jobs", element: <CandidateJobListings /> },
+          { path: "job/:id", element: <CandidateJobDetail /> },
+          { path: "proof/:id", element: <CandidateProofWorkspace /> },
+          { path: "proofs", element: <CandidateFeedbackView /> },
+          { path: "profile", element: <CandidateProfile /> },
+          { path: "settings", element: <UserSettings /> },
         ],
       },
+    ],
+  },
 
-      // 🏢 Employer routes
+  // 🏢 Employer
+  {
+    path: "/employer",
+    element: (
+      <ProtectedRoute allowedRole="employer">
+        <App />
+      </ProtectedRoute>
+    ),
+    children: [
       {
-        path: "employer",
-        element: <ProtectedRoute allowedRole="employer" />,
+        element: <EmployerLayout />,
         children: [
-          {
-            element: <EmployerLayout />,
-            children: [
-              { index: true, element: <EmployerHome /> },
-              { path: "dashboard", element: <EmployerDashboard /> },
-              { path: "review/:id", element: <EmployerReview /> },
-              { path: "review/success", element: <EmployerFeedbackSuccess /> },
-              { path: "jobs/new", element: <EmployerPostJob /> },
-              { path: "job/:id", element: <EmployerJobDetail /> },
-              { path: "jobs", element: <EmployerJobListings /> },
-              { path: "submissions", element: <EmployerSubmissions /> },
-              { path: "talent", element: <EmployerTalentPool /> },
-              { path: "talent/manage", element: <EmployerTalentManager /> },
-              { path: "settings", element: <UserSettings /> },
-            ],
-          },
+          { index: true, element: <EmployerHome /> },
+          { path: "dashboard", element: <EmployerDashboard /> },
+          { path: "review/:id", element: <EmployerReview /> },
+          { path: "review/success", element: <EmployerFeedbackSuccess /> },
+          { path: "jobs", element: <EmployerJobListings /> },
+          { path: "jobs/new", element: <EmployerPostJob /> },
+          { path: "job/:id", element: <EmployerJobDetail /> },
+          { path: "submissions", element: <EmployerSubmissions /> },
+          { path: "talent", element: <EmployerTalentPool /> },
+          { path: "talent/manage", element: <EmployerTalentManager /> },
+          { path: "settings", element: <UserSettings /> },
         ],
       },
+    ],
+  },
 
-      // 🧩 Admin routes
-      {
-        path: "admin",
-        element: <ProtectedRoute allowedRole="admin" />,
-        children: [
-          { index: true, element: <AdminDashboard /> },
-          { path: "users", element: <AdminUsers /> },
-          { path: "jobs", element: <AdminJobs /> },
-          { path: "feedback", element: <AdminFeedback /> },
-          { path: "data-viewer", element: <AdminDataViewer /> },
-        ],
-      },
+  // 🧩 Admin
+  {
+    path: "/admin",
+    element: (
+      <ProtectedRoute allowedRole="admin">
+        <App />
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <AdminDashboard /> },
+      { path: "users", element: <AdminUsers /> },
+      { path: "jobs", element: <AdminJobs /> },
+      { path: "feedback", element: <AdminFeedback /> },
+      { path: "data-viewer", element: <AdminDataViewer /> },
+      { path: "settings", element: <UserSettings /> },
     ],
   },
 ]);

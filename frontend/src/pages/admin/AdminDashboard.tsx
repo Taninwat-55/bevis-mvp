@@ -42,9 +42,9 @@ export default function AdminDashboard() {
     setOverride?.(role);
     toast.success(`🔁 Viewing as ${role}`);
 
-    if (role === "admin") navigate("/app/admin", { replace: true });
-    else if (role === "employer") navigate("/app/employer", { replace: true });
-    else navigate("/app/dashboard", { replace: true });
+    if (role === "admin") navigate("/admin", { replace: true });
+    else if (role === "employer") navigate("/employer", { replace: true });
+    else navigate("/dashboard", { replace: true });
   };
 
   const promoteUser = async () => {
@@ -105,7 +105,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* 👥 Manage Users */}
           <button
-            onClick={() => navigate("/app/admin/users")}
+            onClick={() => navigate("/admin/users")}
             className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <Users size={20} className="text-[var(--color-admin-dark)]" />
@@ -121,7 +121,7 @@ export default function AdminDashboard() {
 
           {/* 💼 Jobs Overview */}
           <button
-            onClick={() => navigate("/app/admin/jobs")}
+            onClick={() => navigate("/admin/jobs")}
             className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <Briefcase
@@ -140,7 +140,7 @@ export default function AdminDashboard() {
 
           {/* 🗂️ Feedback Logs */}
           <button
-            onClick={() => navigate("/app/admin/feedback")}
+            onClick={() => navigate("/admin/feedback")}
             className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <FileSpreadsheet
@@ -159,7 +159,7 @@ export default function AdminDashboard() {
 
           {/* 🧮 Data Viewer */}
           <button
-            onClick={() => navigate("/app/admin/data-viewer")}
+            onClick={() => navigate("/admin/data-viewer")}
             className="flex items-center gap-3 p-4 bg-[var(--color-surface)] rounded-[var(--radius-card)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-bg-hover)] transition cursor-pointer text-left"
           >
             <Database size={20} className="text-[var(--color-text-muted)]" />

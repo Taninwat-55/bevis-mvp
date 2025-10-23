@@ -83,7 +83,7 @@ export default function EmployerJobDetail() {
         </div>
 
         <button
-          onClick={() => navigate("/app/employer/dashboard")}
+          onClick={() => navigate("/employer/dashboard")}
           className="border border-[var(--color-border)] text-[var(--color-text-muted)] px-4 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-border)] transition"
         >
           ← Back to Dashboard
@@ -182,7 +182,7 @@ export default function EmployerJobDetail() {
               {submissions.map((s) => (
                 <li
                   key={s.id}
-                  onClick={() => navigate(`/app/employer/review/${s.id}`)}
+                  onClick={() => navigate(`/employer/review/${s.id}`)}
                   className="cursor-pointer border border-[var(--color-border)] rounded-[var(--radius-button)] p-3 hover:bg-[var(--color-bg-accent)] transition"
                 >
                   <div className="flex justify-between items-center">
@@ -209,13 +209,13 @@ export default function EmployerJobDetail() {
       {/* ✏️ Actions */}
       <div className="flex gap-3 mt-4">
         <button
-          onClick={() => navigate(`/app/employer/job/${id}/edit`)}
+          onClick={() => navigate(`/employer/job/${id}/edit`)}
           className="bg-[var(--color-employer)] text-white px-4 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-employer-dark)] transition"
         >
           ✏️ Edit Job
         </button>
         <button
-          onClick={() => navigate(`/app/employer/submissions`)}
+          onClick={() => navigate(`/employer/submissions`)}
           className="border border-[var(--color-border)] text-[var(--color-text-muted)] px-4 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-border)] transition"
         >
           📂 View All Submissions

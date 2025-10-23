@@ -6,7 +6,6 @@ import {
   Briefcase,
   FileText,
   Users,
-  BarChart,
   Shield,
   FolderKanban,
   UserSquare2,
@@ -38,83 +37,70 @@ export default function Sidebar({ role }: SidebarProps) {
   } as const;
   const accentColor = accentColorMap[resolvedRole];
 
-  // 👩‍🎓 Candidate links
+  // Candidate links
   const candidateLinks = [
-    { to: "/app", label: "Home", icon: <House size={17} /> },
+    { to: "/candidate", label: "Home", icon: <House size={17} /> },
     {
-      to: "/app/dashboard",
+      to: "/candidate/dashboard",
       label: "Dashboard",
       icon: <LayoutDashboard size={17} />,
     },
-    { to: "/app/jobs", label: "Jobs", icon: <Briefcase size={17} /> },
-    { to: "/app/proofs", label: "My Proofs", icon: <FileText size={17} /> },
-    { to: "/app/profile", label: "Profile", icon: <UserSquare2 size={17} /> },
+    { to: "/candidate/jobs", label: "Jobs", icon: <Briefcase size={17} /> },
+    {
+      to: "/candidate/proofs",
+      label: "My Proofs",
+      icon: <FileText size={17} />,
+    },
+    {
+      to: "/candidate/profile",
+      label: "Profile",
+      icon: <UserSquare2 size={17} />,
+    },
   ];
 
-  // 🏢 Employer links
+  // Employer links
   const employerLinks = [
-    { to: "/app/employer", label: "Home", icon: <House size={17} /> },
+    { to: "/employer", label: "Home", icon: <House size={17} /> },
     {
-      to: "/app/employer/dashboard",
+      to: "/employer/dashboard",
       label: "Dashboard",
       icon: <LayoutDashboard size={17} />,
     },
+    { to: "/employer/jobs", label: "My Jobs", icon: <Briefcase size={17} /> },
     {
-      to: "/app/employer/jobs",
-      label: "My Jobs",
-      icon: <Briefcase size={17} />,
-    },
-    {
-      to: "/app/employer/jobs/new",
+      to: "/employer/jobs/new",
       label: "Post a Job",
       icon: <PlusCircle size={17} />,
     },
     {
-      to: "/app/employer/submissions",
+      to: "/employer/submissions",
       label: "Submissions",
       icon: <FolderKanban size={17} />,
     },
+    { to: "/employer/talent", label: "Talent Pool", icon: <Users size={17} /> },
     {
-      to: "/app/employer/talent",
-      label: "Talent Pool",
-      icon: <Users size={17} />,
-    },
-    {
-      to: "/app/employer/talent/manage",
+      to: "/employer/talent/manage",
       label: "Talent Manager",
       icon: <Users size={17} />,
     },
   ];
 
-  // 🧩 Admin links
+  // Admin links
   const adminLinks = [
-    { to: "/app/admin", label: "Dashboard", icon: <Shield size={17} /> },
-    { to: "/app/admin/users", label: "Users", icon: <Users size={17} /> },
+    { to: "/admin", label: "Dashboard", icon: <Shield size={17} /> },
+    { to: "/admin/users", label: "Users", icon: <Users size={17} /> },
     {
-      to: "/app/admin/jobs",
+      to: "/admin/jobs",
       label: "Jobs Overview",
       icon: <Briefcase size={17} />,
     },
     {
-      to: "/app/admin/data-viewer",
+      to: "/admin/data-viewer",
       label: "Data Viewer",
       icon: <Database size={17} />,
     },
-    {
-      to: "/app/admin/feedback",
-      label: "Feedback Logs",
-      icon: <Star size={17} />,
-    },
-    {
-      to: "/app/admin/analytics",
-      label: "Analytics",
-      icon: <BarChart size={17} />,
-    },
-    {
-      to: "/app/admin/settings",
-      label: "Settings",
-      icon: <Settings size={17} />,
-    },
+    { to: "/admin/feedback", label: "Feedback Logs", icon: <Star size={17} /> },
+    { to: "/admin/settings", label: "Settings", icon: <Settings size={17} /> },
   ];
 
   const activeLinks =

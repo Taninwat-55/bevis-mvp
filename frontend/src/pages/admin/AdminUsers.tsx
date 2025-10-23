@@ -103,7 +103,7 @@ export default function AdminUsers() {
     <div className="min-h-screen bg-[var(--color-bg)] p-10">
       {/* 🧭 Header */}
       <header className="mb-8 flex flex-col gap-2">
-            <BackButton to="/app/admin" />
+            <BackButton to="/admin" />
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h1 className="heading-lg text-[var(--color-text)]">

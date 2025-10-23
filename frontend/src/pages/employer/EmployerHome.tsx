@@ -15,17 +15,17 @@ export default function EmployerHome() {
       <Card
         title="💼 Post a Job"
         desc="Create a new proof-based task and start collecting candidate submissions."
-        href="/app/employer/jobs/new"
+        href="/employer/jobs/new"
       />
       <Card
         title="🧠 Review Submissions"
         desc="Evaluate proofs and provide structured feedback to candidates."
-        href="/app/employer/dashboard"
+        href="/employer/dashboard"
       />
       <Card
         title="🌟 Explore Talent Pool"
         desc="Browse verified candidates with strong proof records."
-        href="/app/employer/talent"
+        href="/employer/talent"
       />
     </HomeLayout>
   );

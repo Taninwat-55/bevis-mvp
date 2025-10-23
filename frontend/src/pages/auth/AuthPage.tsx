@@ -27,8 +27,8 @@ export default function AuthPage() {
   // 🔐 Redirect if already logged in
   useEffect(() => {
     if (!authLoading && user) {
-      if (user.role === "employer") navigate("/app/employer");
-      else if (user.role === "admin") navigate("/app/admin");
+      if (user.role === "employer") navigate("/employer");
+      else if (user.role === "admin") navigate("/admin");
       else navigate("/app");
     }
   }, [user, authLoading, navigate]);
@@ -91,8 +91,8 @@ export default function AuthPage() {
 
         notify.success("✅ Logged in successfully!", role);
 
-        if (role === "admin") navigate("/app/admin");
-        else if (role === "employer") navigate("/app/employer");
+        if (role === "admin") navigate("/admin");
+        else if (role === "employer") navigate("/employer");
         else navigate("/app");
       }
     } catch {

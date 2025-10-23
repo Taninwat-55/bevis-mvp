@@ -69,7 +69,7 @@ export default function EmployerPostJob() {
       if (taskErr) throw taskErr;
 
       notify.success("✅ Job and proof task published!");
-      navigate(`/app/employer/job/${jobData.id}`);
+      navigate(`/employer/job/${jobData.id}`);
     } catch (err: unknown) {
       notify.error(getErrorMessage(err, "Failed to publish job."));
     } finally {

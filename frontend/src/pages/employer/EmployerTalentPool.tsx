@@ -82,7 +82,7 @@ export default function EmployerTalentPool() {
           </p>
         </div>
         <button
-          onClick={() => navigate("/app/employer/dashboard")}
+          onClick={() => navigate("/employer/dashboard")}
           className="border border-[var(--color-border)] text-[var(--color-text-muted)] px-4 py-2 rounded-[var(--radius-button)] hover:bg-[var(--color-border)] transition"
         >
           ← Back to Dashboard
@@ -194,7 +194,7 @@ export default function EmployerTalentPool() {
                   </td>
                   <td className="py-2 px-3">
                     <button
-                      onClick={() => navigate(`/app/employer/review/${s.id}`)}
+                      onClick={() => navigate(`/employer/review/${s.id}`)}
                       className="text-[var(--color-employer-dark)] hover:underline"
                     >
                       View

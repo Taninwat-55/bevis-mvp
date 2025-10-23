@@ -1,3 +1,4 @@
+// src/context/AuthContext.tsx
 import { createContext } from "react";
 
 export type SessionUser = {

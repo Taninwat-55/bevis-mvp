@@ -14,9 +14,7 @@ export type ProofTask = {
   ai_tools_allowed?: boolean | null;
 };
 
-/**
- * Shape of a feedback record from the `feedback` table.
- */
+// Shape of a feedback record from the `feedback` table.
 export type Feedback = {
   id?: string;
   submission_id?: string | null;

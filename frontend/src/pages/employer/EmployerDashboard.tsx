@@ -64,7 +64,7 @@ export default function EmployerDashboard() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="heading-lg">🏢 Employer Dashboard</h1>
         <button
-          onClick={() => navigate("/app/employer/jobs/new")}
+          onClick={() => navigate("/employer/jobs/new")}
           className="bg-[var(--color-employer)] text-white px-4 py-2 rounded-[var(--radius-button)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-employer-dark)] transition"
         >
           + Post Job
@@ -90,7 +90,7 @@ export default function EmployerDashboard() {
               return (
                 <li
                   key={job.id}
-                  onClick={() => navigate(`/app/employer/job/${job.id}`)}
+                  onClick={() => navigate(`/employer/job/${job.id}`)}
                   className="cursor-pointer bg-[var(--color-surface)] transition-colors p-4 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition group"
                 >
                   <div className="flex justify-between items-center">
@@ -131,7 +131,7 @@ export default function EmployerDashboard() {
             {submissions.map((s) => (
               <li
                 key={s.id}
-                onClick={() => navigate(`/app/employer/review/${s.id}`)}
+                onClick={() => navigate(`/employer/review/${s.id}`)}
                 className="bg-[var(--color-surface)] transition-colors p-3 rounded-[var(--radius-card)] border border-[var(--color-border)] hover:shadow-[var(--shadow-soft)] transition"
               >
                 <span className="font-medium">{s.proof_tasks?.title}</span>
