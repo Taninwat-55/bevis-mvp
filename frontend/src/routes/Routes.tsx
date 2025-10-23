@@ -38,12 +38,19 @@ import AdminFeedback from "@/pages/admin/AdminFeedback";
 import AdminDataViewer from "@/pages/admin/AdminDataViewer";
 import UserSettings from "@/pages/shared/UserSettings";
 
+// Public
+import PublicJobDetailPage from "@/pages/PublicJobDetailPage";
+import PublicJobsPage from "@/pages/PublicJobsPage";
+
 export const router = createBrowserRouter([
   // --- Public Landing Page ---
   {
     path: "/",
     element: <LandingPage />,
   },
+
+  { path: "/jobs", element: <PublicJobsPage /> },
+  { path: "/jobs/:id", element: <PublicJobDetailPage /> },
 
   // --- Auth Page ---
   {
