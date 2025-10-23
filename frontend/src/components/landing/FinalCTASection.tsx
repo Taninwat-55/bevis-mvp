@@ -1,25 +1,32 @@
+import { Link } from "react-router-dom";
+
 export default function FinalCTASection() {
   return (
-    <section className="py-24 px-6 text-center bg-[var(--color-bg)] border-t border-[var(--color-border)] transition-colors">
-      <h2 className="text-4xl font-bold mb-4 text-[var(--color-text)]">
-        Ready to start proving?
-      </h2>
-      <p className="mb-10 max-w-xl mx-auto text-lg text-[var(--color-text-muted)]">
-        Build credibility. Discover talent. Join the proof revolution.
-      </p>
-      <div className="flex flex-wrap gap-4 justify-center">
-        <a
-          href="/auth"
-          className="px-8 py-3 rounded-[var(--radius-button)] bg-[var(--color-candidate-dark)] text-white font-medium hover:bg-[var(--color-candidate)] transition"
-        >
-          🎓 Join as Candidate
-        </a>
-        <a
-          href="/auth"
-          className="px-8 py-3 rounded-[var(--radius-button)] bg-[var(--color-employer-dark)] text-white font-medium hover:bg-[var(--color-employer)] transition"
-        >
-          🏢 Post a Job
-        </a>
+    <section
+      id="contact"
+      className="bg-[var(--color-bg)] py-20 border-t border-[var(--color-border)]"
+    >
+      <div className="mx-auto max-w-7xl px-6 text-center">
+        <h3 className="text-2xl font-semibold text-[var(--color-text)]">
+          Ready to prove what you can do?
+        </h3>
+        <p className="mt-2 text-[var(--color-text-muted)]">
+          Create your proof profile or post a role with an attached task.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <Link
+            to="/auth?role=candidate"
+            className="rounded-[var(--radius-button)] px-5 py-3 bg-[var(--color-candidate)] text-white hover:brightness-110 transition shadow-[var(--shadow-soft)]"
+          >
+            I’m a Candidate
+          </Link>
+          <Link
+            to="/auth?role=employer"
+            className="rounded-[var(--radius-button)] px-5 py-3 bg-[var(--color-employer)] text-white hover:brightness-110 transition shadow-[var(--shadow-soft)]"
+          >
+            I’m an Employer
+          </Link>
+        </div>
       </div>
     </section>
   );

@@ -1,22 +1,23 @@
-// src/pages/landing/LandingPage.tsx
 import LandingNavbar from "@/components/landing/LandingNavbar";
 import HeroSection from "@/components/landing/HeroSection";
-import ProofLoopSection from "@/components/landing/ProofLoopSection";
-import RoleCardsSection from "@/components/landing/RoleCardsSection";
+import HowItWorksSection from "@/components/landing/HowItWorksSection";
+import JobListingsSection from "@/components/landing/JobListingsSection";
+import WhyProofSection from "@/components/landing/WhyProofSection";
+import LandingFooter from "@/components/landing/LandingFooter";
+import ProblemSection from "@/components/landing/ProblemSection";
 import FinalCTASection from "@/components/landing/FinalCTASection";
-import Footer from "@/components/landing/Footer";
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-bg)] text-[var(--color-text)] transition-colors">
+    <div className="bg-[var(--color-bg)] text-[var(--color-text)]">
       <LandingNavbar />
-      <main className="mt-16 flex flex-col">
-        <HeroSection />
-        <ProofLoopSection />
-        <RoleCardsSection />
-        <FinalCTASection />
-      </main>
-      <Footer />
+      <HeroSection />
+      <ProblemSection />
+      <HowItWorksSection />
+      <JobListingsSection />
+      <WhyProofSection />
+      <FinalCTASection />
+      <LandingFooter />
     </div>
   );
 }
