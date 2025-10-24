@@ -11,7 +11,6 @@ export default function LandingNavbar() {
     { label: "Find Jobs", to: "/jobs" },
     { label: "Leaderboard", to: "/leaderboard" },
     { label: "For Employers", to: "/auth?role=employer" },
-    { label: "Why Proof", href: "#about" },
   ];
 
   return (
@@ -40,7 +39,6 @@ export default function LandingNavbar() {
               ) : (
                 <a
                   key={l.label}
-                  href={l.href}
                   className="hover:text-[var(--color-text)] transition-colors"
                 >
                   {l.label}
@@ -101,7 +99,6 @@ export default function LandingNavbar() {
               ) : (
                 <a
                   key={l.label}
-                  href={l.href}
                   onClick={() => setOpen(false)}
                   className="py-2 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
                 >

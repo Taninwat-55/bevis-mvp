@@ -29,7 +29,7 @@ export default function AuthPage() {
     if (!authLoading && user) {
       if (user.role === "employer") navigate("/employer");
       else if (user.role === "admin") navigate("/admin");
-      else navigate("/app");
+      else navigate("/candidate");
     }
   }, [user, authLoading, navigate]);
 
@@ -93,7 +93,7 @@ export default function AuthPage() {
 
         if (role === "admin") navigate("/admin");
         else if (role === "employer") navigate("/employer");
-        else navigate("/app");
+        else navigate("/candidate");
       }
     } catch {
       notify.error("Login failed. Please try again.");

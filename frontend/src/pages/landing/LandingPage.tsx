@@ -13,10 +13,10 @@ export default function LandingPage() {
     <div className="bg-[var(--color-bg)] text-[var(--color-text)]">
       <LandingNavbar />
       <HeroSection />
-      <ProblemSection />
-      <HowItWorksSection />
       <JobListingsSection />
       <FeaturedEmployersSection />
+      <ProblemSection />
+      <HowItWorksSection />
       <WhyProofSection />
       <FinalCTASection />
       <LandingFooter />

@@ -36,7 +36,7 @@ export default function EmployerJobListings() {
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10">
       <header className="flex items-center justify-between mb-6">
         <h1 className="heading-lg text-[var(--color-employer-dark)]">
-          🧾 My Jobs
+          My Jobs
         </h1>
         <button
           onClick={() => navigate("/employer/jobs/new")}

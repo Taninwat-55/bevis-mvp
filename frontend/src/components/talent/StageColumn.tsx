@@ -13,16 +13,16 @@ interface StageColumnProps {
 }
 
 const stageColors: Record<HiringStage, string> = {
-  new: "bg-[hsl(230,100%,98%)] dark:bg-[hsl(230,15%,12%)] border-[hsl(230,70%,75%)]",
+  new: "bg-[hsl(228,100%,97%)] dark:bg-[hsl(228,20%,16%)] border-[hsl(228,70%,60%)]",
   shortlisted:
-    "bg-[hsl(45,100%,98%)] dark:bg-[hsl(45,15%,12%)] border-[hsl(45,70%,70%)]",
+    "bg-[hsl(45,100%,96%)] dark:bg-[hsl(45,20%,18%)] border-[hsl(45,90%,55%)]",
   interview:
-    "bg-[hsl(200,100%,98%)] dark:bg-[hsl(200,15%,12%)] border-[hsl(200,70%,70%)]",
-  hold: "bg-[hsl(0,0%,98%)] dark:bg-[hsl(0,0%,14%)] border-[hsl(0,0%,70%)]",
+    "bg-[hsl(200,100%,96%)] dark:bg-[hsl(200,25%,17%)] border-[hsl(200,85%,55%)]",
+  hold: "bg-[hsl(0,0%,96%)] dark:bg-[hsl(0,0%,18%)] border-[hsl(0,0%,60%)]",
   hired:
-    "bg-[hsl(140,100%,98%)] dark:bg-[hsl(140,15%,12%)] border-[hsl(140,70%,65%)]",
+    "bg-[hsl(140,60%,94%)] dark:bg-[hsl(140,20%,16%)] border-[hsl(140,70%,45%)]",
   rejected:
-    "bg-[hsl(0,100%,98%)] dark:bg-[hsl(0,15%,12%)] border-[hsl(0,70%,70%)]",
+    "bg-[hsl(0,90%,96%)] dark:bg-[hsl(0,25%,16%)] border-[hsl(0,75%,50%)]",
 };
 
 export default function StageColumn({
@@ -43,7 +43,23 @@ export default function StageColumn({
       }`}
     >
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold text-sm text-[var(--color-text)]">
+        <h3
+          className={`font-semibold text-sm px-2 py-1 rounded-md text-white ${
+            stage === "hired"
+              ? "bg-[hsl(140,70%,45%)]"
+              : stage === "rejected"
+              ? "bg-[hsl(0,75%,50%)]"
+              : stage === "shortlisted"
+              ? "bg-[hsl(45,90%,55%)] text-black"
+              : stage === "new"
+              ? "bg-violet-500"
+              : stage === "interview"
+              ? "bg-blue-500"
+              : stage === "hold"
+              ? "bg-stone-600"
+              : "bg-[var(--color-border)] text-[var(--color-text)]"
+          }`}
+        >
           {label}
         </h3>
         <span className="text-xs text-[var(--color-text-muted)]">

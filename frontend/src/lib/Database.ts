@@ -95,6 +95,7 @@ export type Database = {
           featured: boolean | null
           id: string
           is_public: boolean | null
+          job_type: string | null
           location: string | null
           paid: boolean | null
           required_skills: string[] | null
@@ -110,6 +111,7 @@ export type Database = {
           featured?: boolean | null
           id?: string
           is_public?: boolean | null
+          job_type?: string | null
           location?: string | null
           paid?: boolean | null
           required_skills?: string[] | null
@@ -125,6 +127,7 @@ export type Database = {
           featured?: boolean | null
           id?: string
           is_public?: boolean | null
+          job_type?: string | null
           location?: string | null
           paid?: boolean | null
           required_skills?: string[] | null
