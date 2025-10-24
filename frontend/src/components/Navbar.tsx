@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import {
@@ -19,8 +19,8 @@ import { useTheme } from "@/hooks/useTheme";
 export default function Navbar() {
   const navigate = useNavigate();
   const { signOut, user, setOverride } = useAuth();
-
   const { isDark, toggleTheme } = useTheme();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ export default function Navbar() {
     navigate("/");
   };
 
-  // Close dropdown when clicking outside
+  // close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -51,6 +51,13 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // 🌐 Public quick links (always visible)
+  const navLinks = [
+    { label: "Home", to: "/" },
+    { label: "Find Jobs", to: "/jobs" },
+    { label: "Leaderboard", to: "/leaderboard" },
+  ];
+
   return (
     <header className="bg-[var(--color-surface)] border-b border-[var(--color-border)] shadow-[var(--shadow-soft)] px-6 py-3 flex items-center justify-between relative z-20 transition-colors">
       {/* Left: Logo + Toggle */}
@@ -61,32 +68,30 @@ export default function Navbar() {
         >
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
+
         <h1
           className="text-lg font-semibold text-[var(--color-candidate-dark)] cursor-pointer"
-          onClick={() =>
-            navigate(
-              user?.role === "admin"
-                ? "/admin"
-                : user?.role === "employer"
-                ? "/employer"
-                : user?.role === "candidate"
-                ? "/candidate"
-                : "/"
-            )
-          }
+          onClick={() => navigate("/")}
         >
           Bevis
         </h1>
       </div>
 
-      {/* Right: Icons + Profile Dropdown */}
-      <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
-        {localStorage.getItem("overrideRole") && (
-          <span className="text-xs text-[var(--color-text-muted)] italic ml-2">
-            (Viewing as {localStorage.getItem("overrideRole")})
-          </span>
-        )}
+      {/* Center: Global Nav Links (Desktop only) */}
+      <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-[var(--color-text-muted)]">
+        {navLinks.map(({ label, to }) => (
+          <Link
+            key={label}
+            to={to}
+            className="hover:text-[var(--color-text)] transition-colors"
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
 
+      {/* Right: Icons + Profile */}
+      <div className="flex items-center space-x-4 relative" ref={dropdownRef}>
         <button
           onClick={() => toast("No new notifications 📬")}
           className="text-[var(--color-text-muted)] hover:text-[var(--color-candidate-dark)] transition"
@@ -101,7 +106,6 @@ export default function Navbar() {
           {isDark ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
-        {/* Profile Icon */}
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
           className="text-[var(--color-text-muted)] hover:text-[var(--color-candidate-dark)] transition"
@@ -109,7 +113,7 @@ export default function Navbar() {
           <UserCircle2 size={22} />
         </button>
 
-        {/* Dropdown Menu */}
+        {/* Profile Dropdown */}
         {dropdownOpen && (
           <div className="absolute top-10 right-0 w-48 bg-[var(--color-surface)] border border-[var(--color-border)] shadow-[var(--shadow-soft)] rounded-[var(--radius-card)] py-2 transition-colors">
             <p className="px-4 py-2 text-xs text-[var(--color-text-muted)] border-b border-[var(--color-border)]">
@@ -118,82 +122,43 @@ export default function Navbar() {
 
             <button
               onClick={() => {
-                navigate(
-                  user?.role === "admin"
-                    ? "/admin/settings"
-                    : user?.role === "employer"
-                    ? "/employer/settings"
-                    : "/candidate/profile"
-                );
+                navigate("/candidate/profile");
                 setDropdownOpen(false);
               }}
-              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
+              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
             >
               <UserCircle2 size={16} /> My Profile
             </button>
 
             <button
               onClick={() => {
-                navigate(
-                  user?.role === "candidate"
-                    ? "/candidate/proofs"
-                    : user?.role === "employer"
-                    ? "/employer/submissions"
-                    : "/admin/feedback"
-                );
+                navigate("/candidate/proofs");
                 setDropdownOpen(false);
               }}
-              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
+              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
             >
               <FileText size={16} /> My Proofs
             </button>
 
             <button
               onClick={() => {
-                navigate(
-                  user?.role === "admin"
-                    ? "/admin/settings"
-                    : user?.role === "employer"
-                    ? "/employer/settings"
-                    : "/candidate/settings"
-                );
+                navigate("/candidate/settings");
                 setDropdownOpen(false);
               }}
-              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
+              className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
             >
               <Settings size={16} /> Settings
             </button>
 
-            {/* 🧩 Show only if admin */}
             {isAdmin && (
               <>
                 <button
                   onClick={() => {
-                    setOverride?.("candidate");
-                    navigate("/candidate/dashboard", { replace: true });
-                    setDropdownOpen(false);
-                  }}
-                  className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
-                >
-                  👩‍🎓 View as Candidate
-                </button>
-                <button
-                  onClick={() => {
-                    setOverride?.("employer");
-                    navigate("/employer", { replace: true });
-                    setDropdownOpen(false);
-                  }}
-                  className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
-                >
-                  🏢 View as Employer
-                </button>
-                <button
-                  onClick={() => {
                     setOverride?.("admin");
-                    navigate("/admin", { replace: true });
+                    navigate("/admin");
                     setDropdownOpen(false);
                   }}
-                  className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
+                  className="w-full text-left px-4 py-2 text-sm text-[var(--color-text)] flex items-center gap-2 hover-bg-soft transition-colors"
                 >
                   <Shield size={16} /> Admin Dashboard
                 </button>
@@ -204,13 +169,40 @@ export default function Navbar() {
 
             <button
               onClick={handleLogout}
-              className="cursor-pointer w-full text-left px-4 py-2 text-sm text-[var(--color-error)] hover:bg-[color-mix(in srgb, var(--color-text-muted) 6%, transparent)] flex items-center gap-2"
+              className="w-full text-left px-4 py-2 text-sm text-[var(--color-error)] hover:bg-[color-mix(in srgb, var(--color-text-muted) 6%, transparent)] flex items-center gap-2"
             >
               <LogOut size={16} /> Log Out
             </button>
           </div>
         )}
       </div>
+
+      {/* Mobile Drawer */}
+      {mobileOpen && (
+        <div className="absolute top-full left-0 w-full bg-[var(--color-surface)] border-t border-[var(--color-border)] md:hidden shadow-lg z-50">
+          <nav className="flex flex-col px-6 py-4 text-sm">
+            {navLinks.map(({ label, to }) => (
+              <Link
+                key={label}
+                to={to}
+                onClick={() => setMobileOpen(false)}
+                className="py-2 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+            <button
+              onClick={() => {
+                toggleTheme();
+                setMobileOpen(false);
+              }}
+              className="mt-3 flex items-center gap-2 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition"
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />} Toggle Theme
+            </button>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

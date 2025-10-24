@@ -45,16 +45,26 @@ import PublicJobDetailPage from "@/pages/PublicJobDetailPage";
 import PublicJobsPage from "@/pages/PublicJobsPage";
 import PublicCandidateProfilePage from "@/pages/PublicCandidateProfilePage";
 import PublicLeaderboard from "@/pages/PublicLeaderboard";
+import PublicLayout from "@/layout/PublicLayout";
+import LearnMorePage from "@/pages/LearnMorePage";
+import AboutPage from "@/pages/AboutPage";
 
 export const router = createBrowserRouter([
   // 🌐 Public
   { path: "/", element: <LandingPage /> },
-  { path: "/jobs", element: <PublicJobsPage /> },
-  { path: "/jobs/:id", element: <PublicJobDetailPage /> },
 
-  // 🏆 New public fairness routes
-  { path: "/leaderboard", element: <PublicLeaderboard /> },
-  { path: "/candidate/:id", element: <PublicCandidateProfilePage /> },
+  // 🌐 Public Pages with shared layout
+  {
+    element: <PublicLayout />,
+    children: [
+      { path: "/jobs", element: <PublicJobsPage /> },
+      { path: "/jobs/:id", element: <PublicJobDetailPage /> },
+      { path: "/leaderboard", element: <PublicLeaderboard /> },
+      { path: "/candidate/:id", element: <PublicCandidateProfilePage /> },
+      { path: "/learn-more", element: <LearnMorePage /> },
+      { path: "/about", element: <AboutPage /> },
+    ],
+  },
 
   // 🔐 Auth
   { path: "/auth", element: <AuthPage /> },
