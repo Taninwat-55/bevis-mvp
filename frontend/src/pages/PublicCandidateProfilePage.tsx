@@ -63,7 +63,7 @@ export default function PublicCandidateProfilePage() {
       <header className="mb-8">
         <h1 className="heading-lg">{profile.full_name ?? "Anonymous"}</h1>
         <p className="text-[var(--color-text-muted)] mb-4">
-          🪙 {profile.credits ?? 0} credits
+          💳 {profile.credits ?? 0} credits
         </p>
 
         {/* 🏠 Back + 🔗 Copy */}
