@@ -72,7 +72,7 @@ export default function CandidateCard({
         {open && (
           <div
             className="absolute right-2 top-6 z-[999] bg-[var(--color-surface)] border border-[var(--color-border)]
-               rounded-[var(--radius-card)] shadow-xl text-sm"
+               rounded-[var(--radius-card)] shadow-xl text-sm "
             onPointerDown={(e) => e.stopPropagation()}
           >
             {STAGES.map((stage) => (

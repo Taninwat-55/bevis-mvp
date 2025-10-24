@@ -62,7 +62,7 @@ export default function EmployerDashboard() {
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 space-y-10">
       {/* 🧭 Header + CTA */}
       <div className="flex items-center justify-between mb-6">
-        <h1 className="heading-lg">🏢 Employer Dashboard</h1>
+        <h1 className="heading-lg">Employer Dashboard</h1>
         <button
           onClick={() => navigate("/employer/jobs/new")}
           className="bg-[var(--color-employer)] text-white px-4 py-2 rounded-[var(--radius-button)] shadow-[var(--shadow-soft)] hover:bg-[var(--color-employer-dark)] transition"
@@ -104,7 +104,7 @@ export default function EmployerDashboard() {
                     </div>
                     {summary && (
                       <div className="text-sm text-[var(--color-text-muted)] text-right">
-                        <p>🧾 {summary.submissions_count || 0} submissions</p>
+                        <p>{summary.submissions_count || 0} submissions</p>
                         <p>
                           ⭐ Avg rating:{" "}
                           {summary.avg_score

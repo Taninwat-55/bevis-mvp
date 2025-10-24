@@ -62,7 +62,7 @@ export default function EmployerJobDetail() {
 
   const { title, description, company, location, paid, proof_tasks = [] } = job;
 
-  // 🧮 Compute summary
+  // Compute summary
   const totalSubs = submissions.length;
   const reviewedSubs = submissions.filter(
     (s) => s.status === "reviewed"
@@ -71,7 +71,7 @@ export default function EmployerJobDetail() {
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 flex flex-col gap-6">
-      {/* 🧭 Header */}
+      {/* Header */}
       <header className="flex items-center justify-between">
         <div>
           <h1 className="heading-lg text-[var(--color-employer-dark)]">

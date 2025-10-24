@@ -20,6 +20,7 @@ export default function EmployerPostJob() {
     location: "",
     paid: false,
     featured: false,
+    job_type: "full-time",
     description: "",
   });
 
@@ -51,7 +52,8 @@ export default function EmployerPostJob() {
             featured: job.featured, // ⭐ include here
             description: job.description,
             employer_id: user.id,
-            is_public: true, // optional: make sure it’s public for homepage display
+            is_public: true,
+            job_type: job.job_type,
           },
         ])
         .select("id")
@@ -80,11 +82,16 @@ export default function EmployerPostJob() {
     }
   }
 
+  if (!job.title || !task.title || !job.job_type)
+    return notify.error(
+      "Please fill in all required fields before publishing."
+    );
+
   return (
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10">
       <div className="bg-[var(--color-surface)] transition-colors border border-[var(--color-border)] shadow-[var(--shadow-soft)] rounded-[var(--radius-card)] max-w-2xl mx-auto p-8">
         <h1 className="heading-lg mb-2 text-[var(--color-employer-dark)]">
-          🧭 Post a New Job
+          Post a New Job
         </h1>
         <p className="text-[var(--color-text-muted)] mb-6">Step {step} of 3</p>
 
@@ -97,6 +104,19 @@ export default function EmployerPostJob() {
               onChange={(e) => setJob({ ...job, title: e.target.value })}
               className="w-full border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm"
             />
+
+            <label className="block text-sm font-medium">Job Type</label>
+            <select
+              value={job.job_type || "full-time"}
+              onChange={(e) => setJob({ ...job, job_type: e.target.value })}
+              className="w-full border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm bg-[var(--color-surface)] transition"
+            >
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
+              <option value="internship">Internship</option>
+              <option value="contract">Contract</option>
+              <option value="temporary">Temporary</option>
+            </select>
 
             <label className="block text-sm font-medium">Company</label>
             <input

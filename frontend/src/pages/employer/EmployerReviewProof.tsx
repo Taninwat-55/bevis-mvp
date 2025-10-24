@@ -73,7 +73,7 @@ export default function EmployerReviewProof() {
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10 flex flex-col gap-6">
       <header>
         <h1 className="heading-lg mb-2">
-          🧾 Review Submission – {submission.proof_tasks?.title}
+          Review Submission – {submission.proof_tasks?.title}
         </h1>
         <p className="body-base text-[var(--color-text-muted)]">
           Job: {submission.jobs?.title} • Candidate ID: {submission.user_id}

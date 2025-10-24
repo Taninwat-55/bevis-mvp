@@ -1,73 +1,44 @@
 // src/pages/candidate/CandidateProfile.tsx
 import { useEffect, useState } from "react";
-import { supabase } from "../../lib/supabaseClient";
-import { useAuth } from "../../hooks/useAuth";
-// import { useProofs } from "@/hooks/useProofs";
+import { supabase } from "@/lib/supabaseClient";
+import { useAuth } from "@/hooks/useAuth";
+import { useCandidateStats } from "@/hooks/useCandidateStats";
 import ProofCardsGrid from "@/components/ProofCardsGrid";
-
-interface ProfileStats {
-  proofsCompleted: number;
-  avgScore: number;
-  jobsApplied: number;
-}
 
 export default function CandidateProfile() {
   const { user } = useAuth();
-  console.log(user?.role);
-  const [stats, setStats] = useState<ProfileStats>({
-    proofsCompleted: 0,
-    avgScore: 0,
-    jobsApplied: 0,
-  });
+  const { proofsCompleted, avgScore, jobsApplied, credits, loading } =
+    useCandidateStats();
+
   const [joined, setJoined] = useState<string>("");
-  // const { cards, credits } = useProofs();
 
   useEffect(() => {
     if (!user?.id) return;
 
-    (async () => {
-      // 🕓 Fetch join date
-      const { data: userData } = await supabase
+    const fetchJoinDate = async () => {
+      const { data } = await supabase
         .from("users")
         .select("created_at")
         .eq("id", user.id)
         .single();
-      if (userData?.created_at)
-        setJoined(new Date(userData.created_at).toLocaleDateString());
 
-      // 📊 Fetch stats
-      const { count: completed } = await supabase
-        .from("submissions")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id)
-        .eq("status", "reviewed");
+      if (data?.created_at)
+        setJoined(new Date(data.created_at).toLocaleDateString());
+    };
 
-      const { data: scored } = await supabase
-        .from("submissions")
-        .select("score")
-        .eq("user_id", user.id)
-        .not("score", "is", null);
-
-      const { count: applied } = await supabase
-        .from("submissions")
-        .select("*", { count: "exact", head: true })
-        .eq("user_id", user.id);
-
-      const avgScore =
-        scored && scored.length
-          ? scored.reduce((a, c) => a + (c.score ?? 0), 0) / scored.length
-          : 0;
-
-      setStats({
-        proofsCompleted: completed || 0,
-        avgScore: Number(avgScore.toFixed(1)),
-        jobsApplied: applied || 0,
-      });
-    })();
+    fetchJoinDate();
   }, [user?.id]);
+
+  if (loading)
+    return (
+      <div className="p-8 text-center text-[var(--color-text-muted)]">
+        Loading profile…
+      </div>
+    );
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10">
+      {/* 👤 Header */}
       <header className="mb-10">
         <h1 className="heading-lg">👤 My Profile</h1>
         <p className="body-base mt-1 text-[var(--color-text-muted)]">
@@ -75,6 +46,7 @@ export default function CandidateProfile() {
         </p>
       </header>
 
+      {/* 🧩 Account Info */}
       <section className="bg-[var(--color-surface)] transition-colors rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6 mb-8">
         <h2 className="heading-md mb-4">Account Information</h2>
         <div className="space-y-2 text-sm">
@@ -88,25 +60,60 @@ export default function CandidateProfile() {
           <p>
             <strong>Member Since:</strong> {joined || "—"}
           </p>
+          <p>
+            <strong>Proof Credits:</strong> {credits ?? "—"}
+          </p>
         </div>
       </section>
 
+      {/* 📊 Performance Summary */}
       <section className="bg-[var(--color-surface)] transition-colors rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6">
         <h2 className="heading-md mb-4">Performance Summary</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <StatCard label="Proofs Completed" value={stats.proofsCompleted} />
-          <StatCard label="Average Score" value={`${stats.avgScore}★`} />
-          <StatCard label="Jobs Applied" value={stats.jobsApplied} />
+          <StatCard label="Proofs Completed" value={proofsCompleted} />
+          <StatCard label="Average Score" value={`${avgScore || "—"}★`} />
+          <StatCard label="Jobs Applied" value={jobsApplied} />
         </div>
       </section>
 
+      {/* 💳 Proof Cards */}
       <section className="mt-8 bg-[var(--color-surface)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6">
         <h2 className="heading-md mb-4">My Proof Cards</h2>
         <ProofCardsGrid />
       </section>
+
+      {/* 🌍 Public Profile Preview */}
+      <section className="mt-8 bg-[var(--color-surface)] rounded-[var(--radius-card)] shadow-[var(--shadow-soft)] border border-[var(--color-border)] p-6 text-center">
+        <h2 className="heading-md mb-3">Public Profile</h2>
+        <p className="text-sm text-[var(--color-text-muted)] mb-4">
+          Share your Bevis proof record with potential employers or peers.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="px-4 py-2 border border-[var(--color-border)] rounded-[var(--radius-button)] text-sm bg-[var(--color-bg)] break-all max-w-[90%]">
+            {`${window.location.origin}/candidate/${user?.id}`}
+          </div>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${window.location.origin}/candidate/${user?.id}`
+              );
+              // optional: use your Notify util instead of toast
+              import("react-hot-toast").then(({ default: toast }) =>
+                toast.success("Profile link copied!")
+              );
+            }}
+            className="text-sm px-4 py-2 bg-[var(--color-candidate)] text-white rounded-[var(--radius-button)] hover:brightness-110 transition"
+          >
+            Copy Link
+          </button>
+        </div>
+      </section>
     </div>
   );
 }
+
+/* ─── Subcomponent ─────────────────────────────── */
 
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (

@@ -38,7 +38,7 @@ export default function EmployerSubmissions() {
     <div className="min-h-screen bg-[var(--color-bg)] px-8 py-10">
       <header className="mb-6">
         <h1 className="heading-lg text-[var(--color-employer-dark)]">
-          📂 Candidate Submissions
+          Candidate Submissions
         </h1>
         <p className="text-[var(--color-text-muted)]">
           View and manage all candidate submissions.
