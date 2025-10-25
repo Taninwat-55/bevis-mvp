@@ -48,6 +48,8 @@ import PublicLeaderboard from "@/pages/PublicLeaderboard";
 import PublicLayout from "@/layout/PublicLayout";
 import LearnMorePage from "@/pages/LearnMorePage";
 import AboutPage from "@/pages/AboutPage";
+import AdminFeedbackMessages from "@/pages/admin/AdminFeedbackMessages";
+import AdminLayout from "@/layout/AdminLayout";
 
 export const router = createBrowserRouter([
   // 🌐 Public
@@ -133,12 +135,18 @@ export const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: <AdminDashboard /> },
-      { path: "users", element: <AdminUsers /> },
-      { path: "jobs", element: <AdminJobs /> },
-      { path: "feedback", element: <AdminFeedback /> },
-      { path: "data-viewer", element: <AdminDataViewer /> },
-      { path: "settings", element: <UserSettings /> },
+      {
+        element: <AdminLayout />, // ⬅️ wrap all admin pages with sidebar
+        children: [
+          { index: true, element: <AdminDashboard /> },
+          { path: "users", element: <AdminUsers /> },
+          { path: "jobs", element: <AdminJobs /> },
+          { path: "feedback", element: <AdminFeedback /> },
+          { path: "data-viewer", element: <AdminDataViewer /> },
+          { path: "settings", element: <UserSettings /> },
+          { path: "feedback-messages", element: <AdminFeedbackMessages /> },
+        ],
+      },
     ],
   },
 ]);

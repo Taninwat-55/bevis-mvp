@@ -34,3 +34,16 @@ export interface AdminFeedback {
   comment: string;
   created_at: string;
 }
+
+export interface FeedbackMessage {
+  id: string;
+  user_id: string | null;
+  category: string | null;
+  message: string;
+  page: string | null;
+  created_at: string | null;
+  profiles?: {
+    full_name: string | null;
+    email: string | null;
+  } | null;
+}

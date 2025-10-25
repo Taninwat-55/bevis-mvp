@@ -85,6 +85,44 @@ export type Database = {
           },
         ]
       }
+      feedback_messages: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          message: string
+          page: string | null
+          user_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          message: string
+          page?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          message?: string
+          page?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_messages_user_fk"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       jobs: {
         Row: {
           company: string | null
