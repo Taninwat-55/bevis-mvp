@@ -16,6 +16,7 @@ import {
   House,
   ChevronLeft,
   ChevronRight,
+  MessageCircle,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
@@ -100,6 +101,11 @@ export default function Sidebar({ role }: SidebarProps) {
       icon: <Database size={17} />,
     },
     { to: "/admin/feedback", label: "Feedback Logs", icon: <Star size={17} /> },
+    {
+      to: "/admin/feedback-messages",
+      label: "User Feedback",
+      icon: <MessageCircle size={17} />,
+    },
     { to: "/admin/settings", label: "Settings", icon: <Settings size={17} /> },
   ];
 

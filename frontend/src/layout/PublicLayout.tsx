@@ -3,6 +3,7 @@ import LandingNavbar from "@/components/landing/LandingNavbar";
 import LandingFooter from "@/components/landing/LandingFooter";
 import { Outlet } from "react-router-dom";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import FeedbackButton from "@/components/ui/FeedbackButton";
 
 export default function PublicLayout() {
   return (
@@ -13,6 +14,7 @@ export default function PublicLayout() {
         <Outlet />
       </main>
       <LandingFooter />
+      <FeedbackButton />
     </div>
   );
 }
