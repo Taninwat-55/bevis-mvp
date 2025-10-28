@@ -1,6 +1,7 @@
 # 🧩 Bevis — Proof-Based Hiring Platform (MVP)
 
-Bevis is a next-generation hiring platform that replaces traditional CVs with **verified proof tasks** — small, skill-based micro-projects that allow candidates to _prove_ their abilities while employers can fairly review, rate, and credential them.
+Bevis is a proof-of-skill platform that turns real work into verified experience — creating a fair bridge between learning and employment.  
+Through short, real-world proof tasks, candidates build credibility while employers hire based on verified ability, not promises.
 
 ---
 
@@ -22,7 +23,7 @@ Bevis is a next-generation hiring platform that replaces traditional CVs with **
 | ------------------- | ------------------------------------------------------ |
 | **Frontend**        | React + Vite + TypeScript + Tailwind v4                |
 | **Backend**         | Supabase (PostgreSQL + Auth + Row Level Security)      |
-| **UI Library**      | lucide-react (icons) + react-hot-toast (notifications) |
+| **UI Library**      | lucide-react (icons) + react-hot-toast (notifications) + framer-motion (animations) |
 | **State / Routing** | React Router v6 + Context API                          |
 | **Auth**            | Supabase Auth (email + password)                       |
 
@@ -37,6 +38,7 @@ bevis-mvp/
 │ ├── src/
 │ │ ├── components/ # Shared UI (Navbar, Sidebar, etc.)
 │ │ │ ├── landing/
+│ │ │ │ ├── FeaturedEmployerSection.tsx
 │ │ │ │ ├── FinalCTASection.tsx
 │ │ │ │ ├── HeroSection.tsx
 │ │ │ │ ├── HowItWorksSection.tsx
@@ -54,24 +56,30 @@ bevis-mvp/
 │ │ │ ├── ui/
 │ │ │ │ ├── BackButton.tsx
 │ │ │ │ ├── Breadcrumb.tsx
+│ │ │ │ ├── FeedbackButton.tsx
 │ │ │ │ ├── FilterChips.tsx
 │ │ │ │ ├── MultiSelectFilter.tsx
 │ │ │ │ ├── Notify.tsx
+│ │ │ │ ├── ScrollToTop.tsx
 │ │ │ │ ├── Toast.tsx
 │ │ │ ├── Navbar.tsx
+│ │ │ ├── ProofCardsGrid.tsx
 │ │ │ ├── Sidebar.tsx
 │ │ ├── context/ # AuthContext + AuthProvider
 │ │ │ ├── AuthContext.tsx
 │ │ │ ├── AuthProvider.tsx
 │ │ ├── hooks/ # useAuth, useJobs, useProofs
 │ │ │ ├── useAuth.ts
+│ │ │ ├── useCandidateStats.ts
 │ │ │ ├── useJobs.ts
 │ │ │ ├── useProofs.ts
 │ │ │ ├── useTheme.ts
 │ │ ├── layout/
+│ │ │ ├── AdminLayout.tsx
 │ │ │ ├── CandidateLayout.tsx
 │ │ │ ├── EmployerLayout.tsx
 │ │ │ ├── HomeLayout.tsx
+│ │ │ ├── PublicLayout.tsx
 │ │ ├── lib/api/ # Supabase API functions
 │ │ │ ├── api/
 │ │ │ │ ├── admin.ts
@@ -79,6 +87,7 @@ bevis-mvp/
 │ │ │ │ ├── index.ts
 │ │ │ │ ├── jobs.ts
 │ │ │ │ ├── mutations.ts
+│ │ │ │ ├── pools.ts
 │ │ │ │ ├── submissions.ts
 │ │ │ ├── Database.ts
 │ │ │ ├── error.ts
@@ -89,6 +98,7 @@ bevis-mvp/
 │ │ │ │ ├── AdminDashboard.tsx
 │ │ │ │ ├── AdminDataViewer.tsx
 │ │ │ │ ├── AdminFeedback.tsx
+│ │ │ │ ├── AdminFeedbackMessages.tsx
 │ │ │ │ ├── AdminJobs.tsx
 │ │ │ │ ├── AdminUsers.tsx
 │ │ │ ├── auth/ # Login / Signup
@@ -118,8 +128,12 @@ bevis-mvp/
 │ │ │ │ ├── LandingPage.tsx
 │ │ │ ├── shared/
 │ │ │ │ ├── UserSettings.tsx.tsx
+│ │ │ ├── AboutPage.tsx
+│ │ │ ├── LearnMorePage.tsx
+│ │ │ ├── PublicJCandidateProfilePage.tsx
 │ │ │ ├── PublicJobDetailPage.tsx
 │ │ │ ├── PublicJobsPage.tsx
+│ │ │ ├── PublicLeaderboard.tsx
 │ │ └── routes/ # Protected routes + layout wrappers
 │ │ │ ├── ProtectedRoute.tsx
 │ │ │ ├── Routes.tsx
@@ -129,7 +143,6 @@ bevis-mvp/
 │ │ │ ├── employer.ts
 │ │ │ ├── index.ts
 │ │ │ ├── shared.ts
-│ │ │ ├── supabase.ts
 │ └── index.css, main.tsx # Tailwind theme + root app (App.tsx)
 │
 └── backend/supabase/
