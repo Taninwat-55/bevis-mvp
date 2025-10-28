@@ -7,6 +7,7 @@ import {
   Clock,
   ArrowDownUp,
   Search,
+  BarChart2,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import type { FeedbackMessage } from "@/types/admin";
@@ -25,18 +26,18 @@ export default function AdminFeedbackMessages() {
       setLoading(true);
       const { data, error } = await supabase
         .from("feedback_messages")
-        .select("*, profiles(full_name, email)") // ✅ works now that FK exists
+        .select("*, profiles(full_name, email)")
         .order("created_at", { ascending: false });
 
       if (error) {
-        toast.error("Failed to load feedback messages.");
         console.error(error);
+        toast.error("Failed to load feedback messages.");
       } else if (data) {
-        setMessages(data as FeedbackMessage[]);
+        // 👇 Cast safely if types aren’t updated yet
+        setMessages(data as unknown as FeedbackMessage[]);
       }
       setLoading(false);
     };
-
     loadFeedback();
   }, []);
 
@@ -44,7 +45,6 @@ export default function AdminFeedbackMessages() {
   const filteredMessages = useMemo(() => {
     let result = [...messages];
 
-    // 🔍 Search
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase();
       result = result.filter(
@@ -55,12 +55,10 @@ export default function AdminFeedbackMessages() {
       );
     }
 
-    // 🏷️ Category
     if (categoryFilter !== "all") {
       result = result.filter((m) => m.category === categoryFilter);
     }
 
-    // ⏳ Sort
     result.sort((a, b) => {
       const da = new Date(a.created_at ?? 0).getTime();
       const db = new Date(b.created_at ?? 0).getTime();
@@ -70,9 +68,24 @@ export default function AdminFeedbackMessages() {
     return result;
   }, [messages, searchTerm, categoryFilter, sortOrder]);
 
+  /* ─────────────────────────────── Summary Counts ─────────────────────────────── */
+  const summary = useMemo(() => {
+    const counts = { bug: 0, suggestion: 0, question: 0, general: 0 };
+    messages.forEach((m) => {
+      if (
+        m.category &&
+        counts[m.category as keyof typeof counts] !== undefined
+      ) {
+        counts[m.category as keyof typeof counts]++;
+      }
+    });
+    const total = messages.length;
+    return { ...counts, total };
+  }, [messages]);
+
   return (
     <div className="min-h-screen bg-[var(--color-bg)] p-10">
-      {/* 🧭 Header */}
+      {/* Header */}
       <header className="mb-8">
         <h1 className="heading-lg mb-2 text-[var(--color-text)]">
           💬 Platform Feedback
@@ -83,7 +96,76 @@ export default function AdminFeedbackMessages() {
         </p>
       </header>
 
-      {/* 🔍 Filters + Sort */}
+      {/* Summary */}
+      {!loading && summary.total > 0 && (
+        <div className="flex flex-wrap items-center gap-4 mb-6 text-sm">
+          <div className="flex items-center gap-2 text-[var(--color-text-muted)]">
+            <BarChart2 size={16} />
+            <span>
+              <b className="text-[var(--color-text)]">{summary.total}</b> total
+              feedbacks
+            </span>
+          </div>
+          <div className="flex gap-3 flex-wrap">
+            <button
+              onClick={() =>
+                setCategoryFilter(categoryFilter === "bug" ? "all" : "bug")
+              }
+              className={`text-xs px-2 py-1 rounded-full font-medium cursor-pointer ${
+                categoryFilter === "bug"
+                  ? "ring-2 ring-[var(--color-candidate-dark)]"
+                  : ""
+              } bg-red-100 text-red-700`}
+            >
+              🐞 {summary.bug}
+            </button>
+            <button
+              onClick={() =>
+                setCategoryFilter(
+                  categoryFilter === "suggestion" ? "all" : "suggestion"
+                )
+              }
+              className={`text-xs px-2 py-1 rounded-full font-medium cursor-pointer ${
+                categoryFilter === "suggestion"
+                  ? "ring-2 ring-[var(--color-candidate-dark)]"
+                  : ""
+              } bg-yellow-100 text-yellow-800`}
+            >
+              💡 {summary.suggestion}
+            </button>
+            <button
+              onClick={() =>
+                setCategoryFilter(
+                  categoryFilter === "question" ? "all" : "question"
+                )
+              }
+              className={`text-xs px-2 py-1 rounded-full font-medium cursor-pointer ${
+                categoryFilter === "question"
+                  ? "ring-2 ring-[var(--color-candidate-dark)]"
+                  : ""
+              } bg-blue-100 text-blue-800`}
+            >
+              ❓ {summary.question}
+            </button>
+            <button
+              onClick={() =>
+                setCategoryFilter(
+                  categoryFilter === "general" ? "all" : "general"
+                )
+              }
+              className={`text-xs px-2 py-1 rounded-full font-medium cursor-pointer ${
+                categoryFilter === "general"
+                  ? "ring-2 ring-[var(--color-candidate-dark)]"
+                  : ""
+              } bg-gray-100 text-gray-700`}
+            >
+              💬 {summary.general}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 🔍 Controls */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
         {/* Search */}
         <div className="relative flex-1 min-w-[240px]">
@@ -99,19 +181,6 @@ export default function AdminFeedbackMessages() {
             className="w-full border border-[var(--color-border)] rounded-[var(--radius-button)] pl-8 pr-3 py-2 text-sm focus:ring-1 focus:ring-[var(--color-candidate-dark)]"
           />
         </div>
-
-        {/* Category Filter */}
-        <select
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          className="border border-[var(--color-border)] rounded-[var(--radius-button)] px-3 py-2 text-sm bg-[var(--color-surface)]"
-        >
-          <option value="all">All Categories</option>
-          <option value="bug">🐞 Bug Reports</option>
-          <option value="suggestion">💡 Suggestions</option>
-          <option value="question">❓ Questions</option>
-          <option value="general">💬 General</option>
-        </select>
 
         {/* Sort toggle */}
         <button
@@ -178,22 +247,18 @@ export default function AdminFeedbackMessages() {
                       {m.category}
                     </button>
                   </td>
-
                   <td className="py-3 px-4 text-[var(--color-text)] max-w-md truncate">
                     {m.message}
                   </td>
-
                   <td className="py-3 px-4 text-[var(--color-text-muted)]">
                     <div className="flex items-center gap-2">
                       <Mail size={14} />
                       {m.profiles?.email || "Anonymous"}
                     </div>
                   </td>
-
                   <td className="py-3 px-4 text-[var(--color-text-muted)]">
                     {m.page || "—"}
                   </td>
-
                   <td className="py-3 px-4 text-[var(--color-text-muted)] whitespace-nowrap">
                     <div className="flex items-center gap-1">
                       <Clock size={14} />
