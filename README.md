@@ -181,11 +181,28 @@ Components use semantic color variables for consistent theming.
 | **C5**               | Feedback View                                                        | See employer feedback, ratings, and comments               |
 | **C6**               | Profile                                                              | Candidate’s personal info + account overview               |
 | **E1**               | Employer Flow + Dashboard                                            | Employer overview (dashboard + home)                       |
-| **Admin Dashboard**  | Admin tools to view as other roles, promote users, and manage system |
-| **Landing Page**     | Modular marketing layout                                             |
+| **E2**               | Job Post + Management                                                | Post Proof-based job roles and manage open positions.      |
+| **E3**               | Review Submissions                                                   | Evaluate candidate proofs, give structured feedback.       |
+| **E4**               | Talent Pool + Manager                                                | Browse verified candidates, manage hiring pipeline.        |
+| **E5**               | Employer Feedback Flow                                               | Submit hiring feedback, final confirmation success page.   |
+| **Admin Dashboard**  | System overview (stats, quick access, and admin actions)             |
+| **Admin Users**      | View, promote, and manage user roles                                 |
+| **Admin Jobs**       | Browse all jobs with employer context                                |
+| **Admin Feedback Log**| View all candidate–employer proof feedback and ratings              |
+| **Admin Feedback Messages**| View user-submitted platform feedback (via floating feedback button) with filters and summaries              |
+| **Admin Data Viewer**| Inspect Supabase data (for dev/admin insight)                        |
+| **Explore Menu**     | New dropdown in navbar with Learn More and About pages               |
+| **Learn More Page**  | Interactive guide for candidates and employers explaining how Bevis works              |
+| **About Page**       | Mission, vision, and platform purpose (non-blockchain MVP version)   |
+| **Feedback Button**  | Universal floating feedback button for all users (bug reports, suggestions, etc.)   |
+| **Feedback Table (DB)**  | New feedback_messages table with RLS + linked to profiles        |
+| **Public Layout**    | Unified layout for /jobs, /leaderboard, /learn-more, /about, etc.    |
+| **Landing Page**     | Modular marketing layout with hero video, CTA, and proof concept     |
 | **Auth System**      | Full Supabase login + signup flow, role-based redirect               |
-| **Navbar & Sidebar** | Persistent layout with responsive navigation                         |
+| **Navbar & Sidebar** | Responsive navigation; role-aware menus for candidate/employer/admin |
 | **Toast**            | Unified `BevisToaster` + `notify` helper                             |
+| **Theme + Dark Mode**| Consistent color tokens, Tailwind v4 design system                   |
+| **Type Safety**.     | Updated Supabase types, admin/candidate/employer shared TypeScript interfaces         |
 
 ---
 
