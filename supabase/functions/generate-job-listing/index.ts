@@ -42,6 +42,28 @@ Deno.serve(async (req) => {
             const { data: { user }, error: authError } = await supabase.auth
                 .getUser(authHeader.replace("Bearer ", ""));
             if (!authError && user) {
+                // Signing in previously removed the limit entirely, so one free
+                // account meant unlimited generations. Authenticated callers get a
+                // much larger budget than visitors — not an unlimited one.
+                const { data: userAllowed } = await supabase.rpc("check_rate_limit", {
+                    p_bucket: "generate-job-listing:authed",
+                    p_identifier: user.id,
+                    p_limit: 30,
+                    p_window_seconds: 24 * 60 * 60,
+                });
+                if (userAllowed !== true) {
+                    return new Response(
+                        JSON.stringify({
+                            error:
+                                "You've generated a lot of job tasks today. Please try again tomorrow.",
+                            isLimit: true,
+                        }),
+                        {
+                            status: 429,
+                            headers: { ...corsHeaders, "Content-Type": "application/json" },
+                        },
+                    );
+                }
                 isAuthorized = true;
                 console.log(`Authorized request from user: ${user.email}`);
             }
