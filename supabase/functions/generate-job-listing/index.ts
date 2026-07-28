@@ -1,14 +1,7 @@
 // supabase/functions/generate-job-listing/index.ts
 import "jsr:@supabase/functions-js@^2/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const ALLOWED_ORIGIN = Deno.env.get("ALLOWED_ORIGIN") ?? "https://bevisly.com";
-
-const corsHeaders = {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-    "Access-Control-Allow-Headers":
-        "authorization, x-client-info, apikey, content-type, x-client-timeout",
-};
+import { clientIp, corsHeaders, withinRateLimit } from "../_shared/guard.ts";
 
 Deno.serve(async (req) => {
     // Handle CORS preflight requests
@@ -70,19 +63,32 @@ Deno.serve(async (req) => {
         }
 
         if (!isAuthorized) {
-            // 2. Fallback to IP-based rate limiting for landing page demo
-            const clientIP = req.headers.get("x-real-ip") ||
-                req.headers.get("x-forwarded-for") || "unknown";
+            // 2. IP-based rate limiting for the landing page demo — the only
+            //    unauthenticated path to Gemini in the whole product.
+            //
+            //    This used to call check_ai_rate_limit, which did not limit anything:
+            //      a) it keyed the bucket on the RAW x-forwarded-for header, which on
+            //         Supabase is a CHAIN ending in a rotating AWS hop
+            //         ("83.89.29.230,83.89.29.230, 99.82.169.234"). Every request from
+            //         one visitor produced a different key, so the counter never
+            //         climbed — ai_usage_logs is full of count=1 rows for the same
+            //         person.
+            //      b) it read the count, then wrote count+1 in a separate statement, so
+            //         concurrent requests all read the same value and all passed.
+            //
+            //    clientIp() takes only the first hop, and check_rate_limit bumps the
+            //    counter in one atomic statement. Both failures are closed.
+            const clientIP = clientIp(req);
 
-            const { data: allowed, error: limitError } = await supabase.rpc(
-                "check_ai_rate_limit",
-                {
-                    p_ip: clientIP,
-                    p_limit: 3, // Allow 3 requests per 24h for visitors
-                },
+            const allowed = await withinRateLimit(
+                supabase,
+                "generate-job-listing:anon",
+                clientIP,
+                3, // 3 requests per 24h for visitors
+                24 * 60 * 60,
             );
 
-            if (limitError || !allowed) {
+            if (!allowed) {
                 return new Response(
                     JSON.stringify({
                         error:
