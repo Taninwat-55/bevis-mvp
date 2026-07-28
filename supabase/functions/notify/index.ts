@@ -45,12 +45,16 @@ interface SubmissionRecord {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  // Fail CLOSED. This previously only checked the secret `if (webhookSecret)`, so
+  // an unset or misnamed env var in production silently disabled the check and
+  // left the endpoint open — the failure mode you least want from an auth gate.
   const webhookSecret = Deno.env.get("WEBHOOK_SECRET");
-  if (webhookSecret) {
-    const incoming = req.headers.get("x-webhook-secret");
-    if (incoming !== webhookSecret) {
-      return new Response("Unauthorized", { status: 401 });
-    }
+  if (!webhookSecret) {
+    console.error("WEBHOOK_SECRET is not set — refusing to process webhook.");
+    return new Response("Unauthorized", { status: 401 });
+  }
+  if (req.headers.get("x-webhook-secret") !== webhookSecret) {
+    return new Response("Unauthorized", { status: 401 });
   }
 
   try {

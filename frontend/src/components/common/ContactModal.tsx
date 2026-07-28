@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/Input";
 import { supabase } from "@/lib/supabaseClient";
 import { notify } from "@/components/common/Notify";
 import { X, Mail, User, Send, MessageSquare } from "lucide-react";
-import { getContactMessageTemplate } from "@/lib/emailTemplates";
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -23,16 +22,24 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     setLoading(true);
 
     try {
-      const { error: mailError } = await supabase.functions.invoke("send-email", {
-        body: {
-          to: ["bevislyapp@gmail.com"],
-          reply_to: email, // Allow direct reply
-          subject: `📬 New Contact Inquiry from ${name}`,
-          html: getContactMessageTemplate(name, email, message),
+      // Contact mode: the function fixes the recipient, subject and markup
+      // server-side. This form only supplies the three raw fields — it cannot
+      // choose who the mail goes to, which is what keeps it safe to expose to
+      // logged-out visitors.
+      const { data, error: mailError } = await supabase.functions.invoke(
+        "send-email",
+        {
+          body: {
+            mode: "contact",
+            name,
+            reply_to: email,
+            message,
+          },
         },
-      });
+      );
 
       if (mailError) throw mailError;
+      if (data?.error) throw new Error(data.error);
 
       notify.success("Message sent! We'll get back to you shortly.");
       onClose();

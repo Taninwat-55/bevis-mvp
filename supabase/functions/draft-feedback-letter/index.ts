@@ -1,10 +1,24 @@
-const ALLOWED_ORIGIN = Deno.env.get("ALLOWED_ORIGIN") ?? "https://bevisly.com";
+import {
+    cappedText,
+    corsHeaders,
+    getCaller,
+    rateLimited,
+    serviceClient,
+    unauthorized,
+    withinRateLimit,
+} from "../_shared/guard.ts";
 
-const corsHeaders = {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-    "Access-Control-Allow-Headers":
-        "authorization, x-client-info, apikey, content-type, x-client-timeout",
-};
+// SECURITY: no caller check meant the public anon key was enough to run this as a
+// free Gemini proxy, and only `submission_content` was length-checked while every
+// other prompt field was unbounded. Now signed-in, rate limited, and fully capped.
+
+const DRAFT_LIMIT = 30;
+const DRAFT_WINDOW = 60 * 60;
+
+const MAX_SUBMISSION = 20_000;
+const MAX_FIELD = 5_000;
+const MAX_SHORT = 300;
+const MAX_RUBRIC_ITEMS = 20;
 
 Deno.serve(async (req: Request) => {
     if (req.method === "OPTIONS") {
@@ -32,11 +46,46 @@ Deno.serve(async (req: Request) => {
             improvements,
         } = await req.json();
 
-        if (submission_content !== undefined && submission_content !== null && typeof submission_content !== "string") {
-            throw new Error("Invalid submission_content");
+        const db = serviceClient();
+
+        const caller = await getCaller(req, db);
+        if (!caller) return unauthorized();
+
+        if (
+            !(await withinRateLimit(
+                db,
+                "draft-feedback-letter",
+                caller.id,
+                DRAFT_LIMIT,
+                DRAFT_WINDOW,
+            ))
+        ) {
+            return rateLimited(
+                "You've drafted a lot of letters recently. Please slow down.",
+            );
         }
-        if (typeof submission_content === "string" && submission_content.length > 20000) {
-            throw new Error("submission_content exceeds maximum length");
+
+        // Every field below reaches the prompt, so every field below is bounded.
+        cappedText(submission_content, MAX_SUBMISSION, "submission_content");
+        cappedText(task_description, MAX_FIELD, "task_description");
+        cappedText(reflection, MAX_FIELD, "reflection");
+        cappedText(strengths, MAX_FIELD, "strengths");
+        cappedText(improvements, MAX_FIELD, "improvements");
+        cappedText(candidate_name, MAX_SHORT, "candidate_name");
+        cappedText(job_title, MAX_SHORT, "job_title");
+        cappedText(company_name, MAX_SHORT, "company_name");
+        cappedText(task_title, MAX_SHORT, "task_title");
+        if (
+            rubric_scores !== undefined && rubric_scores !== null &&
+            (!Array.isArray(rubric_scores) || rubric_scores.length > MAX_RUBRIC_ITEMS)
+        ) {
+            throw new Error(`rubric_scores must be an array of at most ${MAX_RUBRIC_ITEMS} items`);
+        }
+        if (
+            rubric_criteria !== undefined && rubric_criteria !== null &&
+            (!Array.isArray(rubric_criteria) || rubric_criteria.length > MAX_RUBRIC_ITEMS)
+        ) {
+            throw new Error(`rubric_criteria must be an array of at most ${MAX_RUBRIC_ITEMS} items`);
         }
 
         const firstName = (candidate_name ?? "Candidate")
