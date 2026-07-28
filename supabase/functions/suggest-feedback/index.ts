@@ -1,12 +1,26 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import {
+    cappedText,
+    corsHeaders,
+    getCaller,
+    json,
+    rateLimited,
+    serviceClient,
+    unauthorized,
+    withinRateLimit,
+} from "../_shared/guard.ts";
 
-const ALLOWED_ORIGIN = Deno.env.get("ALLOWED_ORIGIN") ?? "https://bevisly.com";
+// SECURITY: this had no caller check, so the public anon key was enough to use it
+// as a free Gemini proxy. `submission_content` was capped at 20k chars but every
+// other prompt field was unbounded, so the cap did little. Now: signed-in callers
+// only, rate limited per user, and every field that reaches the prompt is capped.
 
-const corsHeaders = {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-    "Access-Control-Allow-Headers":
-        "authorization, x-client-info, apikey, content-type, x-client-timeout",
-};
+const SUGGEST_LIMIT = 60;
+const SUGGEST_WINDOW = 60 * 60;
+
+const MAX_SUBMISSION = 20_000;
+const MAX_FIELD = 5_000;
+const MAX_RUBRIC_CRITERIA = 20;
 
 type RubricCriterion = {
     name: string;
@@ -30,15 +44,49 @@ Deno.serve(async (req) => {
             rubric_criteria,
         } = await req.json();
 
-        if (submission_content !== undefined && submission_content !== null && typeof submission_content !== "string") {
-            return new Response(JSON.stringify({ error: "Invalid submission_content" }), {
-                status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-            });
+        const db = serviceClient();
+
+        const caller = await getCaller(req, db);
+        if (!caller) return unauthorized();
+
+        if (
+            !(await withinRateLimit(
+                db,
+                "suggest-feedback",
+                caller.id,
+                SUGGEST_LIMIT,
+                SUGGEST_WINDOW,
+            ))
+        ) {
+            return rateLimited(
+                "You've requested a lot of AI feedback recently. Please slow down.",
+            );
         }
-        if (typeof submission_content === "string" && submission_content.length > 20000) {
-            return new Response(JSON.stringify({ error: "submission_content exceeds maximum length" }), {
-                status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
-            });
+
+        // Every value below is interpolated into the prompt, so every value below
+        // needs a bound — capping only submission_content left the door open.
+        try {
+            cappedText(submission_content, MAX_SUBMISSION, "submission_content");
+            cappedText(task_description, MAX_FIELD, "task_description");
+            cappedText(criteria, MAX_FIELD, "criteria");
+            cappedText(reflection, MAX_FIELD, "reflection");
+        } catch (e) {
+            return json({ error: (e as Error).message }, 400);
+        }
+        if (
+            rubric_criteria !== undefined && rubric_criteria !== null &&
+            (!Array.isArray(rubric_criteria) || rubric_criteria.length > MAX_RUBRIC_CRITERIA)
+        ) {
+            return json(
+                { error: `rubric_criteria must be an array of at most ${MAX_RUBRIC_CRITERIA} items` },
+                400,
+            );
+        }
+        if (
+            reasoning_trace !== undefined && reasoning_trace !== null &&
+            JSON.stringify(reasoning_trace).length > MAX_FIELD
+        ) {
+            return json({ error: "reasoning_trace exceeds maximum length" }, 400);
         }
 
         const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");

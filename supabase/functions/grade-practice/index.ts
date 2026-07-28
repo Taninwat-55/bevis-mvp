@@ -1,13 +1,18 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "jsr:@supabase/supabase-js@2";
+import {
+    corsHeaders,
+    getCaller,
+    serviceClient,
+    withinRateLimit,
+} from "../_shared/guard.ts";
 
-const ALLOWED_ORIGIN = Deno.env.get("ALLOWED_ORIGIN") ?? "https://bevisly.com";
+// SECURITY: this had no caller check at all, and read the submission with the
+// service role — so any anon-key holder could grade (and read) anyone's
+// submission by id, at unlimited Gemini cost. Grading is now restricted to the
+// submission's owner, and rate limited per user.
 
-const corsHeaders = {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-    "Access-Control-Allow-Headers":
-        "authorization, x-client-info, apikey, content-type, x-client-timeout",
-};
+const GRADE_LIMIT = 30;
+const GRADE_WINDOW = 60 * 60;
 
 Deno.serve(async (req) => {
     if (req.method === "OPTIONS") {
@@ -24,10 +29,33 @@ Deno.serve(async (req) => {
             );
         }
 
-        const supabase = createClient(
-            Deno.env.get("SUPABASE_URL")!,
-            Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
-        );
+        const supabase = serviceClient();
+
+        const caller = await getCaller(req, supabase);
+        if (!caller) {
+            return new Response(
+                JSON.stringify({ error: "You must be signed in to grade a submission." }),
+                { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+            );
+        }
+
+        if (
+            !(await withinRateLimit(
+                supabase,
+                "grade-practice",
+                caller.id,
+                GRADE_LIMIT,
+                GRADE_WINDOW,
+            ))
+        ) {
+            return new Response(
+                JSON.stringify({
+                    error: "You've graded a lot of submissions recently. Please slow down.",
+                    isLimit: true,
+                }),
+                { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+            );
+        }
 
         const { data: submission, error: subError } = await supabase
             .from("practice_submissions")
@@ -43,7 +71,11 @@ Deno.serve(async (req) => {
                     description
                 )
             `)
+            // Ownership is enforced in the query itself: a submission belonging to
+            // someone else is indistinguishable from one that does not exist, so
+            // this doubles as a check and avoids leaking which ids are real.
             .eq("id", submission_id)
+            .eq("user_id", caller.id)
             .single();
 
         if (subError || !submission) {

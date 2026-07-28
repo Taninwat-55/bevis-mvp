@@ -1,13 +1,23 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "jsr:@supabase/supabase-js@2";
+import {
+    corsHeaders,
+    getCaller,
+    serviceClient,
+    withinRateLimit,
+} from "../_shared/guard.ts";
 
-const ALLOWED_ORIGIN = Deno.env.get("ALLOWED_ORIGIN") ?? "https://bevisly.com";
+// SECURITY: this function took `user_id` from the request body and then read that
+// user's profile, submissions and feedback with the SERVICE ROLE key — which
+// bypasses every RLS policy. Combined with `verify_jwt` being satisfied by the
+// public anon key, anyone could dump any candidate's private record simply by
+// passing their id, and burn unlimited Gemini calls doing it.
+//
+// The body's `user_id` is now ignored entirely. The subject of the analysis is
+// whoever owns the bearer token, and the session must belong to them too.
 
-const corsHeaders = {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-    "Access-Control-Allow-Headers":
-        "authorization, x-client-info, apikey, content-type, x-client-timeout",
-};
+// A full compass run is an expensive, deliberate action — nobody needs ten a day.
+const COMPASS_LIMIT = 10;
+const COMPASS_WINDOW = 24 * 60 * 60;
 
 function ok(body: unknown) {
     return new Response(JSON.stringify(body), {
@@ -78,7 +88,7 @@ function buildPrompt(
 Name: ${profile.full_name ?? "Unknown"}
 Bio: ${profile.bio ?? "Not provided"}
 Skills (self-reported): ${skills}
-Education: ${edu?.level ?? "Not specified"}${edu?.field ? `, ${edu.field}` : ""}${edu?.institution ? ` — ${edu.institution}` : ""}
+Education: ${eduSummary}
 Experience: ${exp?.years ?? "Not specified"}
 Bevisly score: ${profile.bevisly_score ?? 0}/100
 
@@ -150,21 +160,54 @@ Deno.serve(async (req) => {
     }
 
     try {
-        const { session_id, user_id } = await req.json();
+        const { session_id } = await req.json();
 
-        if (!session_id || !user_id) {
-            return err("Missing session_id or user_id");
+        if (!session_id) {
+            return err("Missing session_id");
         }
 
         const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
-        const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
-        const SUPABASE_SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-        if (!GEMINI_API_KEY || !SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+        if (!GEMINI_API_KEY) {
             return err("Server configuration error: missing environment variables");
         }
 
-        const db = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+        const db = serviceClient();
+
+        // The analysis subject comes from the verified token, never the request
+        // body. `user_id` in the body is accepted and ignored for compatibility.
+        const caller = await getCaller(req, db);
+        if (!caller) {
+            return err("You must be signed in to run Career Compass.");
+        }
+        const user_id = caller.id;
+
+        if (
+            !(await withinRateLimit(
+                db,
+                "career-compass",
+                user_id,
+                COMPASS_LIMIT,
+                COMPASS_WINDOW,
+            ))
+        ) {
+            return err(
+                "You've run Career Compass several times today. Please try again tomorrow.",
+            );
+        }
+
+        // The session must belong to the caller — otherwise a valid token plus
+        // someone else's session id would still leak their analysis.
+        const { data: ownedSession } = await db
+            .from("career_compass_sessions")
+            .select("id")
+            .eq("id", session_id)
+            .eq("user_id", user_id)
+            .maybeSingle();
+
+        if (!ownedSession) {
+            return err("Session not found");
+        }
 
         // ── Pull all candidate data in parallel ──────────────────────────────
 
@@ -266,7 +309,8 @@ Deno.serve(async (req) => {
         await db
             .from("career_compass_sessions")
             .update({ ai_output: result, status: "analysis_ready" })
-            .eq("id", session_id);
+            .eq("id", session_id)
+            .eq("user_id", user_id);
 
         return ok({ result });
     } catch (error) {
